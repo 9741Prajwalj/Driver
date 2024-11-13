@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Main Content Layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- No Notification Found Layout -->
+    <LinearLayout
+        android:id="@+id/layoutNotification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="124dp"
+            android:layout_height="124dp"
+            android:src="@drawable/ic_launcher_web" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9.10dp"
+            android:fontFamily="@font/montserrat_semibold"
+            android:text="No Notification found"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <!-- RecyclerView for Notifications -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recReview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
+    </LinearLayout>

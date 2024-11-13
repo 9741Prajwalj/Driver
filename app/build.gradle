@@ -1,0 +1,92 @@
+plugins {
+    alias(libs.plugins.android.application)
+
+}
+
+android {
+    namespace 'com.mlt.driver'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.mlt.driver"
+        minSdk 23
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.constraintlayout
+    implementation libs.lifecycle.livedata.ktx
+    implementation libs.lifecycle.viewmodel.ktx
+    implementation libs.navigation.fragment
+    implementation libs.navigation.ui
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
+    implementation 'com.google.android.gms:play-services-maps:19.0.0'
+    implementation 'com.android.volley:volley:1.2.1'
+    implementation 'com.google.android.gms:play-services-location:21.3.0'
+    implementation 'androidx.drawerlayout:drawerlayout:1.2.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    // Retrofit core library
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+// Converter for JSON to Java object serialization/deserialization
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+// (Optional) OkHttp logging interceptor for debugging network requests/responses
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    implementation 'com.google.android.gms:play-services-maps:19.0.0'
+    implementation fileTree(dir: "libs", include:["*.jar"])
+
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.23'
+
+    implementation 'cn.jzvd:jiaozivideoplayer:7.7.0'
+
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    implementation 'com.google.firebase:firebase-auth:23.1.0'
+    implementation 'com.google.firebase:firebase-database:21.0.0'
+    implementation 'com.google.firebase:firebase-dynamic-links:22.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.3.0'
+    implementation(platform('com.google.firebase:firebase-bom:33.5.1'))
+    implementation 'com.google.android.gms:play-services-location:21.3.0'
+    implementation 'com.github.dangiashish:Google-Direction-Api:1.4'
+    implementation 'com.google.maps:google-maps-services:0.17.0'
+    implementation 'com.google.android.gms:play-services-places:17.1.0'
+    implementation 'com.google.maps:google-maps-services:0.17.0'
+    implementation 'com.google.android.gms:play-services-base:18.5.0'
+
+}

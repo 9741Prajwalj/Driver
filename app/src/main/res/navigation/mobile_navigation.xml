@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.mlt.driver.ui.home.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/nav_earning"
+        android:name="com.mlt.driver.fragments.Earning1Fragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_earning1" />
+
+    <fragment
+        android:id="@+id/nav_review"
+        android:name="com.mlt.driver.fragments.ReviewFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_review_activity" />
+
+    <fragment
+        android:id="@+id/nav_notification"
+        android:name="com.mlt.driver.fragments.NotificationFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_notification" />
+    <fragment
+        android:id="@+id/nav_history"
+        android:name="com.mlt.driver.fragments.HistoryFragment"
+        android:label="History"
+        tools:layout="@layout/fragment_history" />
+    <fragment
+        android:id="@+id/nav_summary"
+        android:name="com.mlt.driver.fragments.SummaryFragment"
+        android:label="Summary"
+        tools:layout="@layout/fragment_summary" />
+
+    <fragment
+        android:id="@+id/nav_Help"
+        android:name="com.mlt.driver.fragments.HelpFragment"
+        android:label="Help"
+        tools:layout="@layout/fragment_help" />
+</navigation>

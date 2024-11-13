@@ -1,0 +1,53 @@
+<androidx.cardview.widget.CardView android:id="@+id/cardChatSupport"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:layout_gravity="center"
+    android:background="@android:color/transparent"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="8dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/blue"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/chatLogo"
+            android:layout_width="60dp"
+            android:layout_gravity="center"
+            android:layout_height="60dp"
+            android:src="@drawable/chat"/>
+
+        <EditText
+            android:id="@+id/etChatMessage"
+            android:layout_width="match_parent"
+            android:textSize="22dp"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:maxLines="3"
+            android:minLines="1"
+            android:ellipsize="end"
+            android:scrollHorizontally="true"
+            android:textColor="@color/white"
+            android:hint="Type your message here"
+            android:textColorHint="@color/white"
+            android:padding="8dp"/>
+
+        <Button
+            android:id="@+id/btnSendChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Send"
+            android:background="@drawable/bg_rounded_button_green"
+            android:layout_gravity="end"/>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

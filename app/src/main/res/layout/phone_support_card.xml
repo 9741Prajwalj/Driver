@@ -1,0 +1,41 @@
+<androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:layout_gravity="center"
+    android:background="@android:color/transparent"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="8dp"
+    android:id="@+id/cardCallSupport">
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/blue"
+        android:layout_gravity="center"
+        android:padding="16dp">
+
+        <ImageView
+            android:layout_width="168dp"
+            android:layout_height="98dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_launcher_web" />
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:id="@+id/tvPhoneNumber"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Driver Support: +91 9999968685"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>
+

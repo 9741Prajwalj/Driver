@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="Home"/>
+
+        <item
+            android:id="@+id/nav_earning"
+            android:icon="@drawable/ic_earning"
+            android:title="Earning"/>
+
+        <item
+            android:id="@+id/nav_review"
+            android:icon="@drawable/ic_star"
+            android:title="Review"/>
+
+        <item
+            android:id="@+id/nav_notification"
+            android:icon="@drawable/ic_notification"
+            android:title="Notification"/>
+
+        <item
+            android:id="@+id/nav_history"
+            android:icon="@drawable/ic_history"
+            android:title="History"/>
+
+        <item
+            android:id="@+id/nav_summary"
+            android:icon="@drawable/ic_summary"
+            android:title="Summary"/>
+
+        <item
+            android:id="@+id/nav_Help"
+            android:icon="@drawable/ic_complaint"
+            android:title="Help"/>
+
+    </group>
+
+</menu>

@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Driver</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Earnings</string>
+    <string name="menu_gallery">Review</string>
+    <string name="menu_slideshow">Notification</string>
+    <string name="login">Login</string>
+    <string name="email">Email\n</string>
+    <string name="password">Password</string>
+    <string name="i_forgot_my_password">Forgot</string>
+    <string name="sign_in">Signin</string>
+    <string name="home">Home</string>
+    <string name="cancel">cancle</string>
+    <string name="you_are_on_the_way">You are on the way</string>
+    <string name="history">History</string>
+    <string name="earnings">Earnings</string>
+    <string name="notifications">Notifications</string>
+    <string name="todo">TODO</string>
+    <string name="sample123_gmail_com">sample123@gmail.com</string>
+</resources>

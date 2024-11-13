@@ -1,0 +1,38 @@
+<androidx.cardview.widget.CardView android:id="@+id/cardWebSupport"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:layout_gravity="center"
+    android:background="@android:color/transparent"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/blue"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/webLogo"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_launcher_web"/>
+
+        <TextView
+            android:id="@+id/tvWebUrl"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:text="www.ets.mltcorporate.com"
+            android:textSize="25sp"/>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

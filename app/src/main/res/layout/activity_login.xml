@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.LoginActivity">
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="26dp"
+        android:orientation="vertical"
+        android:paddingTop="10.40dp"
+        app:layoutDescription="@xml/activity_login_xml_constraintlayout_scene">
+
+        <TextView
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.40dp"
+            android:fontFamily="@font/montserrat_semibold"
+            android:gravity="center"
+            android:text="@string/login"
+            android:textColor="@color/black"
+            android:textSize="31.20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/logoImage"
+            android:layout_width="192dp"
+            android:layout_height="220dp"
+            android:layout_below="@+id/logo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10.40dp"
+            android:contentDescription="TODO"
+            android:src="@drawable/ic_launcher_web"
+            app:layout_constraintLeft_toLeftOf="@+id/logo"
+            app:layout_constraintRight_toRightOf="@+id/logo"
+            app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/viewLoginLayout"
+            android:layout_width="match_parent"
+            android:layout_height="124.80dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="26.00dp"
+            android:background="@drawable/middle_boxmirror"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.45">
+
+            <com.mlt.driver.utills.MyEditText
+                android:id="@+id/etEmail"
+                android:layout_width="299.00dp"
+                android:layout_height="62.40dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/transparent"
+                android:drawableStart="@drawable/ic_user_name"
+                android:drawablePadding="13.00dp"
+                android:gravity="center_vertical"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:paddingStart="10.40dp"
+                android:textColorHint="@color/black"
+                android:textSize="18.20sp"
+                app:layout_constraintBottom_toTopOf="@+id/view1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="299.00dp"
+                android:layout_height="1.30dp"
+                android:background="#f2f2f2"
+                app:layout_constraintBottom_toTopOf="@+id/etPassword"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+
+
+            <com.mlt.driver.utills.MyEditText
+                android:id="@+id/etPassword"
+                android:layout_width="299.00dp"
+                android:layout_height="62.40dp"
+                android:backgroundTint="@color/transparent"
+                android:drawableStart="@drawable/ic_password"
+                android:drawablePadding="9.10dp"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:paddingStart="10.40dp"
+                android:textColorHint="@color/black"
+                android:textSize="18.20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view1" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.mlt.driver.utills.MyTextView
+            android:id="@+id/txtForget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/viewLoginLayout"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="19.50dp"
+            android:layout_marginEnd="21dp"
+            android:gravity="center"
+            android:text="@string/i_forgot_my_password"
+            android:textSize="18.20sp"
+            app:layout_constraintRight_toRightOf="@+id/viewLoginLayout"
+            app:layout_constraintTop_toBottomOf="@+id/viewLoginLayout" />
+
+
+        <TextView
+            android:id="@+id/btnLogin"
+            android:layout_width="130.00dp"
+            android:layout_height="45.50dp"
+            android:layout_marginTop="19.50dp"
+            android:background="@drawable/black_login_back"
+            android:fontFamily="@font/montserrat_semibold"
+            android:gravity="center"
+            android:text="@string/sign_in"
+            android:textColor="@color/white"
+            android:textSize="19.50sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/txtSignUp"
+            app:layout_constraintTop_toBottomOf="@+id/txtForget" />
+
+
+
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+
+
+
+</RelativeLayout>

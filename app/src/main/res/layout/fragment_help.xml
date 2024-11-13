@@ -1,0 +1,146 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- Scrollable content below title bar -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="26.00dp">
+
+            <ImageView
+                android:layout_width="168dp"
+                android:layout_height="98dp"
+                android:src="@drawable/ic_launcher_web" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_semibold"
+                android:padding="6.50dp"
+                android:text="Welcome to Driver Support"
+                android:textColor="@color/black"
+                android:textSize="16.90dp" />
+
+            <!-- Cards for different support options -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13.00dp"
+                app:cardBackgroundColor="@color/white"
+                app:contentPadding="13.00dp">
+
+                <LinearLayout
+                    android:id="@+id/btnclsup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/img_phone"
+                        android:layout_width="62.40dp"
+                        android:layout_height="62.40dp"
+                        android:background="@drawable/call_support"
+                        android:backgroundTint="@color/colorPrimaryDark" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:paddingTop="5.20dp"
+                        android:text="Call Support"
+                        android:textColor="@color/black"
+                        android:textSize="18.20dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13.00dp"
+                app:cardBackgroundColor="@color/white"
+                app:contentPadding="13.00dp">
+
+                <LinearLayout
+                    android:id="@+id/btnchtsup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/img_mail"
+                        android:layout_width="62.40dp"
+                        android:layout_height="62.40dp"
+                        android:background="@drawable/chat_support"
+                        android:backgroundTint="@color/colorPrimaryDark" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:paddingTop="5.20dp"
+                        android:text="Chat Support"
+                        android:textColor="@color/black"
+                        android:textSize="18.20dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13.00dp"
+                app:cardBackgroundColor="@color/white"
+                app:contentPadding="13.00dp">
+
+                <LinearLayout
+                    android:id="@+id/btnwebsup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/img_web"
+                        android:layout_width="62.40dp"
+                        android:layout_height="62.40dp"
+                        android:background="@drawable/web_url"
+                        android:backgroundTint="@color/colorPrimaryDark" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:paddingTop="5.20dp"
+                        android:text="Web Url"
+                        android:textColor="@color/black"
+                        android:textSize="18.20dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- FrameLayout to dynamically load support cards -->
+    <FrameLayout
+        android:id="@+id/container_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--    <style name="StyledButton">-->
+<!--        <item name="android:layout_width">match_parent</item>-->
+<!--        <item name="android:layout_height">wrap_content</item>-->
+<!--        <item name="android:background">@drawable/styled_button</item>-->
+<!--        <item name="android:drawablePadding">10dp</item>-->
+<!--        <item name="android:paddingVertical">12dp</item>-->
+<!--        <item name="android:fontFamily">@font/montserrat_medium</item>-->
+<!--        <item name="android:textColor">@color/black</item>-->
+<!--        <item name="android:textSize">16sp</item>-->
+<!--    </style>-->
+</resources>

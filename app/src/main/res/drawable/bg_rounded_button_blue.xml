@@ -1,0 +1,6 @@
+<!-- bg_rounded_button_green.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/bluenew"/>
+    <corners android:radius="12dp"/>
+    <stroke android:width="1dp" android:color="@color/blue"/>
+</shape>

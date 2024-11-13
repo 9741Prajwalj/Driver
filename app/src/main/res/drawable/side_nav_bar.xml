@@ -1,0 +1,5 @@
+<!-- res/drawable/side_nav_bar.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFFFF"/> <!-- Solid color -->
+    <corners android:radius="16dp"/> <!-- Rounded corners (optional) -->
+</shape>

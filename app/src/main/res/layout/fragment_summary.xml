@@ -1,0 +1,173 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/card_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/rides_card"
+                android:layout_width="match_parent"
+                android:layout_height="156.00dp"
+                android:layout_margin="6.50dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.mlt.driver.utills.MyTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15.60dp"
+                        android:text="Total Rides"
+                        android:textAllCaps="true"
+                        android:textSize="19.50dp" />
+
+
+                    <TextView
+                        android:id="@+id/no_of_rides_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="23.40dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="24.70dp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/revenue_card"
+                android:layout_width="match_parent"
+                android:layout_height="156.00dp"
+                android:layout_margin="6.50dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.mlt.driver.utills.MyTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15.60dp"
+                        android:text="Revenue"
+                        android:textSize="19.50dp" />
+
+                    <com.mlt.driver.utills.MyTextView
+                        android:id="@+id/currency_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="23.40dp"
+                        android:layout_marginTop="23.40dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="24.70dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/revenue_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/currency_txt"
+                        android:textColor="@android:color/black"
+                        android:textSize="24.70dp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/schedule_card"
+                android:layout_width="match_parent"
+                android:layout_height="156.00dp"
+                android:layout_margin="6.50dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.mlt.driver.utills.MyTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15.60dp"
+                        android:text="SCHEDULED RIDE"
+                        android:textSize="20.80dp" />
+
+                    <TextView
+                        android:id="@+id/schedule_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="23.40dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="24.70dp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cancel_card"
+                android:layout_width="match_parent"
+                android:layout_height="156.00dp"
+                android:layout_margin="6.50dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.mlt.driver.utills.MyTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15.60dp"
+                        android:text="CANCELLED RIDE"
+                        android:textSize="20.80dp" />
+
+                    <TextView
+                        android:id="@+id/cancel_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="23.40dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="24.70dp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <!-- Don't create AdView now. Programatically set AdView -->
+
+    </LinearLayout>
+
+</RelativeLayout>

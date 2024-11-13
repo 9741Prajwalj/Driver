@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="nav_share" type="id" />
+    <item name="tvUserData" type="id" />
+    <item name="etMobile" type="id" />
+    <item name="etUsername" type="id" />
+    <item name="btnRegister" type="id" />
+    <item name="txtEarning" type="id" />
+    <item name="txtUserName" type="id" />
+    <item name="txtReview" type="id" />
+    <item name="txtPassword" type="id" />
+    <item name="btnLogout" type="id" />
+    <item name="nav_profile" type="id" />
+    <item name="nav_yourtrips" type="id" />
+    <item name="nav_item_earning" type="id" />
+    <item name="nav_wallet" type="id" />
+    <item name="nav_item_review" type="id" />
+    <item name="nav_item_password" type="id" />
+    <item name="nav_item_logout" type="id" />
+    <item name="nav_help" type="id" />
+    <item name="nav_item_notifications" type="id" />
+    <item name="txt_call_support" type="id" />
+    <item name="txt_chat_support" type="id" />
+    <item name="title" type="id" />
+    <item name="notificationText" type="id" />
+    <item name="chat_support_card" type="id" />
+    <item name="container_layout" type="id" />
+</resources>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="1000">
+       <KeyFrameSet>
+       </KeyFrameSet>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:layout_height="104.00dp"
+            android:layout_marginTop="12dp"
+            motion:layout_constraintLeft_toLeftOf="parent"
+            android:layout_width="123.50dp"
+            motion:layout_constraintTop_toBottomOf="@+id/txtOr"
+            android:id="@+id/btnGoogle"
+            motion:layout_constraintRight_toLeftOf="@+id/btnFb"
+            android:layout_marginLeft="140dp" />
+        <Constraint
+            android:layout_height="32.50dp"
+            motion:layout_constraintTop_toTopOf="@+id/btnGoogle"
+            motion:layout_constraintBottom_toBottomOf="@+id/btnGoogle"
+            motion:layout_constraintHorizontal_bias="0.505"
+            motion:layout_constraintLeft_toLeftOf="@+id/btnGoogle"
+            motion:layout_constraintRight_toRightOf="@+id/btnGoogle"
+            android:layout_width="32.50dp"
+            android:id="@+id/imageView2"
+            motion:layout_constraintVertical_bias="0.513" />
+        <Constraint
+            android:layout_height="124.80dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="26.00dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintLeft_toLeftOf="parent"
+            android:layout_width="match_parent"
+            motion:layout_constraintVertical_bias="0.502"
+            android:id="@+id/viewLoginLayout" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+    </ConstraintSet>
+</MotionScene>
