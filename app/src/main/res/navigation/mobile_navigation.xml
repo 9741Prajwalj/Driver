@@ -6,8 +6,12 @@
     app:startDestination="@+id/nav_home">
 
     <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.mlt.driver.fragments.ShowProfileFragment"
+        tools:layout="@layout/fragment_edit_profile"/>
+    <fragment
         android:id="@+id/nav_home"
-        android:name="com.mlt.driver.ui.home.HomeFragment"
+        android:name="com.mlt.driver.fragments.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home" />
     <fragment

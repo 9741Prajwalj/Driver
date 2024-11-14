@@ -10,6 +10,7 @@ public class SharedPreferencesManager {
 
     private static final String PREF_NAME = "user_prefs";
 
+    private static final String KEY_PROFILE_IMAGE_URL = "profile_image_url";
     // Login Data Keys
     private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
     public static final String KEY_USER_ID = "user_id";
@@ -91,7 +92,14 @@ public class SharedPreferencesManager {
         }
     }
 
+    public void saveProfileImageUrl(String imageUrl) {
+        editor.putString(KEY_PROFILE_IMAGE_URL, imageUrl);
+        editor.apply();
+    }
 
+    public String getProfileImageUrl() {
+        return sharedPreferences.getString(KEY_PROFILE_IMAGE_URL, "");
+    }
 
     // Get login data
     public int getUserId() {

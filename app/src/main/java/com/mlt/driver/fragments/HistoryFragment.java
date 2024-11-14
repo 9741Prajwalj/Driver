@@ -1,151 +1,98 @@
 package com.mlt.driver.fragments;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.mlt.driver.R;
-import com.mlt.driver.activities.CancelDialogActivity;
-import com.mlt.driver.models.TripDetails;
-import com.mlt.driver.network.ApiService;
-import com.mlt.driver.network.RetrofitClient;
-import com.mlt.driver.utills.MyButton;
+import com.mlt.driver.adapters.BookingAdapter;
+import com.mlt.driver.viewmodel.BookingViewModel;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
+import java.util.List;
 
 public class HistoryFragment extends Fragment {
 
-    private ImageView backArrow;
-    private TextView tripProviderName, tripDate, tripSource, tripDestination, tripId, tripComments;
-    private RatingBar tripProviderRating;
-    private MyButton btnStartRide, btnCancelRide;
+    private RecyclerView recyclerView;
+    private BookingAdapter bookingAdapter;
+    private BookingViewModel bookingViewModel;
+    private RadioGroup radioGroupBookingType;
+    private RadioButton selectedRadioButton;
 
-    @Nullable
+    public HistoryFragment() {
+        // Required empty public constructor
+    }
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_history, container, false);
 
-        // Initialize views
-        tripProviderName = view.findViewById(R.id.tripProviderName);
-        tripDate = view.findViewById(R.id.tripDate);
-        tripSource = view.findViewById(R.id.tripSource);
-        tripDestination = view.findViewById(R.id.tripDestination);
-        tripId = view.findViewById(R.id.trip_id);
-        tripComments = view.findViewById(R.id.tripComments);
-        tripProviderRating = view.findViewById(R.id.tripProviderRating);
-        btnStartRide = view.findViewById(R.id.btnStartRide);
-        btnCancelRide = view.findViewById(R.id.btnCancelRide);
+        // Initialize RecyclerView
+        recyclerView = view.findViewById(R.id.recyclerViewBookings);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Set static details
-        setStaticTripDetails();
+        // Initialize Adapter (Initially null)
+        bookingAdapter = new BookingAdapter(null);
+        recyclerView.setAdapter(bookingAdapter);
 
-        // Start Ride button click listener
-        btnStartRide.setOnClickListener(v -> {
-            showMap();
-            shareDriverDataToBackend();
+        // Initialize ViewModel
+        bookingViewModel = new ViewModelProvider(this).get(BookingViewModel.class);
+
+        // Observe LiveData to update the RecyclerView with the list of bookings
+        bookingViewModel.getBookingList().observe(getViewLifecycleOwner(), bookings -> {
+            bookingAdapter = new BookingAdapter(bookings);
+            recyclerView.setAdapter(bookingAdapter);
         });
 
-        // Cancel Ride button click listener
-        btnCancelRide.setOnClickListener(v -> navigateToCancelDialog());
+        // Load bookings (initial data load)
+        bookingViewModel.loadBookings();
 
-        // Fetch dynamic data from backend
-        fetchTripDetailsFromBackend();
+        // Initialize the RadioGroup and Go Button
+        radioGroupBookingType = view.findViewById(R.id.radioGroupBookingType);
+
+        // Set OnCheckedChangeListener to detect which radio button is selected
+        radioGroupBookingType.setOnCheckedChangeListener((group, checkedId) -> {
+            selectedRadioButton = view.findViewById(checkedId);
+        });
+
+        // Set up the Go button to trigger the appropriate endpoint
+        view.findViewById(R.id.btnGo).setOnClickListener(v -> {
+            if (selectedRadioButton != null) {
+                String selectedFilter = selectedRadioButton.getText().toString();
+                // Call different endpoints based on the selected radio button
+                switch (selectedFilter) {
+                    case "Upcoming":
+                        callEndpoint("upcoming_endpoint");
+                        break;
+                    case "Completed":
+                        callEndpoint("completed_endpoint");
+                        break;
+                    case "Cancelled":
+                        callEndpoint("cancelled_endpoint");
+                        break;
+                    default:
+                        Toast.makeText(getContext(), "Please select a booking type", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
 
         return view;
     }
 
-    private void setStaticTripDetails() {
-        tripProviderName.setText("Provider XYZ");
-        tripProviderRating.setRating(4.5f);
-        tripDate.setText("2024-11-08");
-        tripSource.setText("Source Location");
-        tripDestination.setText("Destination Location");
-        tripId.setText("12345");
-        tripComments.setText("Trip was smooth and timely.");
-    }
-
-    private void navigateToMapFragment() {
-        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, new MapFragment()); // Adjust as per your container ID
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
-    private void showMap() {
-        // Code to display map
-        // You can also implement map functionality here
-    }
-
-    private void navigateToCancelDialog() {
-        Intent intent = new Intent(getActivity(), CancelDialogActivity.class);
-        startActivity(intent);
-    }
-
-    private void shareDriverDataToBackend() {
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("DriverData", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        // Sample data
-        editor.putString("username", "DriverJohn");
-        editor.putString("userId", "D123");
-        editor.putString("userPhoneNumber", "123-456-7890");
-        editor.apply();
-    }
-
-    private void fetchTripDetailsFromBackend() {
-        Retrofit retrofit = RetrofitClient.getInstances(); // Assuming you have a RetrofitClient class
-        ApiService apiService = retrofit.create(ApiService.class);
-//        ApiService apiService = RetrofitClient.getClient().create(ApiService.class); // Ensure ApiServer is your correct interface name
-        Call<TripDetails> call = apiService.getTripDetails(); // Adjust endpoint if needed
-
-        call.enqueue(new Callback<TripDetails>() {
-            @Override
-            public void onResponse(@NonNull Call<TripDetails> call, @NonNull Response<TripDetails> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    TripDetails tripDetails = response.body();
-
-                    // Ensure UI components are set correctly with backend data
-                    tripProviderName.setText(tripDetails.getProviderName());
-                    tripProviderRating.setRating(tripDetails.getProviderRating());
-                    tripDate.setText(tripDetails.getDate());
-                    tripSource.setText(tripDetails.getSource());
-                    tripDestination.setText(tripDetails.getDestination());
-                    tripId.setText(tripDetails.getTripId());
-                    tripComments.setText(tripDetails.getComments());
-                    // Log success message
-                    Log.d("TripDetails", "Trip details successfully fetched from backend.");
-
-                } else {
-                    // Handle unsuccessful response
-                    Log.e("TripDetails", "Failed to fetch trip details: " + response.message());
-//                    Toast.makeText(getApplicationContext(), "Failed to load trip details. Please try again later.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<TripDetails> call, @NonNull Throwable t) {
-                // Handle failure
-                Log.e("TripDetails", "Error fetching trip details: " + t.getMessage(), t);
-//                Toast.makeText(getApplicationContext(), "Network error. Please check your connection and try again.", Toast.LENGTH_LONG).show();
-            }
-        });
+    // Method to call the corresponding endpoint based on the selected radio button
+    private void callEndpoint(String endpoint) {
+        // You can call the appropriate API or function from your ViewModel here
+        bookingViewModel.fetchBookingsForFilter(endpoint);
     }
 }
-

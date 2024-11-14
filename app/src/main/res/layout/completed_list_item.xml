@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        card_view:cardCornerRadius="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <!-- Ride Info Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/driver_image"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_launcher" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Booking ID and Date -->
+                    <com.mlt.driver.utills.MyTextView
+                        android:id="@+id/booking_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Booking ID: 305"
+                        android:textColor="@color/black_text_color"
+                        android:textSize="14sp" />
+
+                    <com.mlt.driver.utills.MyTextView
+                        android:id="@+id/booking_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date: 2024-11-13"
+                        android:textColor="@color/light_black_txt"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Source and Destination -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="8dp">
+
+                <com.mlt.driver.utills.MyTextView
+                    android:id="@+id/source_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Source: 123 Main Street, Springfield, IL"
+                    android:textColor="@color/black_text_color"
+                    android:textSize="13sp" />
+
+                <com.mlt.driver.utills.MyTextView
+                    android:id="@+id/dest_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Destination: Stonex near somewhere"
+                    android:textColor="@color/black_text_color"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!-- Journey Date and Time -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp">
+
+                <com.mlt.driver.utills.MyTextView
+                    android:id="@+id/journey_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Journey Date: 13-11-2024"
+                    android:textColor="@color/black_text_color"
+                    android:textSize="13sp" />
+
+                <com.mlt.driver.utills.MyTextView
+                    android:id="@+id/journey_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Time: 17:04:32"
+                    android:textColor="@color/black_text_color"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!-- Ride Status and Total KMs -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp">
+
+                <com.mlt.driver.utills.MyTextView
+                    android:id="@+id/ride_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status: Completed"
+                    android:textColor="@color/black_text_color"
+                    android:textSize="13sp" />
+
+                <com.mlt.driver.utills.MyTextView
+                    android:id="@+id/total_kms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Total Distance: 10 km"
+                    android:textColor="@color/black_text_color"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!-- Amount -->
+            <com.mlt.driver.utills.MyTextView
+                android:id="@+id/amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Amount: ₹590"
+                android:textColor="@color/black_text_color"
+                android:textSize="14sp"
+                android:gravity="center_horizontal" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

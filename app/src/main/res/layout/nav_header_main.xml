@@ -23,12 +23,12 @@
 
     <!-- User Name -->
     <TextView
-        android:id="@+id/txtuserName"
+        android:id="@+id/txtUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_semibold"
-        android:text="John Smith"
-        android:layout_marginLeft="45dp"
+        android:text="@string/user_name"
+        android:layout_marginStart="45dp"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:gravity="center"

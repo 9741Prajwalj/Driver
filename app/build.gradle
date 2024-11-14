@@ -1,7 +1,8 @@
 plugins {
-    alias(libs.plugins.android.application)
-
+    id("com.android.application") // Apply the Android plugin
+    id("com.google.gms.google-services") // Apply the Google Services plugin
 }
+
 
 android {
     namespace 'com.mlt.driver'
@@ -10,7 +11,7 @@ android {
     defaultConfig {
         applicationId "com.mlt.driver"
         minSdk 23
-        targetSdk 34
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -44,49 +45,51 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'com.google.android.material:material:1.12.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
-    implementation 'com.google.android.gms:play-services-maps:19.0.0'
-    implementation 'com.android.volley:volley:1.2.1'
-    implementation 'com.google.android.gms:play-services-location:21.3.0'
-    implementation 'androidx.drawerlayout:drawerlayout:1.2.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.constraintlayout
+    implementation libs.gms.play.services.maps
+    implementation libs.volley
+    implementation libs.drawerlayout
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+    implementation libs.circleimageview
 
     // Retrofit core library
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation libs.retrofit
 
 // Converter for JSON to Java object serialization/deserialization
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation libs.converter.gson
 
 // (Optional) OkHttp logging interceptor for debugging network requests/responses
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
+    implementation libs.logging.interceptor
 
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation libs.retrofit
+    implementation libs.converter.gson
 
-    implementation 'com.google.android.gms:play-services-maps:19.0.0'
+    implementation libs.gms.play.services.maps
     implementation fileTree(dir: "libs", include:["*.jar"])
 
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.23'
+    implementation libs.android.gif.drawable
 
-    implementation 'cn.jzvd:jiaozivideoplayer:7.7.0'
+    implementation libs.jiaozivideoplayer
 
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation libs.circleimageview
 
-    implementation 'com.google.firebase:firebase-auth:23.1.0'
-    implementation 'com.google.firebase:firebase-database:21.0.0'
-    implementation 'com.google.firebase:firebase-dynamic-links:22.1.0'
-    implementation 'com.google.android.gms:play-services-location:21.3.0'
-    implementation(platform('com.google.firebase:firebase-bom:33.5.1'))
-    implementation 'com.google.android.gms:play-services-location:21.3.0'
-    implementation 'com.github.dangiashish:Google-Direction-Api:1.4'
-    implementation 'com.google.maps:google-maps-services:0.17.0'
-    implementation 'com.google.android.gms:play-services-places:17.1.0'
-    implementation 'com.google.maps:google-maps-services:0.17.0'
-    implementation 'com.google.android.gms:play-services-base:18.5.0'
+    implementation libs.firebase.auth
+    implementation libs.firebase.database
+    implementation libs.firebase.dynamic.links
+    implementation libs.play.services.location.v1800
+    implementation(platform(libs.firebase.bom))
+    implementation libs.google.direction.api
+    implementation libs.google.maps.services
+    implementation libs.play.services.places
+    implementation libs.google.maps.services
+    implementation libs.play.services.base
+
+    //for image loading
+    implementation libs.picasso
+
 
 }

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        card_view:cardCornerRadius="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <!-- Driver Image and Ride Status -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/driver_image"
+                    android:layout_width="55dp"
+                    android:layout_height="52dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_launcher" />
+
+                <com.mlt.driver.utills.MyTextView
+                    android:id="@+id/ride_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upcoming"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                    android:textColor="@color/black_text_color"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Booking ID and Journey Date -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <com.mlt.driver.utills.MyTextView
+                    android:id="@+id/booking_id"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Booking ID: 303"
+                    android:textColor="@color/black_text_color"
+                    android:textSize="14sp" />
+
+                <com.mlt.driver.utills.MyTextView
+                    android:id="@+id/journey_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Journey Date: 13-11-2024"
+                    android:textColor="@color/black_text_color"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Source and Destination Addresses -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp">
+
+                <com.mlt.driver.utills.MyTextView
+                    android:id="@+id/source_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="From: stonex near somewhere"
+                    android:textColor="@color/black_text_color"
+                    android:textSize="13sp" />
+
+                <com.mlt.driver.utills.MyTextView
+                    android:id="@+id/dest_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="To: 123 Main Street, Springfield, IL"
+                    android:textColor="@color/black_text_color"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!-- Booking and Journey Times -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <com.mlt.driver.utills.MyTextView
+                    android:id="@+id/book_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Book Time: 10:29:52"
+                    android:textColor="@color/black_text_color"
+                    android:textSize="14sp" />
+
+                <com.mlt.driver.utills.MyTextView
+                    android:id="@+id/journey_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Journey Time: 15:59:52"
+                    android:textColor="@color/black_text_color"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Cancel and Start Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_marginTop="8dp">
+
+                <com.mlt.driver.utills.MyButton
+                    android:id="@+id/btnCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:background="@drawable/cancel_button_bg"
+                    android:padding="5dp"
+                    android:text="Cancel Ride"
+                    android:textAllCaps="false"
+                    android:textColor="@color/cancel_ride_color"
+                    android:textSize="14sp" />
+
+                <com.mlt.driver.utills.MyButton
+                    android:id="@+id/btnStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/bg_rounded_button_green"
+                    android:padding="5dp"
+                    android:text="@string/start_ride"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

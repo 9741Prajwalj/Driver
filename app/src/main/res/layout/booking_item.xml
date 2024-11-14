@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    card_view:cardCornerRadius="8dp"
+    android:elevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Booking Info Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/driver_image"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_launcher" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/booking_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Booking ID: 303"
+                    android:textColor="@color/black_text_color"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/booking_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date: 2024-11-13"
+                    android:textColor="@color/light_black_txt"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Source and Destination -->
+        <TextView
+            android:id="@+id/source_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Source: Stonex near somewhere"
+            android:textColor="@color/black_text_color"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/dest_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Destination: 123 Main Street, Springfield, IL"
+            android:textColor="@color/black_text_color"
+            android:textSize="13sp" />
+
+        <!-- Journey Date and Time -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:id="@+id/journey_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Journey Date: 13-11-2024"
+                android:textColor="@color/black_text_color"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/journey_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Time: 17:04:32"
+                android:textColor="@color/black_text_color"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- Ride Status and Total KMs -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:id="@+id/ride_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status: Completed"
+                android:textColor="@color/black_text_color"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/total_kms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Total Distance: 10 km"
+                android:textColor="@color/black_text_color"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- Amount -->
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Amount: ₹590"
+            android:textColor="@color/black_text_color"
+            android:textSize="14sp"
+            android:gravity="center_horizontal"
+            android:paddingTop="8dp" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -23,4 +23,7 @@
     <string name="notifications">Notifications</string>
     <string name="todo">TODO</string>
     <string name="sample123_gmail_com">sample123@gmail.com</string>
+    <string name="forgot">Forgot ?</string>
+    <string name="user_name">User Name</string>
+    <string name="start_ride">Start Ride</string>
 </resources>
