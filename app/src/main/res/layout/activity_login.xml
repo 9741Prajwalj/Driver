@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="26dp"
+        android:layout_marginEnd="0dp"
+        android:background="@color/white"
         android:orientation="vertical"
         android:paddingTop="10.40dp"
         app:layoutDescription="@xml/activity_login_xml_constraintlayout_scene">
@@ -105,26 +106,28 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
         <com.mlt.driver.utills.MyTextView
             android:id="@+id/txtForget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/viewLoginLayout"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="19.50dp"
-            android:layout_marginEnd="21dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="192dp"
             android:gravity="center"
             android:text="Forgot ?"
+            android:textColor="@color/black"
             android:textSize="18.20sp"
             app:layout_constraintRight_toRightOf="@+id/viewLoginLayout"
             app:layout_constraintTop_toBottomOf="@+id/viewLoginLayout" />
-
 
         <TextView
             android:id="@+id/btnLogin"
             android:layout_width="130.00dp"
             android:layout_height="45.50dp"
-            android:layout_marginTop="19.50dp"
+            android:layout_marginLeft="112dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/black_login_back"
             android:fontFamily="@font/montserrat_semibold"
             android:gravity="center"
@@ -134,8 +137,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/txtSignUp"
             app:layout_constraintTop_toBottomOf="@+id/txtForget" />
-
-
 
 
     </androidx.constraintlayout.motion.widget.MotionLayout>

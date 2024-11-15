@@ -1,8 +1,13 @@
     package com.mlt.driver.network;
 
+    import com.google.gson.JsonObject;
+    import com.mlt.driver.models.Booking;
     import com.mlt.driver.models.DriverLocationRequest;
-    import com.mlt.driver.models.DriverStatusRequest;
+//    import com.mlt.driver.models.DriverStatusLocationRequest;
     import com.mlt.driver.models.TripDetails;
+
+    import java.util.List;
+    import java.util.Map;
 
     import okhttp3.RequestBody;
     import okhttp3.ResponseBody;
@@ -23,23 +28,19 @@
         Call<ResponseBody> loginUser(@Body RequestBody requestBody);
 
         @POST("/api/change-availability")
-        Call<ResponseBody> updateStatus(@Field("user_id") int userId, @Field("status") int status);
+        Call<JsonObject> updateDriverAvailability(@Body Map<String, Object> body);
 
-        @POST("/api/change-availability")
-        Call<Void> updateDriverStatus(
-                @Header("Authorization") String token,
-                @Body DriverStatusRequest statusRequest
-        );
-
-        // Endpoint to update driver location
-        @POST("/api/change-availability")
-        Call<Void> updateDriverLocation(
-                @Header("Authorization") String token,
-                @Body DriverLocationRequest locationRequest
-        );
         @POST("/api/cancel")
         Call<Void> sendCancellationReason(@Body String reasonData);
 
+        @POST("api/upcoming-bookings")
+        Call<List<Booking>> getUpcomingBookings();
+
+        @POST("api/completed-bookings")
+        Call<List<Booking>> getCompletedBookings();
+
+        @POST("api/cancelled-bookings")
+        Call<List<Booking>> getCancelledBookings();
 
 
         // Get route from source to destination using Google Directions API

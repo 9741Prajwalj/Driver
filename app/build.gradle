@@ -45,37 +45,25 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
-    implementation libs.appcompat
-    implementation libs.material
-    implementation libs.constraintlayout
     implementation libs.gms.play.services.maps
     implementation libs.volley
     implementation libs.drawerlayout
-    testImplementation libs.junit
-    androidTestImplementation libs.ext.junit
-    androidTestImplementation libs.espresso.core
     implementation libs.circleimageview
 
     // Retrofit core library
     implementation libs.retrofit
 
-// Converter for JSON to Java object serialization/deserialization
+    // Converter for JSON to Java object serialization/deserialization
     implementation libs.converter.gson
 
-// (Optional) OkHttp logging interceptor for debugging network requests/responses
+    // (Optional) OkHttp logging interceptor for debugging network requests/responses
     implementation libs.logging.interceptor
 
-    implementation libs.retrofit
-    implementation libs.converter.gson
-
-    implementation libs.gms.play.services.maps
     implementation fileTree(dir: "libs", include:["*.jar"])
 
     implementation libs.android.gif.drawable
 
     implementation libs.jiaozivideoplayer
-
-    implementation libs.circleimageview
 
     implementation libs.firebase.auth
     implementation libs.firebase.database
@@ -85,11 +73,8 @@ dependencies {
     implementation libs.google.direction.api
     implementation libs.google.maps.services
     implementation libs.play.services.places
-    implementation libs.google.maps.services
     implementation libs.play.services.base
 
-    //for image loading
+    // For image loading
     implementation libs.picasso
-
-
 }

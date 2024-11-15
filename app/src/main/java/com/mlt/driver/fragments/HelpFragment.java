@@ -82,7 +82,7 @@ public class HelpFragment extends Fragment {
     private void navigateToMapFragment() {
         // Use FragmentTransaction to replace HelpFragment with MapFragment
         FragmentTransaction transaction = requireFragmentManager().beginTransaction();
-        MapFragment mapFragment = new MapFragment();  // Assuming MapFragment is the destination
+        HomeFragment mapFragment = new HomeFragment();  // Assuming MapFragment is the destination
         transaction.replace(R.id.fragment_container, mapFragment);  // Replace the current fragment with MapFragment
         transaction.addToBackStack(null);  // Add the transaction to back stack
         transaction.commit();

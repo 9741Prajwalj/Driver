@@ -1,6 +1,6 @@
 package com.mlt.driver.helper;
 
-import static com.mlt.driver.manager.UserStatusManager.updateStatus;
+//import static com.mlt.driver.manager.UserStatusManager.updateStatus;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -20,6 +20,9 @@ public class SharedPreferencesManager {
     private static final String KEY_EMAIL = "email";
     private static final String KEY_PHONE = "phone";
     private static final String KEY_ADDRESS = "address";
+    private static final String KEY_STATUS = "status";
+    private static final String KEY_LATITUDE = "latitude";
+    private static final String KEY_LONGITUDE = "longitude";
 
     private static SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -35,7 +38,16 @@ public class SharedPreferencesManager {
         }
     }
 
-        public boolean isLoggedIn() {
+    public SharedPreferencesManager(int userId, int status, double latitude, double longitude) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(KEY_USER_ID, userId);
+        editor.putInt(KEY_STATUS, status);
+        editor.putFloat(KEY_LATITUDE, (float) latitude);
+        editor.putFloat(KEY_LONGITUDE, (float) longitude);
+        editor.apply();
+    }
+
+    public boolean isLoggedIn() {
             if (sharedPreferences != null) {
                 return sharedPreferences.contains(KEY_USER_ID) && sharedPreferences.contains(KEY_API_TOKEN ) && sharedPreferences.contains(KEY_USER_NAME) && sharedPreferences.contains(KEY_EMAIL) &&
                         sharedPreferences.contains(KEY_PHONE) && sharedPreferences.contains(KEY_ADDRESS);
@@ -77,7 +89,7 @@ public class SharedPreferencesManager {
             // Set the user status to offline (0) before clearing data
             int status = 0;
             int userId = 0;
-            updateStatus(userId,status);
+//            updateStatus(userId,status);
 
             // Clear login-related data
             editor.remove(KEY_USER_ID);
