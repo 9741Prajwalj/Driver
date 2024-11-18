@@ -1,5 +1,6 @@
 package com.mlt.driver.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,41 +10,57 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mlt.driver.R;
+import com.mlt.driver.fragments.Notifications;
+import java.util.List;
 
-import java.util.ArrayList;
+public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder> {
 
-public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
+    private List<Notifications> notificationList;  // Corrected to hold the custom Notifications class
+    private final Context context;
 
-    private ArrayList<String> notifications;
-
-    public NotificationAdapter(ArrayList<String> notifications) {
-        this.notifications = notifications;
+    // Constructor to pass the context and notification list
+    public NotificationAdapter(Context context, List<Notifications> notificationList) {
+        this.context = context;
+        this.notificationList = notificationList;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_notification, parent, false);
-        return new ViewHolder(view);
+    public NotificationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Inflate the layout for individual list items
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_notification, parent, false);
+        return new NotificationViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String notification = notifications.get(position);
-        holder.notificationText.setText(notification);
+    public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
+        Notifications notification = notificationList.get(position);  // Get the notification object at the given position
+
+        // Set data from the Notifications object into the view holders
+        holder.titleTextView.setText(notification.getTitle());
+        holder.messageTextView.setText(notification.getMessage());
+        holder.dateTextView.setText(notification.getDate());
     }
 
     @Override
     public int getItemCount() {
-        return notifications.size();
+        // Return the size of the notification list
+        return notificationList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView notificationText;
+    // ViewHolder class for holding the UI elements
+    public static class NotificationViewHolder extends RecyclerView.ViewHolder {
 
-        public ViewHolder(@NonNull View itemView) {
+        // Declare the TextViews for the notification title, message, and date
+        TextView titleTextView, messageTextView, dateTextView;
+
+        public NotificationViewHolder(@NonNull View itemView) {
             super(itemView);
-            notificationText = itemView.findViewById(R.id.notificationText);
+
+            // Initialize the TextViews by finding them in the item layout
+            titleTextView = itemView.findViewById(R.id.notificationTitle);
+            messageTextView = itemView.findViewById(R.id.notificationMessage);
+            dateTextView = itemView.findViewById(R.id.notificationDate);
         }
     }
 }

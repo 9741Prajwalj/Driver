@@ -11,18 +11,18 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.mlt.driver.R;
 
 public class HelpFragment extends Fragment {
 
     private LinearLayout btnclsup, btnchtsup, btnwebsup;
-    private FrameLayout containerLayout, container_layout;
+    private FrameLayout containerLayout;
 
     // Cards for each support type
     private View phoneSupportCard, chatSupportCard, webSupportCard;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Inflate the current layout of HelpFragment
@@ -61,32 +61,32 @@ public class HelpFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         // Handle back press when no card is shown using OnBackPressedCallback (for compatibility)
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+        requireActivity().getOnBackPressedDispatcher().addCallback(requireActivity(), new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 // Check if any card is displayed, if so, close it
                 if (containerLayout.getChildCount() > 0) {
                     containerLayout.removeAllViews();  // Close the current card
                 } else {
-                    // If no cards are displayed, navigate back to MapFragment
-                    navigateToMapFragment();
+                    // If no cards are displayed, simply go back to the previous fragment
+                    // This is done by popping the back stack to the previous fragment
+                    if (getFragmentManager() != null && getFragmentManager().getBackStackEntryCount() > 0) {
+                        getFragmentManager().popBackStack();  // Pop the current fragment from the back stack
+                    } else {
+                        // If no fragments are in the back stack, you can close the activity or just do nothing
+                        // For example, if you are inside an activity, you can do:
+                        // requireActivity().onBackPressed(); // To go back to the previous activity
+                    }
                 }
             }
         });
     }
 
-    private void navigateToMapFragment() {
-        // Use FragmentTransaction to replace HelpFragment with MapFragment
-        FragmentTransaction transaction = requireFragmentManager().beginTransaction();
-        HomeFragment mapFragment = new HomeFragment();  // Assuming MapFragment is the destination
-        transaction.replace(R.id.fragment_container, mapFragment);  // Replace the current fragment with MapFragment
-        transaction.addToBackStack(null);  // Add the transaction to back stack
-        transaction.commit();
-    }
 }
+
 
 

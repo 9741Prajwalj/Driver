@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="10dp"
+    android:background="@color/white"
     tools:context=".fragments.ShowProfileFragment">
 
     <!-- Card 1: Profile Image and Upload Buttons -->

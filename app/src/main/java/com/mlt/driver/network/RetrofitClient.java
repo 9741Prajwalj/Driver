@@ -10,7 +10,7 @@ public class RetrofitClient {
     static final String BASE_URL = "https://ets.mltcorporate.com"; // Replace with your actual API base URL
     private static final String DIRECTIONS_BASE_URL = "https://maps.googleapis.com/maps/api/";
 
-    private static RetrofitClient instance;
+    public static RetrofitClient instance;
     static Retrofit retrofit;
 //    private static Retrofit retrofit = null;
     private static Retrofit googleRetrofit = null;

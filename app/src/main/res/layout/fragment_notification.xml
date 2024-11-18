@@ -2,23 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <!-- Main Content Layout -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
     android:orientation="vertical"
     android:padding="16dp">
+
+    <!-- Loading Message -->
+    <TextView
+        android:id="@+id/notificationTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Loading notifications..."
+        android:textSize="16sp"
+        android:visibility="visible" />
 
     <!-- No Notification Found Layout -->
     <LinearLayout
         android:id="@+id/layoutNotification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:gravity="center"
-        android:orientation="vertical">
+        android:visibility="gone"
+        android:paddingTop="32dp">
 
         <ImageView
             android:layout_width="124dp"
@@ -28,11 +32,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="9.10dp"
-            android:fontFamily="@font/montserrat_semibold"
+            android:layout_marginTop="8dp"
             android:text="No Notification found"
-            android:textSize="18sp" />
-
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-medium" />
     </LinearLayout>
 
     <!-- RecyclerView for Notifications -->
@@ -40,8 +43,19 @@
         android:id="@+id/recReview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/white"
+        android:visibility="gone" />
+
+    <!-- Clear Button -->
+    <Button
+        android:id="@+id/btnClearAll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_weight="1" />
+        android:text="Clear All"
+        android:background="@color/design_default_color_primary"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
 
 </LinearLayout>
-    </LinearLayout>

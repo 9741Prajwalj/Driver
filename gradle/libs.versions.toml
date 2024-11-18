@@ -31,6 +31,9 @@ playServicesMapsVersion = "19.0.0"
 playServicesPlaces = "17.1.0"
 retrofit = "2.9.0"
 volley = "1.2.1"
+firebaseFirestore = "25.1.1"
+firebaseMessaging = "24.1.0"
+uiDesktop = "1.7.0"
 
 [libraries]
 android-gif-drawable = { module = "pl.droidsonroids.gif:android-gif-drawable", version.ref = "androidGifDrawable" }
@@ -65,6 +68,9 @@ play-services-location-v1800 = { module = "com.google.android.gms:play-services-
 play-services-places = { module = "com.google.android.gms:play-services-places", version.ref = "playServicesPlaces" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 volley = { module = "com.android.volley:volley", version.ref = "volley" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
+ui-desktop = { group = "androidx.compose.ui", name = "ui-desktop", version.ref = "uiDesktop" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
