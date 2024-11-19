@@ -59,8 +59,9 @@ public class HistoryFragment extends Fragment {
 
         // Observe LiveData to update the RecyclerView with the list of bookings
         bookingViewModel.getBookingList().observe(getViewLifecycleOwner(), bookings -> {
-            bookingAdapter = new BookingAdapter(bookings); // Update adapter with new data
-            recyclerView.setAdapter(bookingAdapter);
+            if (bookings != null) {
+                bookingAdapter.updateData(bookings);  // Update the adapter with new bookings
+            }
         });
 
         // Observe error messages
@@ -86,6 +87,7 @@ public class HistoryFragment extends Fragment {
                 Toast.makeText(getContext(), "Please select a booking type", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         return view;
     }

@@ -11,24 +11,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mlt.driver.R;
 import com.mlt.driver.models.Booking;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingViewHolder> {
-
     private List<Booking> bookingList;
-
     // Constructor that initializes the adapter with the list of bookings
     public BookingAdapter(List<Booking> bookingList) {
-        this.bookingList = bookingList;
+        // Initialize the list, even if it's empty
+        this.bookingList = bookingList != null ? bookingList : new ArrayList<>();
     }
-
     @NonNull
     @Override
     public BookingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.booking_item, parent, false);
         return new BookingViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull BookingViewHolder holder, int position) {
         Booking booking = bookingList.get(position);
@@ -42,7 +40,6 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
         holder.totalKms.setText("Total Distance: " + booking.getTotalKms());
         holder.amount.setText("Amount: ₹" + booking.getAmount());
     }
-
     @Override
     public int getItemCount() {
         // Return the size of the list of bookings
@@ -56,10 +53,8 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
             notifyDataSetChanged();  // Notify the adapter that the data set has changed
         }
     }
-
     public static class BookingViewHolder extends RecyclerView.ViewHolder {
         TextView bookingId, bookingDate, sourceAddress, destAddress, journeyDate, journeyTime, rideStatus, totalKms, amount;
-
         public BookingViewHolder(View itemView) {
             super(itemView);
             bookingId = itemView.findViewById(R.id.booking_id);

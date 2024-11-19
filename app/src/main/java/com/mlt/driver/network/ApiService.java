@@ -30,7 +30,6 @@
         @POST("{endpoint}")
         Call<ResponseBody> fetchDataFromBackend(@Body RequestBody requestBody, @Path("endpoint") String endpoint);
 
-
         // Get route from source to destination using Google Directions API
     //    @GET("directions/json")
     //    Call<RouteResponse> getRoute(
