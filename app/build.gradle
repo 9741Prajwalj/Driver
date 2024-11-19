@@ -3,7 +3,6 @@ plugins {
     id("com.google.gms.google-services") // Apply the Google Services plugin
 }
 
-
 android {
     namespace 'com.mlt.driver'
     compileSdk 34
@@ -52,22 +51,15 @@ dependencies {
     implementation libs.volley
     implementation libs.drawerlayout
     implementation libs.circleimageview
-
     // Retrofit core library
     implementation libs.retrofit
-
     // Converter for JSON to Java object serialization/deserialization
     implementation libs.converter.gson
-
     // (Optional) OkHttp logging interceptor for debugging network requests/responses
     implementation libs.logging.interceptor
-
     implementation fileTree(dir: "libs", include:["*.jar"])
-
     implementation libs.android.gif.drawable
-
     implementation libs.jiaozivideoplayer
-
     implementation libs.firebase.auth
     implementation libs.firebase.database
     implementation libs.firebase.dynamic.links
@@ -77,7 +69,6 @@ dependencies {
     implementation libs.google.maps.services
     implementation libs.play.services.places
     implementation libs.play.services.base
-
     // For image loading
     implementation libs.picasso
 }

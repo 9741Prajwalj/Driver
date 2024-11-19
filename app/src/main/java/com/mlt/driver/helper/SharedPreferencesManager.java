@@ -1,13 +1,13 @@
 package com.mlt.driver.helper;
 
 import static android.content.ContentValues.TAG;
-import android.app.Notification;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.mlt.driver.fragments.Notifications;
+import com.mlt.driver.models.NotificationItem;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -101,7 +101,7 @@ public class SharedPreferencesManager {
         }
     }
     // Public method to get the singleton instance
-    public static SharedPreferencesManager getInstance(Context context) {
+    public static synchronized SharedPreferencesManager getInstance(Context context) {
         if (instance == null) {
             instance = new SharedPreferencesManager(context.getApplicationContext()); // Use application context
         }
@@ -117,57 +117,33 @@ public class SharedPreferencesManager {
     public static String getDeviceToken() {
         return sharedPreferences.getString(KEY_DEVICE_TOKEN, null);
     }
-    // In SharedPreferencesManager.java
-    public void saveNotification(String title, String message, String date) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("last_notification_title", title);
-        editor.putString("last_notification_body", message);
-        editor.putString("last_notification_date", date);
-        editor.apply();
-        Log.d(TAG, "Notification saved: " + title);
-    }
-
-    // Get saved notifications from SharedPreferences
-    public List<Notifications> getSavedNotifications() {
-        Gson gson = new Gson();
+    public List<NotificationItem> getSavedNotifications() {
         String json = sharedPreferences.getString(KEY_NOTIFICATIONS, null);
-        Type type = new TypeToken<List<Notification>>() {}.getType();
-        return gson.fromJson(json, type);
+        if (json != null) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<NotificationItem>>() {}.getType();
+            return gson.fromJson(json, type);
+        }
+        return new ArrayList<>();
     }
-
-
     // Save notifications list to SharedPreferences
-    public void saveNotifications(List<Notifications> notifications) {
+    public void saveNotifications(List<NotificationItem> notificationList) {
         Gson gson = new Gson();
-        String json = gson.toJson(notifications);
+        String json = gson.toJson(notificationList);
         sharedPreferences.edit().putString(KEY_NOTIFICATIONS, json).apply();
     }
-
     // Retrieve notifications list from SharedPreferences
-    public List<Notifications> getNotifications() {
+    public List<NotificationItem> getNotifications() {
         String json = sharedPreferences.getString(KEY_NOTIFICATIONS, null);
-        if (json == null) {
-            return new ArrayList<>();
+        if (json != null) {
+            Type type = new TypeToken<List<NotificationItem>>() {}.getType();
+            return new Gson().fromJson(json, type);
         }
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<Notification>>() {}.getType();
-        return gson.fromJson(json, type);
+        return new ArrayList<>();
     }
-
-
-    public String getLastNotificationTitle() {
-        return sharedPreferences.getString("last_notification_title", "No notifications");
+    public void clearNotifications() {
+        sharedPreferences.edit().remove(KEY_NOTIFICATIONS).apply();
     }
-
-    public String getLastNotificationBody() {
-        return sharedPreferences.getString("last_notification_body", "No notifications");
-    }
-
-    public String getLastNotificationDate() {
-        return sharedPreferences.getString("last_notification_date", "No date");
-    }
-
-
     // Update user status in the backend (e.g., online/offline)
     private void updateUserStatus(int userId, int status) {
         // Implement API call to update user status in the backend
@@ -177,11 +153,9 @@ public class SharedPreferencesManager {
         editor.putString(KEY_PROFILE_IMAGE_URL, imageUrl);
         editor.apply();
     }
-
     public String getProfileImageUrl() {
         return sharedPreferences.getString(KEY_PROFILE_IMAGE_URL, "");
     }
-
     // Get login data
     public int getUserId() {
         return sharedPreferences.getInt(KEY_USER_ID, -1);

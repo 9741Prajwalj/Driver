@@ -19,6 +19,7 @@ import com.google.android.material.navigation.NavigationView;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -28,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.mlt.driver.activities.LoginActivity;
 import com.mlt.driver.databinding.ActivityMainBinding;
+import com.mlt.driver.fragments.NotificationFragment;
 import com.mlt.driver.helper.SharedPreferencesManager;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;
@@ -37,6 +39,7 @@ import android.Manifest;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int NOTIFICATION_PERMISSION_CODE = 1001;
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
@@ -97,22 +100,53 @@ public class MainActivity extends AppCompatActivity {
         txtUserName.setText(sharedPreferencesManager.getUserName() != null ? sharedPreferencesManager.getUserName() : "Default User Name");
         txtEmail.setText(sharedPreferencesManager.getEmail() != null ? sharedPreferencesManager.getEmail() : "default@example.com");
 
+        // Ensure the correct flag is read in onCreate
+        if (getIntent().hasExtra("openFragment")) {
+            String fragmentName = getIntent().getStringExtra("openFragment");
+            if ("NotificationFragment".equals(fragmentName)) {
+                openNotificationFragment();
+            }
+        }
         loadUserProfileData();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkNotificationPermission();
+    }
+
+    private void checkNotificationPermission() {
+        // Check if the OS version requires notification permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // Permission not granted, request it
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        NOTIFICATION_PERMISSION_CODE);
+            } else {
+                Log.d("NotificationPermission", "Permission already granted.");
+                // Proceed with showing notifications
+            }
+        } else {
+            Log.d("NotificationPermission", "Permission not required for this OS version.");
+        }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == 1) {
+        if (requestCode == NOTIFICATION_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "Notification permission granted.");
+                Log.d("NotificationPermission", "Permission granted.");
+                // Proceed with showing notifications
             } else {
-                Log.d(TAG, "Notification permission denied.");
+                Log.d("NotificationPermission", "Permission denied.");
+                // Handle the case when permission is denied
             }
         }
     }
-
     private void loadUserProfileData() {
         // Get user profile image URL from SharedPreferences
         String profileImageUrl = sharedPreferencesManager.getProfileImageUrl();
@@ -122,19 +156,20 @@ public class MainActivity extends AppCompatActivity {
             // You can use an image loading library like Picasso or Glide to load the image
             Picasso.get().load(profileImageUrl).into(imgProfile); // Example using Picasso
         }
-
-
     }
-
-
-
+    private void openNotificationFragment() {
+        Fragment notificationFragment = new NotificationFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.nav_host_fragment_content_main, notificationFragment) // Replace with your container ID
+                .commit();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
     // Handle logout action
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -144,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     // Method to show logout confirmation dialog
     private void showLogoutConfirmation() {
         final Dialog logoutDialog = new Dialog(this);
@@ -162,10 +196,10 @@ public class MainActivity extends AppCompatActivity {
             logoutDialog.dismiss();
             logoutUser(); // Call the logoutUser method to clear data and navigate to LoginActivity
         });
-
         logoutDialog.show();
     }
     private void logoutUser() {
+        SharedPreferencesManager.getInstance(this).clearNotifications();
         // Clear all data in SharedPreferences
         sharedPreferencesManager.clearAllData();
         // Navigate to LoginActivity
