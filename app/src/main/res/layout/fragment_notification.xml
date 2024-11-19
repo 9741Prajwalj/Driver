@@ -11,7 +11,7 @@
         android:id="@+id/notificationTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Last Notification"
+        android:text="Updated Notification"
         android:textSize="18sp"
         android:textStyle="bold"
         android:gravity="center"

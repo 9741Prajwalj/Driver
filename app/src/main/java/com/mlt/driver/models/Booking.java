@@ -1,6 +1,7 @@
 package com.mlt.driver.models;
+
 public class Booking {
-    private String bookingId;
+    private int bookingId; // Change to int
     private String bookingDate;
     private String sourceAddress;
     private String destAddress;
@@ -10,7 +11,7 @@ public class Booking {
     private String totalKms;
     private String amount;
 
-    public Booking(String bookingId, String bookingDate, String sourceAddress, String destAddress, String journeyDate, String journeyTime, String rideStatus, String totalKms, String amount) {
+    public Booking(int bookingId, String bookingDate, String sourceAddress, String destAddress, String journeyDate, String journeyTime, String rideStatus, String totalKms, String amount) {
         this.bookingId = bookingId;
         this.bookingDate = bookingDate;
         this.sourceAddress = sourceAddress;
@@ -23,21 +24,12 @@ public class Booking {
     }
 
     // Getters and Setters
-
-    public String getAmount() {
-        return amount;
+    public int getBookingId() {
+        return bookingId;
     }
 
-    public void setAmount(String amount) {
-        this.amount = amount;
-    }
-
-    public String getJourneyDate() {
-        return journeyDate;
-    }
-
-    public void setJourneyDate(String journeyDate) {
-        this.journeyDate = journeyDate;
+    public void setBookingId(int bookingId) {
+        this.bookingId = bookingId;
     }
 
     public String getBookingDate() {
@@ -46,14 +38,6 @@ public class Booking {
 
     public void setBookingDate(String bookingDate) {
         this.bookingDate = bookingDate;
-    }
-
-    public String getBookingId() {
-        return bookingId;
-    }
-
-    public void setBookingId(String bookingId) {
-        this.bookingId = bookingId;
     }
 
     public String getSourceAddress() {
@@ -70,6 +54,14 @@ public class Booking {
 
     public void setDestAddress(String destAddress) {
         this.destAddress = destAddress;
+    }
+
+    public String getJourneyDate() {
+        return journeyDate;
+    }
+
+    public void setJourneyDate(String journeyDate) {
+        this.journeyDate = journeyDate;
     }
 
     public String getJourneyTime() {
@@ -94,5 +86,13 @@ public class Booking {
 
     public void setTotalKms(String totalKms) {
         this.totalKms = totalKms;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 }

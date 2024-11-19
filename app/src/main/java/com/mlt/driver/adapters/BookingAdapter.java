@@ -17,6 +17,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
 
     private List<Booking> bookingList;
 
+    // Constructor that initializes the adapter with the list of bookings
     public BookingAdapter(List<Booking> bookingList) {
         this.bookingList = bookingList;
     }
@@ -44,7 +45,16 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
 
     @Override
     public int getItemCount() {
-        return bookingList.size();
+        // Return the size of the list of bookings
+        return bookingList != null ? bookingList.size() : 0;
+    }
+
+    // Method to update the data set dynamically
+    public void updateData(List<Booking> newBookingList) {
+        if (newBookingList != null) {
+            this.bookingList = newBookingList;
+            notifyDataSetChanged();  // Notify the adapter that the data set has changed
+        }
     }
 
     public static class BookingViewHolder extends RecyclerView.ViewHolder {
