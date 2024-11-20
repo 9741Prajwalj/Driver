@@ -8,6 +8,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,15 +20,15 @@ import com.mlt.driver.adapters.BookingAdapter;
 import com.mlt.driver.network.ApiService;
 import com.mlt.driver.network.RetrofitClient;
 import com.mlt.driver.viewmodel.BookingViewModel;
+import com.mlt.driver.models.Booking;
 
+import java.util.List;
 public class HistoryFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private BookingAdapter bookingAdapter;
     private BookingViewModel bookingViewModel;
     private RadioGroup radioGroupBookingType;
-
-    private ApiService apiService;  // ApiService instance
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -49,19 +50,20 @@ public class HistoryFragment extends Fragment {
 
         // Pass context to ViewModel
         bookingViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
+            @NonNull
             @Override
-            public <T extends ViewModel> T create(Class<T> modelClass) {
+            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
                 return (T) new BookingViewModel(getContext());
             }
         }).get(BookingViewModel.class);
 
-        apiService = RetrofitClient.getClient().create(ApiService.class); // Get ApiService instance from ApiClient
+        // ApiService instance
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class); // Get ApiService instance from ApiClient
 
         // Observe LiveData to update the RecyclerView with the list of bookings
         bookingViewModel.getBookingList().observe(getViewLifecycleOwner(), bookings -> {
-            if (bookings != null) {
-                bookingAdapter.updateData(bookings);  // Update the adapter with new bookings
-            }
+            bookingAdapter = new BookingAdapter(bookings); // Update adapter with new data
+            recyclerView.setAdapter(bookingAdapter);
         });
 
         // Observe error messages
@@ -72,7 +74,7 @@ public class HistoryFragment extends Fragment {
         });
 
         // Load bookings
-        bookingViewModel.loadBookings("Upcoming");  // Default to upcoming bookings for initial load
+//        bookingViewModel.loadBookings("Upcoming");  // Default to upcoming bookings for initial load
 
         // Setup Go Button onClickListener
         view.findViewById(R.id.btnGo).setOnClickListener(v -> {
@@ -87,7 +89,6 @@ public class HistoryFragment extends Fragment {
                 Toast.makeText(getContext(), "Please select a booking type", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         return view;
     }

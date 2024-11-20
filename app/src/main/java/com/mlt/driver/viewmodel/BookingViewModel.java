@@ -33,12 +33,11 @@ public class BookingViewModel extends ViewModel {
     }
     // Method to load bookings (for upcoming, completed, cancelled)
     public void loadBookings(String bookingType) {
-        String apiToken = sharedPreferencesManager.getApiToken();
-        int driverId = sharedPreferencesManager.getUserId();
-        String endpoint = getEndpointForBookingType(bookingType);
-
+    String apiToken=sharedPreferencesManager.getApiToken();
+        int driverId=sharedPreferencesManager.getUserId();
+        String endpoint = getEndpointForBookingType(bookingType);  // Determine the endpoint based on the booking type
         if (endpoint != null) {
-            bookingRepository.fetchBookings(endpoint, apiToken, driverId, bookingListLiveData, errorLiveData);
+            bookingRepository.fetchBookings(endpoint, apiToken,  driverId, bookingListLiveData, errorLiveData);
         } else {
             errorLiveData.setValue("Invalid booking type");
         }

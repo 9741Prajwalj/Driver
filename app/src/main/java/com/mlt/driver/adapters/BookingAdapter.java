@@ -11,15 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mlt.driver.R;
 import com.mlt.driver.models.Booking;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingViewHolder> {
     private List<Booking> bookingList;
     // Constructor that initializes the adapter with the list of bookings
     public BookingAdapter(List<Booking> bookingList) {
-        // Initialize the list, even if it's empty
-        this.bookingList = bookingList != null ? bookingList : new ArrayList<>();
+        this.bookingList = bookingList;
     }
     @NonNull
     @Override

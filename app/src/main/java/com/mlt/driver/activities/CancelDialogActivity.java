@@ -85,7 +85,7 @@ public class CancelDialogActivity extends AppCompatActivity {
             }
 
             // Assuming ApiServer is your Retrofit interface
-            ApiService apiService = RetrofitClient.getInstances().create(ApiService.class);
+            ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
             Call<Void> call = apiService.sendCancellationReason(jsonObject.toString());
 
             call.enqueue(new Callback<Void>() {

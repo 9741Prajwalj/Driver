@@ -22,76 +22,58 @@ public class Booking {
         this.totalKms = totalKms;
         this.amount = amount;
     }
-
     // Getters and Setters
     public int getBookingId() {
         return bookingId;
     }
-
     public void setBookingId(int bookingId) {
         this.bookingId = bookingId;
     }
-
     public String getBookingDate() {
         return bookingDate;
     }
-
     public void setBookingDate(String bookingDate) {
         this.bookingDate = bookingDate;
     }
-
     public String getSourceAddress() {
         return sourceAddress;
     }
-
     public void setSourceAddress(String sourceAddress) {
         this.sourceAddress = sourceAddress;
     }
-
     public String getDestAddress() {
         return destAddress;
     }
-
     public void setDestAddress(String destAddress) {
         this.destAddress = destAddress;
     }
-
     public String getJourneyDate() {
         return journeyDate;
     }
-
     public void setJourneyDate(String journeyDate) {
         this.journeyDate = journeyDate;
     }
-
     public String getJourneyTime() {
         return journeyTime;
     }
-
     public void setJourneyTime(String journeyTime) {
         this.journeyTime = journeyTime;
     }
-
     public String getRideStatus() {
         return rideStatus;
     }
-
     public void setRideStatus(String rideStatus) {
         this.rideStatus = rideStatus;
     }
-
     public String getTotalKms() {
         return totalKms;
     }
-
     public void setTotalKms(String totalKms) {
         this.totalKms = totalKms;
     }
-
     public String getAmount() {
         return amount;
     }
-
     public void setAmount(String amount) {
         this.amount = amount;
     }

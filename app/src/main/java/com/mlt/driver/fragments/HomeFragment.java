@@ -384,7 +384,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         requestBody.put("availability", availability);
 
         // Create API Service
-        ApiService apiService = RetrofitClient.getClient("https://ets.mltcorporate.com").create(ApiService.class);
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
 
         // Make API call
         apiService.updateDriverAvailability(requestBody).enqueue(new Callback<JsonObject>() {
