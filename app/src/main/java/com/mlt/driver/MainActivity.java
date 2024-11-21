@@ -27,6 +27,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.mlt.driver.activities.LoginActivity;
 import com.mlt.driver.databinding.ActivityMainBinding;
 import com.mlt.driver.fragments.NotificationFragment;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        generateFCMToken();
 
         if (FirebaseApp.getApps(this).isEmpty()) {
             FirebaseApp.initializeApp(this);
@@ -213,5 +215,19 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public static void generateFCMToken() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.e("chethan", "Fetching FCM token failed", task.getException());
+                        return;
+                    }
+                    // Get new FCM token
+                    String token = task.getResult();
+                    Log.d("chethan", "FCM Token: " + token);
+                    // You can also store the token locally or send it to your server
+                });
     }
 }
