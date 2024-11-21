@@ -221,12 +221,12 @@ public class MainActivity extends AppCompatActivity {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
-                        Log.e("chethan", "Fetching FCM token failed", task.getException());
+                        Log.e("FCMToken", "Fetching FCM token failed", task.getException());
                         return;
                     }
                     // Get new FCM token
                     String token = task.getResult();
-                    Log.d("chethan", "FCM Token: " + token);
+                    Log.d("FCMToken", "FCM Token: " + token);
                     // You can also store the token locally or send it to your server
                 });
     }

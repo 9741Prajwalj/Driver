@@ -41,10 +41,20 @@
         android:name="com.mlt.driver.fragments.SummaryFragment"
         android:label="Summary"
         tools:layout="@layout/fragment_summary" />
-
     <fragment
         android:id="@+id/nav_Help"
         android:name="com.mlt.driver.fragments.HelpFragment"
         android:label="Help"
         tools:layout="@layout/fragment_help" />
+
+    <fragment
+        android:id="@+id/btnCancelled"
+        android:name="com.mlt.driver.fragments.CancelledFragment"
+        android:label="cancel Ride"
+        tools:layout="@layout/fragment_canceled"/>
+    <fragment
+        android:id="@+id/btnCompleted"
+        android:name="com.mlt.driver.fragments.CompletedFragment"
+        android:label="cancel Ride"
+        tools:layout="@layout/fragment_complete"/>
 </navigation>

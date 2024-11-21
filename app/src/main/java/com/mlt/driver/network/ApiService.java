@@ -24,8 +24,14 @@ public interface ApiService {
     @POST("/api/cancel")
     Call<Void> sendCancellationReason(@Body String reasonData);
 
-    @POST("{endpoint}")
-    Call<ResponseBody> fetchDataFromBackend(@Body RequestBody requestBody, @Path("endpoint") String endpoint);
+    @POST("/api/upcoming-rides")
+    Call<ResponseBody> getUpcomingRides(@Body RequestBody requestBody);
+
+    @POST("api/cancelled-rides")
+    Call<ResponseBody> getCanceledRides(@Body RequestBody requestBody);
+
+    @POST("api/completed-rides")
+    Call<ResponseBody> getCompletedRides(@Body RequestBody requestBody);
 
     // Get route from source to destination using Google Directions API
     //    @GET("directions/json")

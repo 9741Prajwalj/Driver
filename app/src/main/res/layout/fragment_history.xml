@@ -1,60 +1,72 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical"
+    android:background="@color/white">
 
-    <!-- Filter options for booking types (Upcoming, Completed, Cancelled) -->
-    <RadioGroup
-        android:id="@+id/radioGroupBookingType"
-        android:layout_width="wrap_content"
+    <!-- Title at the Top -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Upcoming Rides"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="12dp"
+        android:background="@color/white"
+        android:textColor="@color/black" />
+
+    <!-- RecyclerView for Ride List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:padding="16dp"
+        android:scrollbars="vertical"
+        android:background="@color/white" />
+
+    <!-- Buttons at the Bottom -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp">
+        android:gravity="center"
+        android:padding="8dp">
 
-        <RadioButton
-            android:id="@+id/radioUpcoming"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btnCancelled"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Upcoming" />
+            android:layout_weight="1"
+            android:text="Cancelled Ride"
+            android:backgroundTint="@color/red"
+            android:textColor="@color/white"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="8dp"
+            android:layout_marginEnd="8dp" />
 
-        <RadioButton
-            android:id="@+id/radioCompleted"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btnCompleted"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Completed" />
+            android:layout_weight="1"
+            android:text="Completed Ride"
+            android:backgroundTint="@color/green"
+            android:textColor="@color/white"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="8dp"
+            android:layout_marginStart="8dp" />
 
-        <RadioButton
-            android:id="@+id/radioCancelled"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cancelled" />
-    </RadioGroup>
+        <!-- Container for dynamically replacing fragments -->
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0" />
 
-    <!-- RecyclerView to display the list of bookings -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewBookings"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/radioGroupBookingType"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnGo"
-        android:layout_marginTop="16dp" />
-
-    <!-- Go Button to apply filter based on selected radio button -->
-    <Button
-        android:id="@+id/btnGo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Go"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="16dp"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</LinearLayout>

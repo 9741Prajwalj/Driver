@@ -4,4 +4,7 @@
     <item name="notificationText" type="id" />
     <item name="txtReview" type="id" />
     <item name="title" type="id" />
+    <item name="tvDestination" type="id" />
+    <item name="tvRideStatus" type="id" />
+    <item name="cancelledContainer" type="id" />
 </resources>
