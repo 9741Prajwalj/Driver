@@ -50,6 +50,18 @@
             android:layout_marginEnd="8dp" />
 
         <Button
+            android:id="@+id/btnUpcoming"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Upcoming Ride"
+            android:backgroundTint="@color/blue"
+            android:textColor="@color/white"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="8dp"
+            android:layout_marginEnd="8dp" />
+
+        <Button
             android:id="@+id/btnCompleted"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -63,7 +75,7 @@
 
         <!-- Container for dynamically replacing fragments -->
         <FrameLayout
-            android:id="@+id/fragmentContainer"
+            android:id="@+id/fragment_container"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="0" />

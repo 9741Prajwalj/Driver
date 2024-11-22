@@ -7,10 +7,7 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Header;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface ApiService {
 
@@ -27,10 +24,10 @@ public interface ApiService {
     @POST("/api/upcoming-rides")
     Call<ResponseBody> getUpcomingRides(@Body RequestBody requestBody);
 
-    @POST("api/cancelled-rides")
+    @POST("/api/cancelled-rides")
     Call<ResponseBody> getCanceledRides(@Body RequestBody requestBody);
 
-    @POST("api/completed-rides")
+    @POST("/api/completed-rides")
     Call<ResponseBody> getCompletedRides(@Body RequestBody requestBody);
 
     // Get route from source to destination using Google Directions API

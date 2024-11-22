@@ -5,19 +5,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mlt.driver.R;
-import com.mlt.driver.adapters.RideAdapter;
+import com.mlt.driver.adapters.CancelledRideAdapter;
+import com.mlt.driver.adapters.CompletedRideAdapter;
+import com.mlt.driver.adapters.UpcomingRideAdapter;
 import com.mlt.driver.helper.SharedPreferencesManager;
-import com.mlt.driver.models.Ride;
+import com.mlt.driver.models.CancelledRide;
+import com.mlt.driver.models.CompletedRide;
+import com.mlt.driver.models.UpcomingRide;
 import com.mlt.driver.network.ApiService;
 import com.mlt.driver.network.RetrofitClient;
 
@@ -26,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -37,11 +42,17 @@ import retrofit2.Response;
 
 public class HistoryFragment extends Fragment {
 
+    private TextView tvTitle;
     private RecyclerView recyclerView;
-    private Button btnCancelled, btnCompleted;
+    private Button btnCancelled, btnCompleted, btnUpcoming;
     private SharedPreferencesManager sharedPreferencesManager;
-    private RideAdapter rideAdapter;
-    private List<Ride> rideList = new ArrayList<>();
+    private CancelledRideAdapter cancelAdapter;
+    private CompletedRideAdapter completeAdapter;
+    private UpcomingRideAdapter upcomingAdapter;
+    private List<UpcomingRide> rideListU = new ArrayList<>();
+    private List<CancelledRide> rideListCan = new ArrayList<>();
+    private List<CompletedRide> rideListComp = new ArrayList<>();
+    private String currentView = "upcoming";
 
     @Nullable
     @Override
@@ -52,107 +63,232 @@ public class HistoryFragment extends Fragment {
         sharedPreferencesManager = new SharedPreferencesManager(requireContext());
 
         // Initialize Views
+        tvTitle = view.findViewById(R.id.tvTitle);
         recyclerView = view.findViewById(R.id.recyclerView);
         btnCancelled = view.findViewById(R.id.btnCancelled);
         btnCompleted = view.findViewById(R.id.btnCompleted);
+        btnUpcoming = view.findViewById(R.id.btnUpcoming);
 
         // Set up RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        rideAdapter = new RideAdapter(getContext(), rideList);
-        recyclerView.setAdapter(rideAdapter);
+//        rideAdapter = new RideAdapter(getContext(), rideList);
+        completeAdapter = new CompletedRideAdapter(getContext(), rideListComp);
+        cancelAdapter = new CancelledRideAdapter(getContext(),rideListCan);
+        upcomingAdapter = new UpcomingRideAdapter(getContext(),rideListU);
 
-        // Load Upcoming Rides
-        loadUpcomingRides();
+//        recyclerView.setAdapter(completeAdapter);
+//        recyclerView.setAdapter(cancelAdapter);
+        recyclerView.setAdapter(upcomingAdapter);
+
+        // Load default view (Upcoming Rides)
+//        loadUpcomingRides();
 
         // Handle Button Clicks
-        btnCancelled.setOnClickListener(v -> navigateToFragment1(new CancelledFragment()));
-        btnCompleted.setOnClickListener(v -> navigateToFragment2(new CompletedFragment()));
+        btnCancelled.setOnClickListener(v -> loadCancelledRides());
+        btnCompleted.setOnClickListener(v -> loadCompletedRides());
+        btnUpcoming.setOnClickListener(v -> loadUpcomingRides()); // Set click listener for btnUpcoming
+
 
         return view;
     }
 
     private void loadUpcomingRides() {
+        currentView = "upcoming";
+        tvTitle.setText("Upcoming Rides");
+        recyclerView.setAdapter(upcomingAdapter); // Set the upcomingAdapter when the Upcoming button is clicked
+        fetchRides("upcoming");
+    }
+
+    private void loadCancelledRides() {
+        currentView = "cancelled";
+        tvTitle.setText("Cancelled Rides");
+        recyclerView.setAdapter(cancelAdapter); // Set the cancelAdapter when the Cancelled button is clicked
+        fetchRides("cancelled");
+    }
+
+    private void loadCompletedRides() {
+        currentView = "completed";
+        tvTitle.setText("Completed Rides");
+        recyclerView.setAdapter(completeAdapter); // Set the completeAdapter when the Completed button is clicked
+        fetchRides("completed");
+    }
+    private void fetchRides(String rideType) {
         ApiService apiService = RetrofitClient.getInstance().create(ApiService.class);
-
+        Call<ResponseBody> call = null;
+        // Prepare the request body
         try {
-            // Prepare the request body
-            JSONObject loginRequest = new JSONObject();
-            loginRequest.put("api_token", sharedPreferencesManager.getApiToken());
-            loginRequest.put("driver_id", sharedPreferencesManager.getUserId());
+            JSONObject requestBodyJson = new JSONObject();
+            requestBodyJson.put("api_token", sharedPreferencesManager.getApiToken());
+            requestBodyJson.put("driver_id", sharedPreferencesManager.getUserId());
+            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), requestBodyJson.toString());
+            // Set the API call based on ride type
+            switch (rideType) {
+                case "upcoming":
+                    call = apiService.getUpcomingRides(requestBody);
+                    break;
+                case "cancelled":
+                    call = apiService.getCanceledRides(requestBody);
+                    break;
+                case "completed":
+                    call = apiService.getCompletedRides(requestBody);
+                    break;
+            }
+            // Make the API call
+            if (call != null) {
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            try {
+                                String jsonResponse = response.body().string();
+                                JSONObject jsonObject = new JSONObject(jsonResponse);
+                                JSONArray rideData = jsonObject.getJSONObject("data").getJSONArray(rideType + "_rides");
 
-            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), loginRequest.toString());
+                                // Populate the RecyclerView based on ride type
+                                switch (rideType) {
+                                    case "upcoming":
+                                        populateUpcomingRides(rideData);
+                                        break;
+                                    case "cancelled":
+                                        populateCancelledRides(rideData);
+                                        break;
+                                    case "completed":
+                                        populateCompletedRides(rideData);
+                                        break;
+                                    default:
+                                        throw new IllegalArgumentException("Invalid ride type");
+                                }
 
-            // API call
-            Call<ResponseBody> call = apiService.getUpcomingRides(requestBody);
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        try {
-                            String jsonResponse = response.body().string();
-                            JSONObject jsonObject = new JSONObject(jsonResponse);
-                            JSONArray upcomingRides = jsonObject.getJSONObject("data").getJSONArray("upcoming_rides");
-
-                            // Populate RecyclerView
-                            populateUpcomingRides(upcomingRides);
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Toast.makeText(getContext(), "Error parsing ride data", Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(getContext(), "Error parsing ride data", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(getContext(), "Failed to load rides", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Toast.makeText(getContext(), "Failed to load rides", Toast.LENGTH_SHORT).show();
                     }
-                }
 
-                @Override
-                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                    Toast.makeText(getContext(), "Request failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+                    @Override
+                    public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                        Toast.makeText(getContext(), "Request failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error preparing request", Toast.LENGTH_SHORT).show();
         }
     }
-
+    // Method to populate upcoming rides
     private void populateUpcomingRides(JSONArray upcomingRides) {
-        rideList.clear();
         try {
+            rideListU.clear(); // Clear existing rides before populating new ones
             for (int i = 0; i < upcomingRides.length(); i++) {
                 JSONObject ride = upcomingRides.getJSONObject(i);
 
-                // Parse Ride details
-                Ride newRide = new Ride(
-                        ride.getInt("booking_id"),
-                        ride.getString("source_address"),
-                        ride.getString("dest_address"),
-                        ride.getString("journey_date"),
-                        ride.getString("journey_time"),
-                        ride.getString("ride_status")
-                );
+                int bookingId = ride.getInt("booking_id");
+                String bookDate = ride.getString("book_date");
+                String bookTime = ride.getString("book_time");
+                String sourceAddress = parseAddress(ride.getString("source_address"));
+                String destAddress = parseAddress(ride.getString("dest_address"));
+                String journeyDate = ride.getString("journey_date");
+                String journeyTime = ride.getString("journey_time");
+                String rideStatus = ride.getString("ride_status");
 
-                // Add Ride to list
-                rideList.add(newRide);
+                // Create and add Ride object to the list
+                UpcomingRide upcomingRide = new UpcomingRide(bookingId, bookDate, bookTime, sourceAddress, destAddress, journeyDate, journeyTime, rideStatus);
+                rideListU.add(upcomingRide);
             }
-
-            // Notify adapter of data changes
-            rideAdapter.notifyDataSetChanged();
+            upcomingAdapter.notifyDataSetChanged(); // Notify adapter that data has changed
         } catch (JSONException e) {
             e.printStackTrace();
-            Toast.makeText(getContext(), "Error displaying rides", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Error populating upcoming rides", Toast.LENGTH_SHORT).show();
         }
     }
-    private void navigateToFragment1(CancelledFragment fragment) {
-        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragmentContainer, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+    // Helper method to parse address
+    private String parseAddress(String addressJson) {
+        try {
+            // Check if addressJson is a JSON Array
+            if (addressJson.startsWith("[")) {
+                JSONArray jsonArray = new JSONArray(addressJson);
+                return jsonArray.getString(0); // Return the first value
+            }
+            // Check if addressJson is a JSON Object
+            else if (addressJson.startsWith("{")) {
+                JSONObject jsonObject = new JSONObject(addressJson);
+                StringBuilder address = new StringBuilder();
+                Iterator<String> keys = jsonObject.keys();
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    address.append(jsonObject.getString(key));
+                    if (keys.hasNext()) address.append(", "); // Add a comma between values
+                }
+                return address.toString();
+            }
+            // Treat as plain String otherwise
+            return addressJson;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "Invalid address format";
+        }
     }
-    private void navigateToFragment2(CompletedFragment fragment) {
-        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragmentContainer, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+    // Method to populate cancelled rides
+    private void populateCancelledRides(JSONArray cancelledRides) {
+        try {
+            rideListCan.clear(); // Clear existing rides before populating new ones
+            for (int i = 0; i < cancelledRides.length(); i++) {
+                JSONObject ride = cancelledRides.getJSONObject(i);
+
+                // Extract values from the JSON object
+                int bookingId = ride.getInt("booking_id");
+                String bookDate = ride.getString("book_date");
+                String bookTime = ride.getString("book_time");
+                String sourceAddress = ride.getString("source_address"); // Changed to getString()
+                String destAddress = ride.getString("dest_address"); // Changed to getString()
+                String journeyDate = ride.getString("journey_date");
+                String journeyTime = ride.getString("journey_time");
+                String rideStatus = ride.getString("ride_status");
+                // Create and add Ride object to the list
+                CancelledRide cancelledRide = new CancelledRide(bookingId, bookDate, bookTime, sourceAddress, destAddress, journeyDate, journeyTime, rideStatus);
+                rideListCan.add(cancelledRide);
+            }
+            cancelAdapter.notifyDataSetChanged(); // Notify adapter that data has changed
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Error populating cancelled rides", Toast.LENGTH_SHORT).show();
+        }
     }
+    // Method to populate completed rides
+    private void populateCompletedRides(JSONArray completedRides) {
+        try {
+            rideListComp.clear(); // Clear existing rides before populating new ones
+            for (int i = 0; i < completedRides.length(); i++) {
+                JSONObject ride = completedRides.getJSONObject(i);
+
+                int bookingId = ride.getInt("booking_id");
+                String bookDate = ride.getString("book_date");
+                String journeyDate = ride.getString("journey_date");
+                String sourceAddress = parseAddress(ride.getString("source_address"));
+                String destAddress = parseAddress(ride.getString("dest_address"));
+                String rideStatus = ride.getString("ride_status");
+                String sourceTime = ride.optString("source_time", "N/A");
+                String destTime = ride.optString("dest_time", "N/A");
+                String totalKms = ride.optString("total_kms", "N/A");
+                int amount = ride.optInt("amount", 0);
+
+                // Create and add CompletedRide object to the list
+                CompletedRide completedRide = new CompletedRide(
+                        bookingId, bookDate, journeyDate, sourceAddress, destAddress,
+                        rideStatus, sourceTime, destTime, totalKms, amount
+                );
+                rideListComp.add(completedRide);
+            }
+            completeAdapter.notifyDataSetChanged(); // Notify adapter that data has changed
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Error populating completed rides", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

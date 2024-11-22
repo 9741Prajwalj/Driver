@@ -2,110 +2,117 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/white"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        card_view:cardCornerRadius="4dp">
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        card_view:cardCornerRadius="8dp"
+        card_view:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="12dp">
 
-            <!-- Top section for booking information -->
+            <!-- Booking ID -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="8dp">
-
-                <!-- Booking ID and Date -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center|start">
-
-                    <com.mlt.driver.utills.MyTextView
-                        android:id="@+id/txtBookingId"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Booking ID: 306"
-                        android:textSize="14sp"
-                        android:textColor="@color/black_text_color" />
-
-                    <com.mlt.driver.utills.MyTextView
-                        android:id="@+id/txtBookingDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="  Date: 2024-11-13"
-                        android:textSize="14sp"
-                        android:textColor="@color/black_text_color" />
-                </LinearLayout>
-
-                <!-- Source and Destination Addresses -->
-                <com.mlt.driver.utills.MyTextView
-                    android:id="@+id/txtSourceAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="From: 123 Main Street, Springfield, IL"
-                    android:textSize="14sp"
-                    android:textColor="@color/black_text_color"
-                    android:layout_marginTop="4dp" />
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
 
                 <com.mlt.driver.utills.MyTextView
-                    android:id="@+id/txtDestAddress"
-                    android:layout_width="match_parent"
+                    android:id="@+id/txtBookingId"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="To: stonex near somewhere"
+                    android:layout_weight="1"
+                    android:text="Booking ID: 306"
                     android:textSize="14sp"
-                    android:textColor="@color/black_text_color"
-                    android:layout_marginTop="4dp" />
+                    android:textColor="@color/black_text_color" />
 
-                <!-- Journey Date and Time -->
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <com.mlt.driver.utills.MyTextView
+                    android:id="@+id/txtBookDate"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp">
-
-                    <com.mlt.driver.utills.MyTextView
-                        android:id="@+id/txtJourneyDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Journey Date: 13-11-2024"
-                        android:textSize="14sp"
-                        android:textColor="@color/black_text_color" />
-
-                    <com.mlt.driver.utills.MyTextView
-                        android:id="@+id/txtJourneyTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:text="Time: 17:06:27"
-                        android:textSize="14sp"
-                        android:textColor="@color/black_text_color" />
-                </LinearLayout>
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="Date: 2024-11-13"
+                    android:textSize="14sp"
+                    android:textColor="@color/black_text_color" />
             </LinearLayout>
 
-            <!-- Ride Status section -->
+            <!-- Booking Time -->
+            <com.mlt.driver.utills.MyTextView
+                android:id="@+id/txtBookTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time: 11:36:27"
+                android:textSize="14sp"
+                android:textColor="@color/black_text_color"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Source Address -->
+            <com.mlt.driver.utills.MyTextView
+                android:id="@+id/txtSourceAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="From: 123 Main Street, Springfield, IL"
+                android:textSize="14sp"
+                android:textColor="@color/black_text_color"
+                android:layout_marginBottom="4dp" />
+
+            <!-- Destination Address -->
+            <com.mlt.driver.utills.MyTextView
+                android:id="@+id/txtDestAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="To: Stonex near somewhere"
+                android:textSize="14sp"
+                android:textColor="@color/black_text_color"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Journey Date and Time -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <com.mlt.driver.utills.MyTextView
+                    android:id="@+id/txtJourneyDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Journey Date: 13-11-2024"
+                    android:textSize="14sp"
+                    android:textColor="@color/black_text_color" />
+
+                <com.mlt.driver.utills.MyTextView
+                    android:id="@+id/txtJourneyTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="Time: 17:06:27"
+                    android:textSize="14sp"
+                    android:textColor="@color/black_text_color" />
+            </LinearLayout>
+
+            <!-- Ride Status -->
             <com.mlt.driver.utills.MyTextView
                 android:id="@+id/txtRideStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="Status: Cancelled"
-                android:textSize="15sp"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 android:textColor="@android:color/holo_red_dark"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginTop="8dp" />
 
         </LinearLayout>
 

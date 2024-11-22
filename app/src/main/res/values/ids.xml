@@ -7,4 +7,17 @@
     <item name="tvDestination" type="id" />
     <item name="tvRideStatus" type="id" />
     <item name="cancelledContainer" type="id" />
+    <item name="cancelledFragment" type="id" />
+    <item name="txtBookDate" type="id" />
+    <item name="txtBookTime" type="id" />
+    <item name="new_driver_image" type="id" />
+    <item name="new_booking_id" type="id" />
+    <item name="new_booking_date" type="id" />
+    <item name="new_source_address" type="id" />
+    <item name="new_dest_address" type="id" />
+    <item name="new_ride_status" type="id" />
+    <item name="new_journey_date" type="id" />
+    <item name="new_journey_time" type="id" />
+    <item name="new_amount" type="id" />
+    <item name="new_total_kms" type="id" />
 </resources>

@@ -50,11 +50,12 @@
     <fragment
         android:id="@+id/btnCancelled"
         android:name="com.mlt.driver.fragments.CancelledFragment"
-        android:label="cancel Ride"
-        tools:layout="@layout/fragment_canceled"/>
+        android:label="Cancelled Rides"
+        tools:layout="@layout/fragment_history" />
+
     <fragment
         android:id="@+id/btnCompleted"
         android:name="com.mlt.driver.fragments.CompletedFragment"
         android:label="cancel Ride"
-        tools:layout="@layout/fragment_complete"/>
+        tools:layout="@layout/fragment_history"/>
 </navigation>

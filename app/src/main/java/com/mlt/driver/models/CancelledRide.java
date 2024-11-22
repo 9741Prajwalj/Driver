@@ -10,6 +10,17 @@ public class CancelledRide {
     private String journeyTime;
     private String rideStatus;
 
+    public CancelledRide(int bookingId, String bookDate, String bookTime, String sourceAddress, String destAddress, String journeyDate, String journeyTime, String rideStatus) {
+        this.bookingId = bookingId;
+        this.bookDate = bookDate;
+        this.bookTime = bookTime;
+        this.sourceAddress = sourceAddress;
+        this.destAddress = destAddress;
+        this.journeyDate = journeyDate;
+        this.journeyTime = journeyTime;
+        this.rideStatus = rideStatus;
+    }
+
     // Getters and Setters
     public int getBookingId() { return bookingId; }
     public void setBookingId(int bookingId) { this.bookingId = bookingId; }

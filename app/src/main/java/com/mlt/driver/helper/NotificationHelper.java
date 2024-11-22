@@ -30,9 +30,26 @@ public class NotificationHelper extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
+        // Check if the message contains custom data
+        if (remoteMessage.getData().size() > 0) {
+            String key = remoteMessage.getData().get("key");
+            String rideInfo = remoteMessage.getData().get("rideinfo");
+            String userDetails = remoteMessage.getData().get("user_details");
+            String data = remoteMessage.getData().get("data");
+
+            // Handle your custom data here (but don't display it as a notification)
+            Log.d("FCM Data", "Key: " + key + ", RideInfo: " + rideInfo + ", UserDetails: " + userDetails);
+            Log.d("FCM Data", "Hardcoded Data: " + data);
+        }else {
+
+            Log.d("FCM Data", " didnt get the data or erro in fotrmat  ");
+
+        }
+
         // Extract notification details
         String title = remoteMessage.getNotification() != null ? remoteMessage.getNotification().getTitle() : "";
         String body = remoteMessage.getNotification() != null ? remoteMessage.getNotification().getBody() : "";
+        Log.d("FCM Data", title);
 
         // Create NotificationItem
         NotificationItem notificationItem = new NotificationItem(title, body);
