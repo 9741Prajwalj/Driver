@@ -62,7 +62,6 @@ public class NotificationHelper extends FirebaseMessagingService {
         }
         notificationList.add(0, notificationItem); // Add new notification at the top
         sharedPreferencesManager.saveNotifications(notificationList);
-
         // Display notification in UI
         sendNotification(title, body);
     }

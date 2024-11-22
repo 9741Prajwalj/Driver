@@ -11,12 +11,11 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.mlt.driver.R;
 
 public class HelpFragment extends Fragment {
 
-    private LinearLayout btnclsup, btnchtsup, btnwebsup;
+    private LinearLayout btnwebsup;
     private FrameLayout containerLayout;
 
     // Cards for each support type
@@ -29,8 +28,8 @@ public class HelpFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_help, container, false);
 
         // Find the LinearLayouts for each button
-        btnclsup = rootView.findViewById(R.id.btnclsup);
-        btnchtsup = rootView.findViewById(R.id.btnchtsup);
+        LinearLayout btnclsup = rootView.findViewById(R.id.btnclsup);
+        LinearLayout btnchtsup = rootView.findViewById(R.id.btnchtsup);
         btnwebsup = rootView.findViewById(R.id.btnwebsup);
 
         // FrameLayout is the container to replace UI content
@@ -61,7 +60,7 @@ public class HelpFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         // Handle back press when no card is shown using OnBackPressedCallback (for compatibility)

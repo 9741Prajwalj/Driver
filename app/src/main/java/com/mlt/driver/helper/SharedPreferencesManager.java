@@ -1,14 +1,12 @@
 package com.mlt.driver.helper;
 
 import static android.content.ContentValues.TAG;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mlt.driver.models.NotificationItem;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +29,7 @@ public class SharedPreferencesManager {
     private static SharedPreferencesManager instance; // Singleton instance
     public static SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private String Tag = "SharedPreferencesManager";
+    private final String Tag = "SharedPreferencesManager";
     private static final String KEY_NOTIFICATIONS = "notification_list";
 
     public SharedPreferencesManager(Context context) {

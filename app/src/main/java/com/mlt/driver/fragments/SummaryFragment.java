@@ -4,15 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.mlt.driver.R;
-import com.mlt.driver.utills.MyBoldTextView;
 import com.mlt.driver.utills.MyTextView;
 
 public class SummaryFragment extends Fragment {
@@ -29,7 +25,6 @@ public class SummaryFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_summary, container, false);
 
-
         noOfRidesTxt = view.findViewById(R.id.no_of_rides_txt);
         currencyTxt = view.findViewById(R.id.currency_txt);
         revenueTxt = view.findViewById(R.id.revenue_txt);
@@ -41,7 +36,6 @@ public class SummaryFragment extends Fragment {
 
         return view;
     }
-
     private void setUpData() {
         // Example data; in practice, replace this with dynamic data from your model
         noOfRidesTxt.setText("10"); // Total rides

@@ -44,14 +44,13 @@ public class HistoryFragment extends Fragment {
 
     private TextView tvTitle;
     private RecyclerView recyclerView;
-    private Button btnCancelled, btnCompleted, btnUpcoming;
     private SharedPreferencesManager sharedPreferencesManager;
     private CancelledRideAdapter cancelAdapter;
     private CompletedRideAdapter completeAdapter;
     private UpcomingRideAdapter upcomingAdapter;
-    private List<UpcomingRide> rideListU = new ArrayList<>();
-    private List<CancelledRide> rideListCan = new ArrayList<>();
-    private List<CompletedRide> rideListComp = new ArrayList<>();
+    private final List<UpcomingRide> rideListU = new ArrayList<>();
+    private final List<CancelledRide> rideListCan = new ArrayList<>();
+    private final List<CompletedRide> rideListComp = new ArrayList<>();
     private String currentView = "upcoming";
 
     @Nullable
@@ -65,47 +64,40 @@ public class HistoryFragment extends Fragment {
         // Initialize Views
         tvTitle = view.findViewById(R.id.tvTitle);
         recyclerView = view.findViewById(R.id.recyclerView);
-        btnCancelled = view.findViewById(R.id.btnCancelled);
-        btnCompleted = view.findViewById(R.id.btnCompleted);
-        btnUpcoming = view.findViewById(R.id.btnUpcoming);
+        Button btnCancelled = view.findViewById(R.id.btnCancelled);
+        Button btnCompleted = view.findViewById(R.id.btnCompleted);
+        Button btnUpcoming = view.findViewById(R.id.btnUpcoming);
 
         // Set up RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        rideAdapter = new RideAdapter(getContext(), rideList);
         completeAdapter = new CompletedRideAdapter(getContext(), rideListComp);
         cancelAdapter = new CancelledRideAdapter(getContext(),rideListCan);
         upcomingAdapter = new UpcomingRideAdapter(getContext(),rideListU);
 
-//        recyclerView.setAdapter(completeAdapter);
-//        recyclerView.setAdapter(cancelAdapter);
         recyclerView.setAdapter(upcomingAdapter);
 
         // Load default view (Upcoming Rides)
-//        loadUpcomingRides();
+        loadUpcomingRides();
 
         // Handle Button Clicks
         btnCancelled.setOnClickListener(v -> loadCancelledRides());
         btnCompleted.setOnClickListener(v -> loadCompletedRides());
         btnUpcoming.setOnClickListener(v -> loadUpcomingRides()); // Set click listener for btnUpcoming
 
-
         return view;
     }
-
     private void loadUpcomingRides() {
         currentView = "upcoming";
         tvTitle.setText("Upcoming Rides");
         recyclerView.setAdapter(upcomingAdapter); // Set the upcomingAdapter when the Upcoming button is clicked
         fetchRides("upcoming");
     }
-
     private void loadCancelledRides() {
         currentView = "cancelled";
         tvTitle.setText("Cancelled Rides");
         recyclerView.setAdapter(cancelAdapter); // Set the cancelAdapter when the Cancelled button is clicked
         fetchRides("cancelled");
     }
-
     private void loadCompletedRides() {
         currentView = "completed";
         tvTitle.setText("Completed Rides");
@@ -143,7 +135,6 @@ public class HistoryFragment extends Fragment {
                                 String jsonResponse = response.body().string();
                                 JSONObject jsonObject = new JSONObject(jsonResponse);
                                 JSONArray rideData = jsonObject.getJSONObject("data").getJSONArray(rideType + "_rides");
-
                                 // Populate the RecyclerView based on ride type
                                 switch (rideType) {
                                     case "upcoming":
@@ -158,7 +149,6 @@ public class HistoryFragment extends Fragment {
                                     default:
                                         throw new IllegalArgumentException("Invalid ride type");
                                 }
-
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 Toast.makeText(getContext(), "Error parsing ride data", Toast.LENGTH_SHORT).show();
@@ -167,7 +157,6 @@ public class HistoryFragment extends Fragment {
                             Toast.makeText(getContext(), "Failed to load rides", Toast.LENGTH_SHORT).show();
                         }
                     }
-
                     @Override
                     public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                         Toast.makeText(getContext(), "Request failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -194,7 +183,6 @@ public class HistoryFragment extends Fragment {
                 String journeyDate = ride.getString("journey_date");
                 String journeyTime = ride.getString("journey_time");
                 String rideStatus = ride.getString("ride_status");
-
                 // Create and add Ride object to the list
                 UpcomingRide upcomingRide = new UpcomingRide(bookingId, bookDate, bookTime, sourceAddress, destAddress, journeyDate, journeyTime, rideStatus);
                 rideListU.add(upcomingRide);
@@ -253,7 +241,6 @@ public class HistoryFragment extends Fragment {
                 rideListCan.add(cancelledRide);
             }
             cancelAdapter.notifyDataSetChanged(); // Notify adapter that data has changed
-
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error populating cancelled rides", Toast.LENGTH_SHORT).show();
@@ -276,7 +263,6 @@ public class HistoryFragment extends Fragment {
                 String destTime = ride.optString("dest_time", "N/A");
                 String totalKms = ride.optString("total_kms", "N/A");
                 int amount = ride.optInt("amount", 0);
-
                 // Create and add CompletedRide object to the list
                 CompletedRide completedRide = new CompletedRide(
                         bookingId, bookDate, journeyDate, sourceAddress, destAddress,
@@ -290,5 +276,4 @@ public class HistoryFragment extends Fragment {
             Toast.makeText(getContext(), "Error populating completed rides", Toast.LENGTH_SHORT).show();
         }
     }
-
 }

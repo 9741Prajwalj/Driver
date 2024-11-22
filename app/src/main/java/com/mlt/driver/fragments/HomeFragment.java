@@ -59,13 +59,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     private Switch onlineOfflineSwitch;
     private RelativeLayout offlineLayout;
     private LocationRequest locationRequest;
-    private ApiService apiService;
     private int userId;
     private String apiToken;
     private String username;
-    private String email;
-    private String address;
-    private String phone;
     private DatabaseReference mDatabase;
     private SharedPreferencesManager sharedPreferencesManager;
     private LocationCallback locationCallback;
@@ -80,7 +76,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 .baseUrl("https://ets.mltcorporate.com")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        apiService = retrofit.create(ApiService.class);
+        ApiService apiService = retrofit.create(ApiService.class);
         // Initialize UI elements
         activeStatus = view.findViewById(R.id.active_Status);
         onlineOfflineSwitch = view.findViewById(R.id.online_offline_switch);
@@ -96,9 +92,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             userId = sharedPreferencesManager.getUserId();
             username = sharedPreferencesManager.getUserName();
             apiToken = sharedPreferencesManager.getApiToken();
-            email = sharedPreferencesManager.getEmail();
-            phone = sharedPreferencesManager.getPhone();
-            address = sharedPreferencesManager.getAddress();
+            String email = sharedPreferencesManager.getEmail();
+            String phone = sharedPreferencesManager.getPhone();
+            String address = sharedPreferencesManager.getAddress();
 
             // Log retrieved details for debugging
             Log.d("MapFragment", "User details retrieved - userId: " + userId + ", username: " + username + ", apiToken: " + apiToken);
@@ -124,7 +120,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         onlineOfflineSwitch.setChecked(false);
         activeStatus.setText("You're Offline");
         offlineLayout.setVisibility(View.VISIBLE);
-
         // Set up the online/offline switch listener
         onlineOfflineSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -135,7 +130,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                     // Set status to "Online" (1) and update location
                     updateDriverAvailability(1);
                     updateFirebaseStatus(1);
-
                     // Check if location permissions are granted
                     if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         startLocationUpdates();  // Start location updates if permission is granted
@@ -143,7 +137,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                         // Request permissions if not granted
                         requestLocationPermissions();
                     }
-
                 } else {
                     onlineOfflineSwitch.setChecked(false);  // Reset switch to "off"
                     Toast.makeText(getActivity(), "Please turn on mobile data or Wi-Fi", Toast.LENGTH_SHORT).show();
@@ -202,8 +195,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     //on click destination address for routing
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-        GoogleMap map = googleMap;
-        this.googleMap = map;
+        this.googleMap = googleMap;
 
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             googleMap.setMyLocationEnabled(onlineOfflineSwitch.isChecked());
@@ -215,16 +207,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             requestLocationPermissions();
         }
     }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         // Initialize SharedPreferencesManager with context when fragment is attached
-        if (context != null) {
-            sharedPreferencesManager = new SharedPreferencesManager(context);
-        }
+        sharedPreferencesManager = new SharedPreferencesManager(context);
     }
-
     private void requestLocationPermissions() {
         ActivityCompat.requestPermissions(requireActivity(),
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -257,10 +245,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         // LocationResult listener
         LocationCallback locationCallback = new LocationCallback() {
             @Override
-            public void onLocationResult(LocationResult locationResult) {
-                if (locationResult == null) {
-                    return;
-                }
+            public void onLocationResult(@NonNull LocationResult locationResult) {
                 for (android.location.Location location : locationResult.getLocations()) {
                     double currentLatitude = location.getLatitude();
                     double currentLongitude = location.getLongitude();
@@ -294,7 +279,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             fusedLocationClient.removeLocationUpdates(locationCallback);
         }
     }
-
     // Method to determine if the location is online or offline
     private boolean checkIfLocationIsOnline(double currentLatitude, double currentLongitude) {
         // Define threshold for a valid location (these thresholds may vary depending on your needs)
@@ -302,7 +286,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         double validcurrentLatitudeMax = 90.0;
         double validcurrentLongitudeMin = -180.0;
         double validcurrentLongitudeMax = 180.0;
-
         // Check if the currentLatitude and currentLongitude are within the valid range
         if (currentLatitude >= validcurrentLatitudeMin && currentLatitude <= validcurrentLatitudeMax &&
                 currentLongitude >= validcurrentLongitudeMin && currentLongitude <= validcurrentLongitudeMax) {
@@ -311,7 +294,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             return false; // Offline if coordinates are invalid
         }
     }
-
     private void updateLocationInFirebase(double currentLatitude, double currentLongitude) {
         if (!onlineOfflineSwitch.isChecked()) {
             return;  // If offline, don't update location in Firebase
@@ -320,15 +302,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             Log.e("MapFragment", "Username is null. Cannot update location.");
             return;
         }
-
         boolean isOnline = checkIfLocationIsOnline(currentLatitude, currentLongitude);
         int status = isOnline ? 1 : 0;  // Set 1 if online, 0 if offline
-
         // If the driver is online, update the location and send the data
         if (currentMarker != null) {
             currentMarker.remove();  // Remove the previous marker (if any)
         }
-
         // Add a new marker for the online driver
         LatLng currentLatLng = new LatLng(currentLatitude, currentLongitude);
         currentMarker = googleMap.addMarker(new MarkerOptions().position(currentLatLng).title("Current Location"));
@@ -389,7 +368,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         // Make API call
         apiService.updateDriverAvailability(requestBody).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     JsonObject responseBody = response.body();
                     int success = responseBody.get("success").getAsInt();
@@ -405,7 +384,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 }
             }
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 Log.e("DriverAvailabilityUpdate", "Error updating availability", t);
             }
         });

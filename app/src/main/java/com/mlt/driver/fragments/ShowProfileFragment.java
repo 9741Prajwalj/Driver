@@ -1,7 +1,6 @@
 package com.mlt.driver.fragments;
 
 import androidx.fragment.app.Fragment;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,41 +8,20 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-
 import com.mlt.driver.R;
 import com.mlt.driver.helper.SharedPreferencesManager;
-//import com.squareup.picasso.Picasso;
-
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ShowProfileFragment extends Fragment {
@@ -53,8 +31,6 @@ public class ShowProfileFragment extends Fragment {
     private static final int STORAGE_PERMISSION_REQUEST_CODE = 3;
     private CircleImageView profileImage;
     private static final int PICK_IMAGE_REQUEST = 1;
-    private Button btnUploadImg;
-    private TextView txtUserName, txtEmail, txtPhone, txtAddress;
     private SharedPreferencesManager sharedPreferencesManager;
 
     @Override
@@ -64,11 +40,11 @@ public class ShowProfileFragment extends Fragment {
 
         // Initialize Views
         profileImage = view.findViewById(R.id.profileImage);
-        btnUploadImg = view.findViewById(R.id.btnUploadimg);
-        txtUserName = view.findViewById(R.id.txtUserName);
-        txtEmail = view.findViewById(R.id.txtEmail);
-        txtPhone = view.findViewById(R.id.txtPhone);
-        txtAddress = view.findViewById(R.id.txtAddress);
+        Button btnUploadImg = view.findViewById(R.id.btnUploadimg);
+        TextView txtUserName = view.findViewById(R.id.txtUserName);
+        TextView txtEmail = view.findViewById(R.id.txtEmail);
+        TextView txtPhone = view.findViewById(R.id.txtPhone);
+        TextView txtAddress = view.findViewById(R.id.txtAddress);
 
         // Initialize sharedPreferencesManager
         sharedPreferencesManager = new SharedPreferencesManager(getContext());
@@ -88,20 +64,17 @@ public class ShowProfileFragment extends Fragment {
                 profileImage.setImageBitmap(bitmap);
             }
         }
-
         // Set ClickListener for the card (Card2 as per your code)
         LinearLayout card2 = view.findViewById(R.id.card2);
         card2.setOnClickListener(v -> {
             // Show Toast message when card2 is clicked
             Toast.makeText(getContext(), "If you want to Update Details contact Company Registration", Toast.LENGTH_SHORT).show();
         });
-
         // Handle Image Upload (Camera/Gallery)
         view.findViewById(R.id.btnUploadimg).setOnClickListener(v -> showImagePickerDialog());
 
         return view;
     }
-
     // Show Image Picker Dialog (Camera or Gallery)
     private void showImagePickerDialog() {
         String[] options = {"Camera", "Gallery"};
@@ -117,7 +90,6 @@ public class ShowProfileFragment extends Fragment {
         });
         builder.show();
     }
-
     // Handle Image Picker Results (Camera or Gallery)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -141,7 +113,6 @@ public class ShowProfileFragment extends Fragment {
             }
         }
     }
-
     // Check Camera Permission
     public void checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CAMERA)
@@ -224,7 +195,6 @@ public class ShowProfileFragment extends Fragment {
             Toast.makeText(getContext(), "Failed to save image", Toast.LENGTH_SHORT).show();
         }
     }
-
     public ShowProfileFragment() {
         // Required empty public constructor
     }

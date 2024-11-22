@@ -38,18 +38,6 @@
         android:padding="8dp">
 
         <Button
-            android:id="@+id/btnCancelled"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Cancelled Ride"
-            android:backgroundTint="@color/red"
-            android:textColor="@color/white"
-            android:paddingVertical="12dp"
-            android:paddingHorizontal="8dp"
-            android:layout_marginEnd="8dp" />
-
-        <Button
             android:id="@+id/btnUpcoming"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -66,12 +54,24 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Completed Ride"
             android:backgroundTint="@color/green"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="12dp"
+            android:layout_marginEnd="8dp"
+            android:text="Completed Ride"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btnCancelled"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancelled Ride"
+            android:backgroundTint="@color/red"
             android:textColor="@color/white"
             android:paddingVertical="12dp"
             android:paddingHorizontal="8dp"
-            android:layout_marginStart="8dp" />
+            android:layout_marginEnd="8dp" />
 
         <!-- Container for dynamically replacing fragments -->
         <FrameLayout

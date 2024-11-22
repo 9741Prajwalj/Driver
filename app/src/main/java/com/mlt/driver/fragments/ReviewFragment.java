@@ -1,12 +1,9 @@
 package com.mlt.driver.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -31,12 +28,10 @@ public class ReviewFragment extends Fragment {
         setupRecyclerView();
         return view;
     }
-
     private void setupRecyclerView() {
         // Create a layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recReview.setLayoutManager(layoutManager);
-
         // Set adapter for the RecyclerView
         // Replace `ReviewAdapter` with your actual adapter class
         ReviewAdapter adapter = new ReviewAdapter(); // Assume you have an adapter class

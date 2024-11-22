@@ -1,25 +1,20 @@
 package com.mlt.driver.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.mlt.driver.R;
 import com.mlt.driver.adapters.NotificationAdapter;
 import com.mlt.driver.helper.SharedPreferencesManager;
 import com.mlt.driver.models.NotificationItem;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +52,6 @@ public class NotificationFragment extends Fragment {
             btnClearAll.setOnClickListener(v -> clearAllNotifications());
             return view;
         }
-
         // Update UI based on the notification list
         private void updateUI() {
             if (notificationList.isEmpty()) {
@@ -70,7 +64,6 @@ public class NotificationFragment extends Fragment {
                 btnClearAll.setVisibility(View.VISIBLE);
             }
         }
-
     // Add this method to refresh the RecyclerView
     public void refreshNotifications() {
         notificationList = SharedPreferencesManager.getInstance(requireContext()).getSavedNotifications();
@@ -80,14 +73,12 @@ public class NotificationFragment extends Fragment {
         notificationAdapter.updateList(notificationList); // Custom method in adapter to update data
         updateUI();
     }
-
     // Call this in onResume to ensure updated data is displayed
     @Override
     public void onResume() {
         super.onResume();
         refreshNotifications();
     }
-
     // Clear all notifications
         private void clearAllNotifications() {
             notificationList.clear();
@@ -95,4 +86,4 @@ public class NotificationFragment extends Fragment {
             notificationAdapter.notifyDataSetChanged();
             updateUI();
         }
-    }
+}
