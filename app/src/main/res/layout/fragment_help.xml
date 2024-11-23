@@ -13,7 +13,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="26.00dp">
+            android:padding="22.00dp">
 
             <ImageView
                 android:layout_width="168dp"
