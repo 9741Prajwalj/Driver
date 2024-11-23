@@ -112,7 +112,7 @@ public class SharedPreferencesManager {
     }
 
     // Retrieve Firebase device token
-    public static String getDeviceToken() {
+    public String getDeviceToken() {
         return sharedPreferences.getString(KEY_DEVICE_TOKEN, null);
     }
     public List<NotificationItem> getSavedNotifications() {

@@ -23,18 +23,15 @@ public class RetrofitClient {
         }
         return instance;
     }
-
     // Method to build Retrofit with logging
     private static Retrofit buildRetrofit(String baseUrl) {
         // Create logging interceptor to log the request and response details
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);  // Log both request and response bodies
-
         // Create OkHttpClient with the logging interceptor
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(logging)  // Add the logging interceptor to OkHttp client
                 .build();
-
         // Return Retrofit instance with logging enabled
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)  // Set the base URL
@@ -64,8 +61,4 @@ public class RetrofitClient {
     public ApiService getApi() {
         return retrofit.create(ApiService.class);  // Create the ApiService for the main API
     }
-    // Get GoogleApiService for Google services like Directions API
-//    public GoogleApiService getGoogleApi() {
-//        return googleRetrofit.create(GoogleApiService.class);  // Create Google service class
-//    }
 }

@@ -26,26 +26,23 @@ public class NotificationHelper extends FirebaseMessagingService {
     private static final String PREF_NAME = "Notifications";
     private static final String KEY_LAST_NOTIFICATION_TITLE = "last_notification_title";
     private static final String KEY_LAST_NOTIFICATION_BODY = "last_notification_body";
+    private  SharedPreferencesManager sharedPreferencesManager;
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
         // Check if the message contains custom data
-        if (remoteMessage.getData().size() > 0) {
+        if (!remoteMessage.getData().isEmpty()) {
             String key = remoteMessage.getData().get("key");
             String rideInfo = remoteMessage.getData().get("rideinfo");
             String userDetails = remoteMessage.getData().get("user_details");
             String data = remoteMessage.getData().get("data");
-
             // Handle your custom data here (but don't display it as a notification)
             Log.d("FCM Data", "Key: " + key + ", RideInfo: " + rideInfo + ", UserDetails: " + userDetails);
             Log.d("FCM Data", "Hardcoded Data: " + data);
         }else {
-
             Log.d("FCM Data", " didnt get the data or erro in fotrmat  ");
-
         }
-
         // Extract notification details
         String title = remoteMessage.getNotification() != null ? remoteMessage.getNotification().getTitle() : "";
         String body = remoteMessage.getNotification() != null ? remoteMessage.getNotification().getBody() : "";
@@ -53,9 +50,8 @@ public class NotificationHelper extends FirebaseMessagingService {
 
         // Create NotificationItem
         NotificationItem notificationItem = new NotificationItem(title, body);
-
         // Save notification in SharedPreferences
-        SharedPreferencesManager sharedPreferencesManager = SharedPreferencesManager.getInstance(this);
+       sharedPreferencesManager = SharedPreferencesManager.getInstance(this);
         List<NotificationItem> notificationList = sharedPreferencesManager.getSavedNotifications();
         if (notificationList == null) {
             notificationList = new ArrayList<>();
@@ -110,5 +106,3 @@ public class NotificationHelper extends FirebaseMessagingService {
         // Implement API call to send the token to your backend
     }
 }
-
-

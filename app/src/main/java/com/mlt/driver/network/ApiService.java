@@ -30,12 +30,4 @@ public interface ApiService {
     @POST("/api/completed-rides")
     Call<ResponseBody> getCompletedRides(@Body RequestBody requestBody);
 
-    // Get route from source to destination using Google Directions API
-    //    @GET("directions/json")
-    //    Call<RouteResponse> getRoute(
-    //            @Query("origin") String origin,
-    //            @Query("destination") String destination,
-    //            @Query("key") String apiKey
-    //    );
-
-    }
+}

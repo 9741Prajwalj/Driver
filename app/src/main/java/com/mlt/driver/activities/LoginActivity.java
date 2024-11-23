@@ -32,12 +32,10 @@ public class LoginActivity extends AppCompatActivity {
     private MyEditText etPassword;
     private TextView btnLogin;
     private TextView txtSignUp;
-
     private int userId;
     private String username;
     private String apiToken;
-
-    private    SharedPreferencesManager sharedPreferencesManager;
+    private SharedPreferencesManager sharedPreferencesManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,15 +56,12 @@ public class LoginActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
-
-
         btnLogin.setOnClickListener(view -> {
             if (validateInput()) {
                 loginUser();
             }
         });
     }
-
     private boolean validateInput() {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
@@ -85,13 +80,14 @@ public class LoginActivity extends AppCompatActivity {
         }
         return true;
     }
-
     private void loginUser() {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
         JSONObject loginRequest = new JSONObject();
         try {
+            loginRequest.put("fcm_id", sharedPreferencesManager.getDeviceToken());
+            Log.d("fcm_id","Fcm id from the sharedPreferences : "+sharedPreferencesManager.getDeviceToken());
             loginRequest.put("username", email);
             loginRequest.put("password", password);
         } catch (JSONException e) {
@@ -149,15 +145,12 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                 }
             }
-
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("LoginActivity", "Login request failed - Error: " + t.getMessage(), t);
                 Toast.makeText(LoginActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     private void onLoginSuccess() {
@@ -166,6 +159,3 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 }
-
-
-

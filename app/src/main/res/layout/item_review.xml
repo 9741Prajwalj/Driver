@@ -1,16 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/white"
-    android:padding="16dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/white">
 
-    <TextView
-        android:id="@+id/txtReview"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@color/black" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-</LinearLayout>
+        <!-- Provider Name -->
+        <TextView
+            android:id="@+id/txtProviderName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Provider Name"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:paddingBottom="4dp" />
+
+        <!-- Rating -->
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:rating="4"
+            android:theme="@style/Widget.AppCompat.RatingBar.Indicator"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Comments -->
+        <TextView
+            android:id="@+id/txtProviderComments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This is a sample comment from the provider."
+            android:textSize="14sp"
+            android:textColor="@color/light_black_txt" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -9,7 +9,6 @@ public class NotificationItem {
     public NotificationItem(String title, String message) {
         this.title = title;
         this.message = message;
-        this.date = date;
     }
 
     // Getters

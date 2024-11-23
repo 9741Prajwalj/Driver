@@ -1,7 +1,5 @@
 package com.mlt.driver;
 
-import static android.content.ContentValues.TAG;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,9 +11,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.google.android.material.navigation.NavigationView;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -43,10 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int NOTIFICATION_PERMISSION_CODE = 1001;
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ActivityMainBinding binding;
     private SharedPreferencesManager sharedPreferencesManager;
     private CircleImageView imgProfile;
-    private TextView txtUserName, txtEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        com.mlt.driver.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
@@ -88,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
         // Access views in NavigationView header
         View headerView = navigationView.getHeaderView(0);
         imgProfile = headerView.findViewById(R.id.img_profile);
-        txtUserName = headerView.findViewById(R.id.txtUserName);
-        txtEmail = headerView.findViewById(R.id.txtEmail);
+        TextView txtUserName = headerView.findViewById(R.id.txtUserName);
+        TextView txtEmail = headerView.findViewById(R.id.txtEmail);
 
         if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
             Picasso.get()
@@ -216,7 +210,6 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
     public static void generateFCMToken() {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
