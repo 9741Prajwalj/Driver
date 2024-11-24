@@ -112,8 +112,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
         // Initialize LocationRequest
         locationRequest = LocationRequest.create();
-        locationRequest.setInterval(2000);
-        locationRequest.setFastestInterval(2000);
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(10000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         // Set default state to offline
@@ -263,7 +263,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                         //location updated for every 2 sec
                         LocationRequest locationRequest = LocationRequest.create();
                         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-                        locationRequest.setInterval(2000);
+                        locationRequest.setInterval(5000);
                         // Update location in Firebase and send to backend
                         updateLocationInFirebase(currentLatitude, currentLongitude);
                     } else {

@@ -37,7 +37,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
     private static final int NOTIFICATION_PERMISSION_CODE = 1001;
-
     private AppBarConfiguration mAppBarConfiguration;
     private SharedPreferencesManager sharedPreferencesManager;
     private CircleImageView imgProfile;

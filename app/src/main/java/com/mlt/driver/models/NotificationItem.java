@@ -23,7 +23,6 @@ public class NotificationItem {
     public String getDate() {
         return date;
     }
-
     // Setters (if needed)
     public void setTitle(String title) {
         this.title = title;
@@ -32,7 +31,6 @@ public class NotificationItem {
     public void setMessage(String message) {
         this.message = message;
     }
-
     public void setDate(String date) {
         this.date = date;
     }

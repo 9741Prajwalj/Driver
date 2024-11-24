@@ -70,6 +70,7 @@
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:paddingStart="10.40dp"
+                android:textColor="@color/black"
                 android:textColorHint="@color/black"
                 android:textSize="18.20sp"
                 app:layout_constraintBottom_toTopOf="@+id/view1"
@@ -97,12 +98,12 @@
                 android:hint="@string/password"
                 android:inputType="textPassword"
                 android:paddingStart="10.40dp"
+                android:textColor="@color/black"
                 android:textColorHint="@color/black"
                 android:textSize="18.20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view1" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
