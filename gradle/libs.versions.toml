@@ -35,6 +35,7 @@ volley = "1.2.1"
 firebaseFirestore = "25.1.1"
 firebaseMessaging = "24.1.0"
 uiDesktop = "1.7.0"
+recyclerview = "1.3.2"
 
 [libraries]
 android-gif-drawable = { module = "pl.droidsonroids.gif:android-gif-drawable", version.ref = "androidGifDrawable" }
@@ -74,6 +75,7 @@ volley = { module = "com.android.volley:volley", version.ref = "volley" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
 ui-desktop = { group = "androidx.compose.ui", name = "ui-desktop", version.ref = "uiDesktop" }
+recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
