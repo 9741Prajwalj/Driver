@@ -32,15 +32,15 @@ public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapte
         // Get the ride data at the current position
         UpcomingRide ride = rideList.get(position);
         // Set the data for the views in the layout
-        holder.tvBookingId.setText(String.valueOf(ride.getBookingId()));
-        holder.tvBookDate.setText(ride.getBookDate());
-        holder.tvSource.setText(ride.getSourceAddress());
-        holder.tvDestination.setText(ride.getDestAddress());
+        holder.tvBookingId.setText(String.valueOf("Booking ID : "+ride.getBookingId()));
+        holder.tvBookDate.setText("Journey Date : "+ride.getBookDate());
+        holder.tvSource.setText("From : "+ride.getSourceAddress());
+        holder.tvDestination.setText("To : "+ride.getDestAddress());
         // Set the ride status
         holder.tvRideStatus.setText(ride.getRideStatus()); // Assuming ride status is a String like "Upcoming"
         // Set the booking time and journey time
-        holder.tvBookTime.setText(ride.getBookTime());
-        holder.tvJourneyTime.setText(ride.getJourneyTime());
+        holder.tvBookTime.setText("Book Time : "+ride.getBookTime());
+        holder.tvJourneyTime.setText("Journey Time : "+ride.getJourneyTime());
         // Set the buttons' onClick listeners
         holder.btnCancel.setOnClickListener(v -> {
             // Handle cancel ride action

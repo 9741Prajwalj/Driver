@@ -94,7 +94,7 @@ public class NotificationHelper extends FirebaseMessagingService {
         Log.d(TAG, "Last notification saved: Title - " + title + ", Body - " + body);
     }
     @Override
-    public void onNewToken(String token) {
+    public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
 
         // Save the new token to SharedPreferences
