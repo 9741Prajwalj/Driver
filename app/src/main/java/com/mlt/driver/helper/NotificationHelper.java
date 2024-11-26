@@ -26,7 +26,7 @@ public class NotificationHelper extends FirebaseMessagingService {
     private static final String PREF_NAME = "Notifications";
     private static final String KEY_LAST_NOTIFICATION_TITLE = "last_notification_title";
     private static final String KEY_LAST_NOTIFICATION_BODY = "last_notification_body";
-    private  SharedPreferencesManager sharedPreferencesManager;
+
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -41,17 +41,19 @@ public class NotificationHelper extends FirebaseMessagingService {
             Log.d("FCM Data", "Key: " + key + ", RideInfo: " + rideInfo + ", UserDetails: " + userDetails);
             Log.d("FCM Data", "Hardcoded Data: " + data);
         }else {
-            Log.d("FCM Data", " didnt get the data or erro in fotrmat  ");
+            Log.d("FCM Data", " No Data or error in format ");
         }
         // Extract notification details
         String title = remoteMessage.getNotification() != null ? remoteMessage.getNotification().getTitle() : "";
         String body = remoteMessage.getNotification() != null ? remoteMessage.getNotification().getBody() : "";
-        Log.d("FCM Data", title);
+        Log.d("FCM Notification", "Title: " + title + ", Body: " + body);
+        // Save notification in SharedPreferences
+        saveLastNotification(title, body);
 
         // Create NotificationItem
         NotificationItem notificationItem = new NotificationItem(title, body);
         // Save notification in SharedPreferences
-       sharedPreferencesManager = SharedPreferencesManager.getInstance(this);
+        SharedPreferencesManager sharedPreferencesManager = SharedPreferencesManager.getInstance(this);
         List<NotificationItem> notificationList = sharedPreferencesManager.getSavedNotifications();
         if (notificationList == null) {
             notificationList = new ArrayList<>();
@@ -94,12 +96,16 @@ public class NotificationHelper extends FirebaseMessagingService {
     @Override
     public void onNewToken(String token) {
         super.onNewToken(token);
-        Log.d(TAG, "New Device Token: " + token);
+
         // Save the new token to SharedPreferences
-        SharedPreferencesManager.getInstance(getApplicationContext()).saveDeviceToken(token);
-        Log.d(TAG, "Device Token saved to SharedPreferences: " + token);
+        SharedPreferencesManager sharedPreferencesManager = SharedPreferencesManager.getInstance(this);
+        sharedPreferencesManager.saveDeviceToken(token);
+
         // Optionally send the token to your backend
         sendTokenToServer(token);
+
+        // Log the new token for debugging
+        Log.d(TAG, "New FCM token: " + token);
     }
     private void sendTokenToServer(String token) {
         Log.d(TAG, "Token sent to server: " + token);

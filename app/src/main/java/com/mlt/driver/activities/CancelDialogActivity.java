@@ -9,6 +9,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,9 +26,7 @@ import retrofit2.Response;
 
 public class CancelDialogActivity extends AppCompatActivity {
 
-    private RadioGroup radioGroup;
     private EditText reasonEditText;
-    private Button submitButton;
     private String selectedReason;
 
     @Override
@@ -35,9 +34,9 @@ public class CancelDialogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cancel_dialog);
 
-        radioGroup = findViewById(R.id.radioCancel);
+        RadioGroup radioGroup = findViewById(R.id.radioCancel);
         reasonEditText = findViewById(R.id.reason_etxt);
-        submitButton = findViewById(R.id.submit_btn);
+        Button submitButton = findViewById(R.id.submit_btn);
 
         // Example code to show how this activity is set up
         // For example, handling a button click to show the confirmation dialog
@@ -90,7 +89,7 @@ public class CancelDialogActivity extends AppCompatActivity {
 
             call.enqueue(new Callback<Void>() {
                 @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
+                public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                     if (response.isSuccessful()) {
                         Toast.makeText(CancelDialogActivity.this, "Reason submitted successfully", Toast.LENGTH_SHORT).show();
                     } else {
@@ -99,7 +98,7 @@ public class CancelDialogActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<Void> call, Throwable t) {
+                public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                     Toast.makeText(CancelDialogActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });

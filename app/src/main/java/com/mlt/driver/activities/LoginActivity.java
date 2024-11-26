@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.mlt.driver.MainActivity;
 import com.mlt.driver.R;
 import com.mlt.driver.network.ApiService;
@@ -28,6 +29,7 @@ import com.mlt.driver.helper.SharedPreferencesManager;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String KEY_DEVICE_TOKEN = "device_token";
     private MyEditText etEmail;
     private MyEditText etPassword;
     private TextView btnLogin;
@@ -40,12 +42,13 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        Log.d("MainActivity", "logout and came to the login activity ");
+        Log.d("MainActivity", "Logout and came to the login activity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         sharedPreferencesManager = new SharedPreferencesManager(this);
-//        sharedPreferencesManager.saveLoginData(userId, username, apiToken, true);
+
+        // Check for login status
         if (sharedPreferencesManager.isLoggedIn()) {
             onLoginSuccess();
             finish();
@@ -56,12 +59,26 @@ public class LoginActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
+
+        // Fetch Firebase device token
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        String deviceToken = task.getResult();
+                        sharedPreferencesManager.saveDeviceToken(deviceToken); // Save the token
+                        Log.d("FirebaseToken", "Fetched device token: " + deviceToken);
+                    } else {
+                        Log.e("FirebaseToken", "Failed to fetch device token", task.getException());
+                    }
+                });
+
         btnLogin.setOnClickListener(view -> {
             if (validateInput()) {
                 loginUser();
             }
         });
     }
+
     private boolean validateInput() {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
@@ -80,14 +97,24 @@ public class LoginActivity extends AppCompatActivity {
         }
         return true;
     }
+
     private void loginUser() {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
+        // Retrieve the FCM ID from SharedPreferences
+        String fcmId = sharedPreferencesManager.getDeviceToken();
+        Log.d("FCM_id", "FCM ID from SharedPreferences: " + fcmId);
+
+        if (fcmId == null) {
+            Log.e("FCM_id", "FCM ID is not available.");
+            Toast.makeText(this, "FCM ID is missing", Toast.LENGTH_SHORT).show();
+            return; // Stop the login process if FCM ID is missing
+        }
+
         JSONObject loginRequest = new JSONObject();
         try {
-            loginRequest.put("fcm_id", sharedPreferencesManager.getDeviceToken());
-            Log.d("fcm_id","Fcm id from the sharedPreferences : "+sharedPreferencesManager.getDeviceToken());
+            loginRequest.put("fcm_id", fcmId);
             loginRequest.put("username", email);
             loginRequest.put("password", password);
         } catch (JSONException e) {
@@ -118,11 +145,8 @@ public class LoginActivity extends AppCompatActivity {
                             String address = dataObject.optString("address", "Address not available");
                             int status = dataObject.optInt("status", 0);
 
-                            Log.d("LoginActivity", "Extracted user data - userId: " + userId + ", apiToken: " + apiToken + ", userName: " + userName);
-                            if (userId != -1 && !userName.isEmpty() && !apiToken.isEmpty())  {
-                                Log.d("LoginActivity", " inside th if user data - userId: " + userId + ", apiToken: " + apiToken + ", userName: " + userName);
-
-                                sharedPreferencesManager.saveLoginData(userId ,userName, apiToken, email,phone,address, true,status);
+                            if (userId != -1 && !userName.isEmpty() && !apiToken.isEmpty()) {
+                                sharedPreferencesManager.saveLoginData(userId, userName, apiToken, email, phone, address, true, status);
                                 Log.d("LoginActivity", "User data saved in SharedPreferences");
 
                                 Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
@@ -145,6 +169,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("LoginActivity", "Login request failed - Error: " + t.getMessage(), t);

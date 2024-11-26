@@ -106,14 +106,19 @@ public class SharedPreferencesManager {
         return instance;
     }
     // Save Firebase device token
+    // Save Firebase device token
     public void saveDeviceToken(String token) {
-        sharedPreferences.edit().putString(KEY_DEVICE_TOKEN, token).apply();
-        Log.d(TAG, "Firebase device token saved: " + token);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_DEVICE_TOKEN, token);
+        editor.apply();
+        Log.d("SharedPreferencesManager", "Firebase device token saved: " + token);
     }
 
     // Retrieve Firebase device token
     public String getDeviceToken() {
-        return sharedPreferences.getString(KEY_DEVICE_TOKEN, null);
+        String token = sharedPreferences.getString(KEY_DEVICE_TOKEN, null);
+        Log.d("SharedPreferencesManager", "Fetched device token: " + token);
+        return token;
     }
     public List<NotificationItem> getSavedNotifications() {
         String json = sharedPreferences.getString(KEY_NOTIFICATIONS, null);
@@ -175,9 +180,18 @@ public class SharedPreferencesManager {
     }
     // Clear all stored data
     public void clearAllData() {
+        // Fetch the device token before clearing other data
+        String deviceToken = sharedPreferences.getString(KEY_DEVICE_TOKEN, null);
+        // Clear all preferences except for the device token
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
-        Log.d(TAG, "All shared preferences cleared");
+
+        // Restore the device token if it was present
+        if (deviceToken != null) {
+            saveDeviceToken(deviceToken);
+        }
+
+        Log.d(TAG, "All shared preferences cleared except device token");
     }
 }
-
