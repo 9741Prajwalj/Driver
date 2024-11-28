@@ -1,6 +1,7 @@
 package com.mlt.driver.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +73,18 @@ public class HistoryFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         completeAdapter = new CompletedRideAdapter(getContext(), rideListComp);
         cancelAdapter = new CancelledRideAdapter(getContext(),rideListCan);
-        upcomingAdapter = new UpcomingRideAdapter(getContext(),rideListU);
+        upcomingAdapter = new UpcomingRideAdapter(getContext(), rideListU, new UpcomingRideAdapter.RideActionListener() {
+            @Override
+            public void onCancelRide(UpcomingRide ride) {
+                // Handle cancel ride action here
+                Log.d("RideAction", "Ride canceled: " + ride.getBookingId());
+            }
+            @Override
+            public void onStartRide(UpcomingRide ride) {
+                // Handle start ride action here
+                Log.d("RideAction", "Ride started: " + ride.getBookingId());
+            }
+        });
 
         recyclerView.setAdapter(upcomingAdapter);
 
@@ -171,25 +183,24 @@ public class HistoryFragment extends Fragment {
     // Method to populate upcoming rides
     private void populateUpcomingRides(JSONArray upcomingRides) {
         try {
-            rideListU.clear(); // Clear existing rides before populating new ones
+            rideListU.clear();
             for (int i = 0; i < upcomingRides.length(); i++) {
                 JSONObject ride = upcomingRides.getJSONObject(i);
-
-                int bookingId = ride.getInt("booking_id");
-                String bookDate = ride.getString("book_date");
-                String bookTime = ride.getString("book_time");
-                String sourceAddress = parseAddress(ride.getString("source_address"));
-                String destAddress = parseAddress(ride.getString("dest_address"));
-                String journeyDate = ride.getString("journey_date");
-                String journeyTime = ride.getString("journey_time");
-                String rideStatus = ride.getString("ride_status");
-                // Create and add Ride object to the list
-                UpcomingRide upcomingRide = new UpcomingRide(bookingId, bookDate, bookTime, sourceAddress, destAddress, journeyDate, journeyTime, rideStatus);
+                UpcomingRide upcomingRide = new UpcomingRide(
+                        ride.getInt("booking_id"),
+                        ride.getString("book_date"),
+                        ride.getString("book_time"),
+                        parseAddress(ride.optString("source_address", "N/A")),
+                        parseAddress(ride.optString("dest_address", "N/A")),
+                        ride.getString("journey_date"),
+                        ride.getString("journey_time"),
+                        ride.optString("ride_status", "Unknown")
+                );
                 rideListU.add(upcomingRide);
             }
-            upcomingAdapter.notifyDataSetChanged(); // Notify adapter that data has changed
+            upcomingAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e("HistoryFragment", "Error parsing upcoming rides: " + e.getMessage());
             Toast.makeText(getContext(), "Error populating upcoming rides", Toast.LENGTH_SHORT).show();
         }
     }

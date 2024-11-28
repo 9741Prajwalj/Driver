@@ -1,10 +1,15 @@
 package com.mlt.driver.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import com.mlt.driver.R;
 import com.mlt.driver.models.UpcomingRide;
@@ -16,9 +21,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapter.ViewHolder> {
     private final Context context;
     private final List<UpcomingRide> rideList;
-    public UpcomingRideAdapter(Context context, List<UpcomingRide> rideList) {
+    private final RideActionListener rideActionListener; // Ensure this is final
+
+    public UpcomingRideAdapter(Context context, List<UpcomingRide> rideList,RideActionListener listener) {
         this.context = context;
         this.rideList = rideList;
+        this.rideActionListener = listener; // Assign the listener here
     }
     @NonNull
     @Override
@@ -42,17 +50,32 @@ public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapte
         holder.tvBookTime.setText("Book Time : "+ride.getBookTime());
         holder.tvJourneyTime.setText("Journey Time : "+ride.getJourneyTime());
         // Set the buttons' onClick listeners
+
+        // Set the buttons' onClick listeners
         holder.btnCancel.setOnClickListener(v -> {
-            // Handle cancel ride action
+            if (rideActionListener != null) {
+                rideActionListener.onCancelRide(ride);
+            } else {
+                Log.e("UpcomingRideAdapter", "RideActionListener is null on cancel");
+            }
         });
+
         holder.btnStart.setOnClickListener(v -> {
-            // Handle start ride action
+            if (rideActionListener != null) {
+                rideActionListener.onStartRide(ride);
+            }
         });
+
     }
     @Override
     public int getItemCount() {
         return rideList.size();
     }
+    public interface RideActionListener {
+        void onCancelRide(UpcomingRide ride);
+        void onStartRide(UpcomingRide ride);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         CircleImageView driverImage;
         MyTextView tvBookingId, tvBookDate, tvSource, tvDestination, tvRideStatus, tvBookTime, tvJourneyTime;

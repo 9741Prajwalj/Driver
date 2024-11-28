@@ -33,7 +33,6 @@ android {
 }
 
 dependencies {
-
     implementation libs.appcompat
     implementation libs.material
     implementation libs.constraintlayout
@@ -58,7 +57,7 @@ dependencies {
     implementation libs.converter.gson
     // (Optional) OkHttp logging interceptor for debugging network requests/responses
     implementation libs.logging.interceptor
-    implementation fileTree(dir: "libs", include:["*.jar"])
+    implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation libs.android.gif.drawable
     implementation libs.jiaozivideoplayer
     implementation libs.firebase.auth

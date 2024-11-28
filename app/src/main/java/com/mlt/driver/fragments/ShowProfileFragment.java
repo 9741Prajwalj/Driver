@@ -68,7 +68,7 @@ public class ShowProfileFragment extends Fragment {
         LinearLayout card2 = view.findViewById(R.id.card2);
         card2.setOnClickListener(v -> {
             // Show Toast message when card2 is clicked
-            Toast.makeText(getContext(), "If you want to Update Details contact Company Registration", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Contact Register to Change Details", Toast.LENGTH_SHORT).show();
         });
         // Handle Image Upload (Camera/Gallery)
         view.findViewById(R.id.btnUploadimg).setOnClickListener(v -> showImagePickerDialog());
