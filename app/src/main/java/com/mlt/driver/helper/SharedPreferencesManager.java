@@ -178,6 +178,16 @@ public class SharedPreferencesManager {
     public  String getAddress() {
         return sharedPreferences.getString(KEY_ADDRESS, "");
     }
+    public void setDriverStatus(int status) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("driver_status", status); // 1 for online, 0 for offline
+        editor.apply();
+    }
+
+    public boolean getDriverStatus() {
+        return sharedPreferences.getInt("driver_status", 0) == 1; // Default to offline
+    }
+
     // Clear all stored data
     public void clearAllData() {
         // Fetch the device token before clearing other data

@@ -1,6 +1,7 @@
 [versions]
 agp = "8.7.1"
 androidGifDrawable = "1.2.23"
+androidMapsUtils = "2.3.0"
 circleimageview = "3.1.0"
 drawerlayout = "1.2.0"
 firebaseAuth = "23.1.0"
@@ -11,6 +12,7 @@ firebaseDynamicLinks = "22.1.0"
 googleDirectionApi = "1.4"
 googleMapsServices = "0.17.0"
 googlePlayServicesMaps = "17.0.1"
+googlePlayServicesMapsVersion = "18.1.0"
 googleServices = "4.4.2"
 googleServicesVersion = "4.3.15"
 jiaozivideoplayer = "7.7.0"
@@ -55,6 +57,7 @@ firebase-bom-v3220 = { module = "com.google.firebase:firebase-bom", version.ref 
 firebase-database = { module = "com.google.firebase:firebase-database", version.ref = "firebaseDatabase" }
 firebase-dynamic-links = { module = "com.google.firebase:firebase-dynamic-links", version.ref = "firebaseDynamicLinks" }
 gms-play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMapsVersion" }
+google-android-maps-utils = { module = "com.google.maps.android:android-maps-utils", version.ref = "androidMapsUtils" }
 google-direction-api = { module = "com.github.dangiashish:Google-Direction-Api", version.ref = "googleDirectionApi" }
 google-firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
 google-maps-services = { module = "com.google.maps:google-maps-services", version.ref = "googleMapsServices" }
@@ -82,6 +85,7 @@ play-services-location = { module = "com.google.android.gms:play-services-locati
 play-services-location-v1800 = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocationVersion" }
 play-services-maps-v1701 = { module = "com.google.android.gms:play-services-maps", version.ref = "googlePlayServicesMaps" }
 play-services-maps-v1800 = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
+play-services-maps-v1810 = { module = "com.google.android.gms:play-services-maps", version.ref = "googlePlayServicesMapsVersion" }
 play-services-places = { module = "com.google.android.gms:play-services-places", version.ref = "playServicesPlaces" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 volley = { module = "com.android.volley:volley", version.ref = "volley" }

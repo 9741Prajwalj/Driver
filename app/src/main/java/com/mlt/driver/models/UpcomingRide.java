@@ -10,6 +10,8 @@ public class UpcomingRide {
     private String journeyDate;
     private String journeyTime;
     private String rideStatus;
+    private String pickupLat;
+    private String pickupLong;
 
     // Constructor for upcoming ride
     public UpcomingRide(int bookingId, String bookDate, String bookTime, String sourceAddress,
@@ -89,8 +91,12 @@ public class UpcomingRide {
         this.rideStatus = rideStatus;
     }
 
-//    public Object getDriverImageUrl() {
-//        return
-//    }
+    public String getPickupLat() {
+        return pickupLat;
+    }
+
+    public String getPickupLong() {
+        return pickupLong;
+    }
 }
 

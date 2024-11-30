@@ -12,6 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,15 +56,19 @@ public class HistoryFragment extends Fragment {
     private final List<CancelledRide> rideListCan = new ArrayList<>();
     private final List<CompletedRide> rideListComp = new ArrayList<>();
     private String currentView = "upcoming";
+    private NavController navController; // Add NavController
+
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
 
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.provider_map); // Replace with your actual NavHostFragment ID
+
         // Initialize SharedPreferencesManager
         sharedPreferencesManager = new SharedPreferencesManager(requireContext());
-
         // Initialize Views
         tvTitle = view.findViewById(R.id.tvTitle);
         recyclerView = view.findViewById(R.id.recyclerView);
@@ -79,12 +86,16 @@ public class HistoryFragment extends Fragment {
                 // Handle cancel ride action here
                 Log.d("RideAction", "Ride canceled: " + ride.getBookingId());
             }
+
             @Override
             public void onStartRide(UpcomingRide ride) {
-                // Handle start ride action here
-                Log.d("RideAction", "Ride started: " + ride.getBookingId());
+                if (navController != null) {
+                    navController.navigate(R.id.nav_home);
+                } else {
+                    Log.e("RideAction", "NavController is null on start ride");
+                }
             }
-        });
+        }, navController);  // Pass FragmentManager here
 
         recyclerView.setAdapter(upcomingAdapter);
 
@@ -231,6 +242,7 @@ public class HistoryFragment extends Fragment {
             return "Invalid address format";
         }
     }
+
     // Method to populate cancelled rides
     private void populateCancelledRides(JSONArray cancelledRides) {
         try {

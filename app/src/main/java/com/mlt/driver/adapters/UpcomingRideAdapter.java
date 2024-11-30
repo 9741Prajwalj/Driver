@@ -1,33 +1,47 @@
 package com.mlt.driver.adapters;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
+
+import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 import com.mlt.driver.R;
+import com.mlt.driver.fragments.HomeFragment;
 import com.mlt.driver.models.UpcomingRide;
 import com.mlt.driver.utills.MyButton;
 import com.mlt.driver.utills.MyTextView;
+
 import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapter.ViewHolder> {
     private final Context context;
     private final List<UpcomingRide> rideList;
-    private final RideActionListener rideActionListener; // Ensure this is final
+    private final RideActionListener rideActionListener;
+    private final NavController navController; // Use NavController for navigation
 
-    public UpcomingRideAdapter(Context context, List<UpcomingRide> rideList,RideActionListener listener) {
+
+    public UpcomingRideAdapter(Context context, List<UpcomingRide> rideList, RideActionListener listener,NavController navController) {
         this.context = context;
         this.rideList = rideList;
-        this.rideActionListener = listener; // Assign the listener here
+        this.rideActionListener = listener;
+        this.navController = navController;
+
+        // Debug log to ensure NavController is not null
+        if (this.navController == null) {
+            Log.e("HistoryFragment", "NavController is null in HistoryFragment");
+        } else {
+            Log.d("HistoryFragment", "NavController initialized: " + navController);
+        }
+
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,23 +49,19 @@ public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapte
         View view = LayoutInflater.from(context).inflate(R.layout.upcoming_list_item, parent, false);
         return new ViewHolder(view);
     }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Get the ride data at the current position
         UpcomingRide ride = rideList.get(position);
-        // Set the data for the views in the layout
-        holder.tvBookingId.setText(String.valueOf("Booking ID : "+ride.getBookingId()));
-        holder.tvBookDate.setText("Journey Date : "+ride.getBookDate());
-        holder.tvSource.setText("From : "+ride.getSourceAddress());
-        holder.tvDestination.setText("To : "+ride.getDestAddress());
-        // Set the ride status
-        holder.tvRideStatus.setText(ride.getRideStatus()); // Assuming ride status is a String like "Upcoming"
-        // Set the booking time and journey time
-        holder.tvBookTime.setText("Book Time : "+ride.getBookTime());
-        holder.tvJourneyTime.setText("Journey Time : "+ride.getJourneyTime());
-        // Set the buttons' onClick listeners
+        holder.tvBookingId.setText(String.valueOf("Booking ID : " + ride.getBookingId()));
+        holder.tvBookDate.setText("Journey Date : " + ride.getBookDate());
+        holder.tvSource.setText("From : " + ride.getSourceAddress());
+        holder.tvDestination.setText("To : " + ride.getDestAddress());
+        holder.tvRideStatus.setText(ride.getRideStatus()); // Assuming ride status is a String
+        holder.tvBookTime.setText("Book Time : " + ride.getBookTime());
+        holder.tvJourneyTime.setText("Journey Time : " + ride.getJourneyTime());
 
-        // Set the buttons' onClick listeners
         holder.btnCancel.setOnClickListener(v -> {
             if (rideActionListener != null) {
                 rideActionListener.onCancelRide(ride);
@@ -61,16 +71,20 @@ public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapte
         });
 
         holder.btnStart.setOnClickListener(v -> {
-            if (rideActionListener != null) {
-                rideActionListener.onStartRide(ride);
+            if (navController != null) {
+                Log.d("UpcomingRideAdapter", "Navigating to HomeFragment using NavController");
+                navController.navigate(R.id.nav_home); // Navigate to HomeFragment
+            } else {
+                Log.e("UpcomingRideAdapter", "NavController is null on start ride");
             }
         });
-
     }
+
     @Override
     public int getItemCount() {
-        return rideList.size();
+        return rideList != null ? rideList.size() : 0;
     }
+
     public interface RideActionListener {
         void onCancelRide(UpcomingRide ride);
         void onStartRide(UpcomingRide ride);
@@ -80,9 +94,9 @@ public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapte
         CircleImageView driverImage;
         MyTextView tvBookingId, tvBookDate, tvSource, tvDestination, tvRideStatus, tvBookTime, tvJourneyTime;
         MyButton btnCancel, btnStart;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            // Initialize views from the layout
             driverImage = itemView.findViewById(R.id.driver_image);
             tvBookingId = itemView.findViewById(R.id.booking_id);
             tvBookDate = itemView.findViewById(R.id.journey_date);

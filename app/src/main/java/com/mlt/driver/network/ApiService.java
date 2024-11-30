@@ -34,4 +34,7 @@ public interface ApiService {
 
     @POST("/api/start-ride")
     Call<ResponseBody> getStartRide(@Body RequestBody requestBody);
+
+    @POST("/api/to-pickup")
+    Call<JsonObject> getToPickup(@Body JsonObject requestBody);
 }

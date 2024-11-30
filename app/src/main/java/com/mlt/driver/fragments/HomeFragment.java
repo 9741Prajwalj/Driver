@@ -130,6 +130,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                     // Set status to "Online" (1) and update location
                     updateDriverAvailability(1);
                     updateFirebaseStatus(1);
+                    sharedPreferencesManager.setDriverStatus(1); // Save online status
                     // Check if location permissions are granted
                     if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         startLocationUpdates();  // Start location updates if permission is granted
@@ -147,7 +148,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 // Set status to "Offline" (0) and update location
                 updateDriverAvailability(0);
                 updateFirebaseStatus(0);  // Set status to "Offline" in Firebase
-
+                sharedPreferencesManager.setDriverStatus(0); // Save offline status
                 // Disable location updates and stop sharing data
                 stopLocationUpdates();  // Stop location updates
                 // Clear the map and stop showing the marker
@@ -186,10 +187,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 .addOnFailureListener(e -> Log.e("Firebase", "Failed to clear location for username: " + username, e));
     }
 
-    private boolean isInternetAvailable() {
-        ConnectivityManager cm = (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null && activeNetwork.isConnected();
+    public boolean isInternetAvailable() {
+        if (isAdded() && getContext() != null) {
+            ConnectivityManager cm = (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            return activeNetwork != null && activeNetwork.isConnected();
+        } else {
+            Log.e("HomeFragment", "Fragment not attached to context.");
+            return false;
+        }
     }
 
     //on click destination address for routing
@@ -263,7 +269,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                         //location updated for every 2 sec
                         LocationRequest locationRequest = LocationRequest.create();
                         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-                        locationRequest.setInterval(5000);
+                        locationRequest.setInterval(1000);
                         // Update location in Firebase and send to backend
                         updateLocationInFirebase(currentLatitude, currentLongitude);
                     } else {
@@ -394,22 +400,33 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 .addOnSuccessListener(aVoid -> Log.d("Firebase", "User status updated successfully"))
                 .addOnFailureListener(e -> Log.e("Firebase", "Failed to update status", e));
     }
-    private void getCurrentLocation() {
+    LatLng getCurrentLocation() {
+        // Check if the fragment is attached and has internet
+        if (!isAdded()) {
+            Log.e("HomeFragment", "Fragment not attached to context. Returning default location.");
+            return new LatLng(37.7749, -122.4194); // Default location
+        }
+
         if (!isInternetAvailable()) {
             Toast.makeText(getActivity(), "Please turn on mobile data or Wi-Fi to see your current location", Toast.LENGTH_SHORT).show();
-            return;
+            return null;
         }
+        // Check location permissions
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+            return null;
         }
+
+        // Fetch the last known location
         fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
             if (location != null && googleMap != null) {
+                // Check online/offline switch
                 if (!onlineOfflineSwitch.isChecked()) {
                     if (currentMarker != null) {
-                        currentMarker.remove();  // Remove the previous marker (if any)
+                        currentMarker.remove(); // Remove the previous marker (if any)
                     }
-                    return;  // If offline, don't send location to backend
+                    return; // If offline, don't send location to backend
                 }
+
                 LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
                 googleMap.addMarker(new MarkerOptions().position(currentLatLng).title("You are here"));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12));
@@ -418,7 +435,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 Toast.makeText(getActivity(), "Unable to find location", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Return a default location until the actual location is fetched
+        return new LatLng(37.7749, -122.4194); // Default location
     }
+
     //on click destination address for routing
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -443,4 +464,20 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 this.currentLongitude = currentLongitude;
             }
         }
+    @Override
+    public void onResume() {
+        super.onResume();
+        boolean isOnline = sharedPreferencesManager.getDriverStatus();
+        if (isOnline) {
+            onlineOfflineSwitch.setChecked(true);
+            activeStatus.setText("You're Online");
+            offlineLayout.setVisibility(View.GONE);
+            updateDriverAvailability(1);
+            updateFirebaseStatus(1);
+            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                startLocationUpdates();
+            }
+        }
     }
+
+}

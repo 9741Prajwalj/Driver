@@ -1,7 +1,7 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@color/white">
 
@@ -76,6 +76,9 @@
         <!-- Container for dynamically replacing fragments -->
         <FrameLayout
             android:id="@+id/fragment_container"
+            android:name="com.mlt.driver.fragments.HomeFragment"
+            android:label="Home Fragment"
+            tools:layout="@layout/fragment_home"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="0" />

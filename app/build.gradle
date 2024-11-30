@@ -71,4 +71,7 @@ dependencies {
     implementation libs.play.services.base
     // For image loading
     implementation libs.picasso
+
+    implementation libs.play.services.maps.v1810
+    implementation libs.google.android.maps.utils
 }

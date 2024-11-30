@@ -48,14 +48,9 @@
         tools:layout="@layout/fragment_help" />
 
     <fragment
-        android:id="@+id/btnCancelled"
-        android:name="com.mlt.driver.fragments.CancelledFragment"
-        android:label="Cancelled Rides"
-        tools:layout="@layout/fragment_history" />
-
-    <fragment
-        android:id="@+id/btnCompleted"
-        android:name="com.mlt.driver.fragments.CompletedFragment"
-        android:label="cancel Ride"
-        tools:layout="@layout/fragment_history"/>
+        android:id="@+id/btnStart"
+        android:name="com.mlt.driver.fragments.HomeFragment"
+        android:label="Pickup"
+        tools:layout="@layout/fragment_home"
+        />
 </navigation>

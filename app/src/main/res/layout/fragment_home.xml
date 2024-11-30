@@ -9,13 +9,22 @@
     <LinearLayout
         android:id="@+id/ll_01_mapLayer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/provider_map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+        <FrameLayout
+            android:id="@+id/fragment_container1"
+            android:name="com.mlt.driver.fragments.HomeFragment"
+            android:label="Home Fragment"
+            tools:layout="@layout/fragment_home"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0" />
 
     </LinearLayout>
     <!-- Header Layout at the Top -->
