@@ -188,14 +188,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public boolean isInternetAvailable() {
-        if (isAdded() && getContext() != null) {
-            ConnectivityManager cm = (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-            return activeNetwork != null && activeNetwork.isConnected();
-        } else {
-            Log.e("HomeFragment", "Fragment not attached to context.");
-            return false;
-        }
+        ConnectivityManager cm = (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnected();
     }
 
     //on click destination address for routing
@@ -400,20 +395,14 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 .addOnSuccessListener(aVoid -> Log.d("Firebase", "User status updated successfully"))
                 .addOnFailureListener(e -> Log.e("Firebase", "Failed to update status", e));
     }
-    LatLng getCurrentLocation() {
-        // Check if the fragment is attached and has internet
-        if (!isAdded()) {
-            Log.e("HomeFragment", "Fragment not attached to context. Returning default location.");
-            return new LatLng(37.7749, -122.4194); // Default location
-        }
-
+    private void getCurrentLocation() {
         if (!isInternetAvailable()) {
             Toast.makeText(getActivity(), "Please turn on mobile data or Wi-Fi to see your current location", Toast.LENGTH_SHORT).show();
-            return null;
+            return;
         }
         // Check location permissions
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return null;
+            return;
         }
 
         // Fetch the last known location
@@ -426,18 +415,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                     }
                     return; // If offline, don't send location to backend
                 }
-
                 LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
                 googleMap.addMarker(new MarkerOptions().position(currentLatLng).title("You are here"));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12));
                 updateLocationInFirebase(location.getLatitude(), location.getLongitude());
             } else {
-                Toast.makeText(getActivity(), "Unable to find location", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Unable to find location,Turn-on location", Toast.LENGTH_SHORT).show();
+                Log.e("GetCurrentLocation:","Unable to find Location");
             }
         });
-
-        // Return a default location until the actual location is fetched
-        return new LatLng(37.7749, -122.4194); // Default location
     }
 
     //on click destination address for routing
@@ -479,5 +465,4 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             }
         }
     }
-
 }

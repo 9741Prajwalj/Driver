@@ -68,13 +68,11 @@ public class SharedPreferencesManager {
         editor.putInt(KEY_STATUS, status);
         editor.putBoolean(KEY_IS_LOGGED_IN, isLoggedIn);
         editor.apply();
-
         // Log the saved values
         Log.d(Tag, "Saved User ID: " + userId);
         Log.d(Tag, "Saved Username: " + username);
         Log.d(Tag, "Saved API Token: " + apiToken);
         Log.d(Tag, "Saved Login Status: " + isLoggedIn);
-
     }
     public static String getUserId(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
@@ -105,7 +103,6 @@ public class SharedPreferencesManager {
         }
         return instance;
     }
-    // Save Firebase device token
     // Save Firebase device token
     public void saveDeviceToken(String token) {
         SharedPreferences.Editor editor = sharedPreferences.edit();

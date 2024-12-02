@@ -1,9 +1,12 @@
 package com.mlt.driver.activities;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -78,6 +81,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+    //For static use
+//        private void loginUser () {
+//            // Example logic for login validation and success
+//            boolean isLoginSuccessful = true; // Replace with actual login logic
+//
+//            if (isLoginSuccessful) {
+//                onLoginSuccess(this);
+//            }
+//        }
 
     private boolean validateInput() {
         String email = etEmail.getText().toString().trim();
@@ -87,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Please enter your email", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -183,4 +195,20 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    //For Static use
+//        private static void onLoginSuccess(Context context) {
+//            if (context == null) {
+//                Log.e("LoginActivity", "Context is null in onLoginSuccess");
+//                return; // Prevent further execution if the context is null
+//            }
+//
+//            Intent intent = new Intent(context, MainActivity.class);
+//            context.startActivity(intent);
+//
+//            // Finish the activity if the context is an instance of Activity
+//            if (context instanceof Activity) {
+//                ((Activity) context).finish();
+//            }
+//        }
 }

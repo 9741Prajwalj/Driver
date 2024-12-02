@@ -12,7 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -56,9 +55,6 @@ public class HistoryFragment extends Fragment {
     private final List<CancelledRide> rideListCan = new ArrayList<>();
     private final List<CompletedRide> rideListComp = new ArrayList<>();
     private String currentView = "upcoming";
-    private NavController navController; // Add NavController
-
-
 
     @Nullable
     @Override
@@ -86,7 +82,6 @@ public class HistoryFragment extends Fragment {
                 // Handle cancel ride action here
                 Log.d("RideAction", "Ride canceled: " + ride.getBookingId());
             }
-
             @Override
             public void onStartRide(UpcomingRide ride) {
                 if (navController != null) {
@@ -101,7 +96,6 @@ public class HistoryFragment extends Fragment {
 
         // Load default view (Upcoming Rides)
         loadUpcomingRides();
-
         // Handle Button Clicks
         btnCancelled.setOnClickListener(v -> loadCancelledRides());
         btnCompleted.setOnClickListener(v -> loadCompletedRides());

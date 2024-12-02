@@ -74,4 +74,8 @@ dependencies {
 
     implementation libs.play.services.maps.v1810
     implementation libs.google.android.maps.utils
+
+    //For testing code/app
+    testImplementation libs.junit // For unit testing
+    testImplementation libs.mockito.core // For mocking (optional)
 }
