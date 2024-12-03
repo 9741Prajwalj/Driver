@@ -47,7 +47,6 @@
         <activity android:name=".MainActivity"
             android:configChanges="locale|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".activities.LoginActivity"
             android:exported="true"

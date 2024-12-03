@@ -1,11 +1,14 @@
 package com.mlt.driver.models;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
+
 
 import java.util.List;
 
 public class RouteResponse {
 
+    private List<LatLng> routePoints;
     @SerializedName("routes")
     private List<Route> routes;
 
@@ -29,6 +32,14 @@ public class RouteResponse {
         public String getPoints() {
             return points;
         }
+    }
+
+    public List<LatLng> getRoutePoints() {
+        return routePoints;
+    }
+
+    public void setRoutePoints(List<LatLng> routePoints) {
+        this.routePoints = routePoints;
     }
 }
 

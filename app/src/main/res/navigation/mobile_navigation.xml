@@ -53,4 +53,12 @@
         android:label="Pickup"
         tools:layout="@layout/fragment_home"
         />
+    <fragment
+        android:id="@+id/btnPickup"
+        android:name="com.mlt.driver.fragments.PickupFragment"
+        android:label="Pickup"
+        tools:layout="@layout/fragment_pickup"
+        />
+
+
 </navigation>

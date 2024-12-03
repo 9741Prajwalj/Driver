@@ -247,31 +247,31 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         LocationCallback locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
-                for (android.location.Location location : locationResult.getLocations()) {
-                    double currentLatitude = location.getLatitude();
-                    double currentLongitude = location.getLongitude();
-                    // Check if the fragment is attached to an activity and context is available
-                    if (isAdded() && getContext() != null) {
-                        // Update marker for the current location
-                        LatLng currentLatLng = new LatLng(currentLatitude, currentLongitude);
-                        if (!onlineOfflineSwitch.isChecked()) {
-                            return;  // If offline, don't send location to backend
-                        }
-                        googleMap.clear(); // Clear previous markers
-                        googleMap.addMarker(new MarkerOptions().position(currentLatLng).title("Current Location")); // Add current location marker
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12));
+                    for (android.location.Location location : locationResult.getLocations()) {
+                        double currentLatitude = location.getLatitude();
+                        double currentLongitude = location.getLongitude();
+                        // Check if the fragment is attached to an activity and context is available
+                        if (isAdded() && getContext() != null) {
+                            // Update marker for the current location
+                            LatLng currentLatLng = new LatLng(currentLatitude, currentLongitude);
+                            if (!onlineOfflineSwitch.isChecked()) {
+                                return;  // If offline, don't send location to backend
+                            }
+                            googleMap.clear(); // Clear previous markers
+                            googleMap.addMarker(new MarkerOptions().position(currentLatLng).title("Current Location")); // Add current location marker
+                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12));
 
-                        //location updated for every 2 sec
-                        LocationRequest locationRequest = LocationRequest.create();
-                        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-                        locationRequest.setInterval(1000);
-                        // Update location in Firebase and send to backend
-                        updateLocationInFirebase(currentLatitude, currentLongitude);
-                    } else {
-                        Log.e("LocationCallback", "Fragment is not attached, location update ignored.");
+                            //location updated for every 2 sec
+                            LocationRequest locationRequest = LocationRequest.create();
+                            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+                            locationRequest.setInterval(1000);
+                            // Update location in Firebase and send to backend
+                            updateLocationInFirebase(currentLatitude, currentLongitude);
+                        } else {
+                            Log.e("LocationCallback", "Fragment is not attached, location update ignored.");
+                        }
                     }
                 }
-            }
         };
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
     }

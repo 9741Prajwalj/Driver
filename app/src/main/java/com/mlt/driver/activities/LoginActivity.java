@@ -1,7 +1,5 @@
 package com.mlt.driver.activities;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -81,16 +79,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    //For static use
-//        private void loginUser () {
-//            // Example logic for login validation and success
-//            boolean isLoginSuccessful = true; // Replace with actual login logic
-//
-//            if (isLoginSuccessful) {
-//                onLoginSuccess(this);
-//            }
-//        }
-
     private boolean validateInput() {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
@@ -181,7 +169,6 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("LoginActivity", "Login request failed - Error: " + t.getMessage(), t);
@@ -189,26 +176,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
     private void onLoginSuccess() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }
-
-    //For Static use
-//        private static void onLoginSuccess(Context context) {
-//            if (context == null) {
-//                Log.e("LoginActivity", "Context is null in onLoginSuccess");
-//                return; // Prevent further execution if the context is null
-//            }
-//
-//            Intent intent = new Intent(context, MainActivity.class);
-//            context.startActivity(intent);
-//
-//            // Finish the activity if the context is an instance of Activity
-//            if (context instanceof Activity) {
-//                ((Activity) context).finish();
-//            }
-//        }
 }

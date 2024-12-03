@@ -20,4 +20,5 @@
     <item name="new_journey_time" type="id" />
     <item name="new_amount" type="id" />
     <item name="new_total_kms" type="id" />
+    <item name="switchButton" type="id" />
 </resources>

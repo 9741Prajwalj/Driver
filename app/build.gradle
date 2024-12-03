@@ -30,6 +30,9 @@ android {
     buildFeatures {
         viewBinding true
     }
+    viewBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -47,7 +50,6 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
-    implementation libs.gms.play.services.maps
     implementation libs.volley
     implementation libs.drawerlayout
     implementation libs.circleimageview
@@ -71,6 +73,8 @@ dependencies {
     implementation libs.play.services.base
     // For image loading
     implementation libs.picasso
+    implementation libs.gms.play.services.maps
+
 
     implementation libs.play.services.maps.v1810
     implementation libs.google.android.maps.utils

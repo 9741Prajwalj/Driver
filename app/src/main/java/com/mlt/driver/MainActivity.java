@@ -16,23 +16,23 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.mlt.driver.activities.LoginActivity;
 import com.mlt.driver.databinding.ActivityMainBinding;
+import com.mlt.driver.fragments.HomeFragment;
 import com.mlt.driver.fragments.NotificationFragment;
 import com.mlt.driver.helper.SharedPreferencesManager;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 import android.Manifest;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,25 +45,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         generateFCMToken();
-
+        // Initialize Firebase if not already initialized
         if (FirebaseApp.getApps(this).isEmpty()) {
             FirebaseApp.initializeApp(this);
         }
+        // Check and request permissions for Android TIRAMISU and above
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.MANAGE_DEVICE_POLICY_RUNTIME_PERMISSIONS)
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
                     != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.MANAGE_DEVICE_POLICY_RUNTIME_PERMISSIONS}, 1);
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        NOTIFICATION_PERMISSION_CODE);
             }
         }
-
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-
+        // Inflate and set up view binding
         com.mlt.driver.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         setSupportActionBar(binding.appBarMain.toolbar);
-
+        // Set up navigation components
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -74,28 +73,12 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
+        // Initialize SharedPreferencesManager
         sharedPreferencesManager = new SharedPreferencesManager(this);
+        // Load profile data into NavigationView header
+        loadNavigationHeaderData(navigationView);
 
-        String profileImageUrl = sharedPreferencesManager.getProfileImageUrl();
-        // Access views in NavigationView header
-        View headerView = navigationView.getHeaderView(0);
-        imgProfile = headerView.findViewById(R.id.img_profile);
-        TextView txtUserName = headerView.findViewById(R.id.txtUserName);
-        TextView txtEmail = headerView.findViewById(R.id.txtEmail);
-
-        if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
-            Picasso.get()
-                    .load(profileImageUrl)
-                    .placeholder(R.drawable.ic_dummy_user) // Fallback image resource
-                    .into(imgProfile);
-        } else {
-            imgProfile.setImageResource(R.drawable.ic_dummy_user); // Default image if URL is null or empty
-        }
-        txtUserName.setText(sharedPreferencesManager.getUserName() != null ? sharedPreferencesManager.getUserName() : "Default User Name");
-        txtEmail.setText(sharedPreferencesManager.getEmail() != null ? sharedPreferencesManager.getEmail() : "default@example.com");
-
-        // Ensure the correct flag is read in onCreate
+        // Handle intents for specific fragment navigation
         if (getIntent().hasExtra("openFragment")) {
             String fragmentName = getIntent().getStringExtra("openFragment");
             if ("NotificationFragment".equals(fragmentName)) {
@@ -104,68 +87,72 @@ public class MainActivity extends AppCompatActivity {
         }
         loadUserProfileData();
     }
-
     @Override
     protected void onStart() {
         super.onStart();
         checkNotificationPermission();
     }
-
+    // Check for notification permission
     private void checkNotificationPermission() {
-        // Check if the OS version requires notification permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
                     != PackageManager.PERMISSION_GRANTED) {
-                // Permission not granted, request it
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.POST_NOTIFICATIONS},
                         NOTIFICATION_PERMISSION_CODE);
-            } else {
-                Log.d("NotificationPermission", "Permission already granted.");
-                // Proceed with showing notifications
             }
-        } else {
-            Log.d("NotificationPermission", "Permission not required for this OS version.");
         }
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == NOTIFICATION_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Log.d("NotificationPermission", "Permission granted.");
-                // Proceed with showing notifications
             } else {
                 Log.d("NotificationPermission", "Permission denied.");
-                // Handle the case when permission is denied
             }
         }
     }
-    private void loadUserProfileData() {
-        // Get user profile image URL from SharedPreferences
-        String profileImageUrl = sharedPreferencesManager.getProfileImageUrl();
+    // Load user profile data into NavigationView header
+    private void loadNavigationHeaderData(NavigationView navigationView) {
+        View headerView = navigationView.getHeaderView(0);
+        imgProfile = headerView.findViewById(R.id.img_profile);
+        TextView txtUserName = headerView.findViewById(R.id.txtUserName);
+        TextView txtEmail = headerView.findViewById(R.id.txtEmail);
 
-        // If a profile image URL exists, load it into the CircleImageView
-        if (!profileImageUrl.isEmpty()) {
-            // You can use an image loading library like Picasso or Glide to load the image
-            Picasso.get().load(profileImageUrl).into(imgProfile); // Example using Picasso
+        String profileImageUrl = sharedPreferencesManager.getProfileImageUrl();
+        if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
+            Picasso.get()
+                    .load(profileImageUrl)
+                    .placeholder(R.drawable.ic_dummy_user)
+                    .into(imgProfile);
+        } else {
+            imgProfile.setImageResource(R.drawable.ic_dummy_user);
+        }
+        txtUserName.setText(sharedPreferencesManager.getUserName() != null ? sharedPreferencesManager.getUserName() : "Default User Name");
+        txtEmail.setText(sharedPreferencesManager.getEmail() != null ? sharedPreferencesManager.getEmail() : "default@example.com");
+    }
+    // Load user profile image
+    private void loadUserProfileData() {
+        String profileImageUrl = sharedPreferencesManager.getProfileImageUrl();
+        if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
+            Picasso.get().load(profileImageUrl).into(imgProfile);
         }
     }
+    // Open NotificationFragment
     private void openNotificationFragment() {
         Fragment notificationFragment = new NotificationFragment();
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, notificationFragment) // Replace with your container ID
+                .replace(R.id.nav_host_fragment_content_main, notificationFragment)
                 .commit();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-    // Handle logout action
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_logout) {
@@ -174,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    // Method to show logout confirmation dialog
+    // Show logout confirmation dialog
     private void showLogoutConfirmation() {
         final Dialog logoutDialog = new Dialog(this);
         logoutDialog.setContentView(R.layout.logout_confirmation);
@@ -183,25 +170,20 @@ public class MainActivity extends AppCompatActivity {
         Button btnCancel = logoutDialog.findViewById(R.id.btnCancel);
         Button btnConfirm = logoutDialog.findViewById(R.id.btnConfirm);
 
-        // Set cancel button action
         btnCancel.setOnClickListener(v -> logoutDialog.dismiss());
-
-        // Set confirm button action
         btnConfirm.setOnClickListener(v -> {
             logoutDialog.dismiss();
-            logoutUser(); // Call the logoutUser method to clear data and navigate to LoginActivity
+            logoutUser();
         });
         logoutDialog.show();
     }
+    // Logout user and clear data
     private void logoutUser() {
-        SharedPreferencesManager.getInstance(this).clearNotifications();
-        // Clear all data in SharedPreferences
         sharedPreferencesManager.clearAllData();
-        // Navigate to LoginActivity
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-        finish(); // End MainActivity
+        finish();
     }
     @Override
     public boolean onSupportNavigateUp() {
@@ -209,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+    // Generate Firebase Cloud Messaging Token
     public static void generateFCMToken() {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
@@ -216,10 +199,8 @@ public class MainActivity extends AppCompatActivity {
                         Log.e("FCMToken", "Fetching FCM token failed", task.getException());
                         return;
                     }
-                    // Get new FCM token
                     String token = task.getResult();
                     Log.d("FCMToken", "FCM Token: " + token);
-                    // You can also store the token locally or send it to your server
                 });
     }
 }

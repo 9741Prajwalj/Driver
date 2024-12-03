@@ -1,18 +1,22 @@
 package com.mlt.driver.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.JsonObject;
 import com.mlt.driver.R;
-import com.mlt.driver.fragments.PickupRoute;
 import com.mlt.driver.models.UpcomingRide;
 import com.mlt.driver.network.ApiService;
 import com.mlt.driver.network.RetrofitClient;
@@ -20,6 +24,9 @@ import com.mlt.driver.utills.MyButton;
 import com.mlt.driver.utills.MyTextView;
 import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapter.ViewHolder> {
     private final Context context;
@@ -29,7 +36,6 @@ public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapte
     double currentLat = 0;
     double currentLng = 0;
     GoogleMap googleMap = null;
-
     public UpcomingRideAdapter(Context context, List<UpcomingRide> rideList, RideActionListener listener,NavController navController) {
         this.context = context;
         this.rideList = rideList;
@@ -71,8 +77,14 @@ public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapte
             if (navController != null) {
                 Log.d("UpcomingRideAdapter", "Navigating to HomeFragment using NavController");
                 navController.navigate(R.id.nav_home); // Navigate to HomeFragment
-                PickupRoute pickupRoute = new PickupRoute(context, RetrofitClient.getClient().create(ApiService.class), googleMap, "AIzaSyCI7CwlYJ6Qt5pQGW--inSsJmdEManW-K0");
-                pickupRoute.fetchPickupLocation(ride.getBookingId(), new LatLng(currentLat, currentLng)); // Replace currentLat, currentLng with actual location
+            } else {
+                Log.e("UpcomingRideAdapter", "NavController is null on start ride");
+            }
+        });
+        holder.btnPickup.setOnClickListener(v -> {
+            if (navController != null) {
+                Log.d("UpcomingRideAdapter", "Navigating to HomeFragment using NavController");
+                navController.navigate(R.id.btnPickup);
             } else {
                 Log.e("UpcomingRideAdapter", "NavController is null on start ride");
             }
@@ -87,6 +99,7 @@ public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapte
         void onStartRide(UpcomingRide ride);
     }
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        public View btnPickup;
         CircleImageView driverImage;
         MyTextView tvBookingId, tvBookDate, tvSource, tvDestination, tvRideStatus, tvBookTime, tvJourneyTime;
         MyButton btnCancel, btnStart;
@@ -103,6 +116,7 @@ public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapte
             tvJourneyTime = itemView.findViewById(R.id.journey_time);
             btnCancel = itemView.findViewById(R.id.btnCancel);
             btnStart = itemView.findViewById(R.id.btnStart);
+            btnPickup = itemView.findViewById(R.id.btnPickup);
         }
     }
 }

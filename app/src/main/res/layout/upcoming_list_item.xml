@@ -129,6 +129,18 @@
                 android:layout_marginTop="8dp">
 
                 <com.mlt.driver.utills.MyButton
+                    android:id="@+id/btnPickup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:background="@color/bluenew"
+                    android:padding="5dp"
+                    android:layout_marginRight="10dp"
+                    android:text="Pick Up"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <com.mlt.driver.utills.MyButton
                     android:id="@+id/btnCancel"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"

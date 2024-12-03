@@ -1,5 +1,7 @@
 package com.mlt.driver.network;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.maps.DirectionsApi;
 
 import java.util.List;
@@ -15,7 +17,9 @@ public class RetrofitClient {
     private static final String DIRECTIONS_BASE_URL = "https://maps.googleapis.com/maps/api/";
     private static RetrofitClient instance;
     static Retrofit retrofit;
+    private ApiService apiService;
     private static Retrofit googleRetrofit = null;
+    static Gson gson = new GsonBuilder().setLenient().create();
 
     private RetrofitClient() {
         // Initialize Retrofit
@@ -39,14 +43,34 @@ public class RetrofitClient {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(logging)  // Add the logging interceptor to OkHttp client
                 .build();
-        // Return Retrofit instance with logging enabled
+        // Return Retrofit instance with logging enabled and a custom Gson converter
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)  // Set the base URL
                 .client(client)  // Set the OkHttpClient with the logging interceptor
-                .addConverterFactory(GsonConverterFactory.create())  // Use Gson converter for response
+                .addConverterFactory(GsonConverterFactory.create(gson))  // Use the custom Gson converter
                 .build();
     }
 
+    public static Retrofit getRetrofitInstance() {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build();
+
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        return retrofit;
+    }
     // Get Retrofit instance for the main API
     public static Retrofit getClient() {
         if (retrofit == null) {
@@ -55,24 +79,11 @@ public class RetrofitClient {
         return retrofit;
     }
 
-    public static ApiService getApiService() {
-        if (retrofit == null) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl("https://maps.googleapis.com/") // Or your base URL
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-        return retrofit.create(ApiService.class);
+    public ApiService getApiService() {
+        return apiService;
     }
-
     // Creates a specified service class (generic method)
     public <T> T create(Class<T> serviceClass) {
         return retrofit.create(serviceClass);  // Create the service class
     }
-
-    // Get the ApiService instance for the main API
-    public ApiService getApi() {
-        return retrofit.create(ApiService.class);  // Create the ApiService for the main API
-    }
-
 }
