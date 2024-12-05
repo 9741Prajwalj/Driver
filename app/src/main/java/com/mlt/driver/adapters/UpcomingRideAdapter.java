@@ -1,22 +1,18 @@
 package com.mlt.driver.adapters;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.JsonObject;
 import com.mlt.driver.R;
+import com.mlt.driver.helper.SharedPreferencesManager;
+import com.mlt.driver.models.PickupRequest;
+import com.mlt.driver.models.PickupResponse;
 import com.mlt.driver.models.UpcomingRide;
 import com.mlt.driver.network.ApiService;
 import com.mlt.driver.network.RetrofitClient;
@@ -29,6 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapter.ViewHolder> {
+    private static final String BASE_URL = "https://ets.mltcorporate.com";
     private final Context context;
     private final List<UpcomingRide> rideList;
     private final RideActionListener rideActionListener;
@@ -66,6 +63,10 @@ public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapte
         holder.tvRideStatus.setText(ride.getRideStatus()); // Assuming ride status is a String
         holder.tvBookTime.setText("Book Time : " + ride.getBookTime());
         holder.tvJourneyTime.setText("Journey Time : " + ride.getJourneyTime());
+        // Save booking details to SharedPreferences
+        SharedPreferencesManager sharedPreferencesManager = SharedPreferencesManager.getInstance(context);
+        String apiToken = sharedPreferencesManager.getString("api_token", "No Token Found");
+        Log.d("UpcomingRideAdapter", "API Token Retrieved: " + apiToken);
         holder.btnCancel.setOnClickListener(v -> {
             if (rideActionListener != null) {
                 rideActionListener.onCancelRide(ride);
@@ -75,6 +76,7 @@ public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapte
         });
         holder.btnStart.setOnClickListener(v -> {
             if (navController != null) {
+                rideActionListener.onStartRide(ride);
                 Log.d("UpcomingRideAdapter", "Navigating to HomeFragment using NavController");
                 navController.navigate(R.id.nav_home); // Navigate to HomeFragment
             } else {
@@ -82,12 +84,51 @@ public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapte
             }
         });
         holder.btnPickup.setOnClickListener(v -> {
-            if (navController != null) {
-                Log.d("UpcomingRideAdapter", "Navigating to HomeFragment using NavController");
-                navController.navigate(R.id.btnPickup);
-            } else {
-                Log.e("UpcomingRideAdapter", "NavController is null on start ride");
-            }
+            // Save data when button is clicked
+            sharedPreferencesManager.saveString("booking_id", String.valueOf(ride.getBookingId()));
+            sharedPreferencesManager.saveString("source_address", ride.getSourceAddress());
+            sharedPreferencesManager.saveString("dest_address", ride.getDestAddress());
+            sharedPreferencesManager.saveString("ride_status", ride.getRideStatus());
+
+            Log.d("UpcomingRideAdapter", "Ride data saved in SharedPreferences");
+            int bookingId = ride.getBookingId();
+            // Create Retrofit instance
+            ApiService apiService = RetrofitClient.getInstance(BASE_URL).create(ApiService.class);
+            PickupRequest request = new PickupRequest(apiToken, bookingId);
+            // Make API call
+            apiService.getPickupDetails(request).enqueue(new Callback<PickupResponse>() {
+                @Override
+                public void onResponse(Call<PickupResponse> call, Response<PickupResponse> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        PickupResponse pickupResponse = response.body();
+                        if (pickupResponse.getSuccess() == 1) {
+                            // Log or display the pickup details
+                            PickupResponse.Data data = pickupResponse.getData();
+                            Log.d("UpcomingRideAdapter", "BookingID: " + data.getBookingId());
+                            Log.d("UpcomingRideAdapter", "Pickup Address: " + data.getPickupAddress());
+                            Log.d("UpcomingRideAdapter", "Latitude: " + data.getPickupLat());
+                            Log.d("UpcomingRideAdapter", "Longitude: " + data.getPickupLong());
+                            Log.d("UpcomingRideAdapter", "Navigating to HomeFragment using NavController");
+
+                            // Save pickup latitude and longitude to SharedPreferences
+                            sharedPreferencesManager.saveString("pickup_lat", data.getPickupLat());
+                            sharedPreferencesManager.saveString("pickup_long", data.getPickupLong());
+                            // Navigate to PickupFragment using NavController
+                            if (navController != null) {
+                                navController.navigate(R.id.btnPickup);
+                            }
+                        } else {
+                            Log.e("UpcomingRideAdapter", "API Error: " + pickupResponse.getMessage());
+                        }
+                    } else {
+                        Log.e("UpcomingRideAdapter", "Response Error: " + response.message());
+                    }
+                }
+                @Override
+                public void onFailure(Call<PickupResponse> call, Throwable t) {
+                    Log.e("UpcomingRideAdapter", "API Call Failed: " + t.getMessage());
+                }
+            });
         });
     }
     @Override
@@ -97,13 +138,13 @@ public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapte
     public interface RideActionListener {
         void onCancelRide(UpcomingRide ride);
         void onStartRide(UpcomingRide ride);
+        void onPickupRide(UpcomingRide ride);
     }
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View btnPickup;
         CircleImageView driverImage;
         MyTextView tvBookingId, tvBookDate, tvSource, tvDestination, tvRideStatus, tvBookTime, tvJourneyTime;
         MyButton btnCancel, btnStart;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             driverImage = itemView.findViewById(R.id.driver_image);

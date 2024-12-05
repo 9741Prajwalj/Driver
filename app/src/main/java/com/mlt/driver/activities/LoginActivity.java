@@ -24,7 +24,6 @@ import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 import com.mlt.driver.helper.SharedPreferencesManager;
 
 
@@ -148,7 +147,6 @@ public class LoginActivity extends AppCompatActivity {
                             if (userId != -1 && !userName.isEmpty() && !apiToken.isEmpty()) {
                                 sharedPreferencesManager.saveLoginData(userId, userName, apiToken, email, phone, address, true, status);
                                 Log.d("LoginActivity", "User data saved in SharedPreferences");
-
                                 Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
                                 onLoginSuccess();
                             } else {

@@ -46,6 +46,7 @@ import retrofit2.Response;
 public class HistoryFragment extends Fragment {
 
     private TextView tvTitle;
+    static final String BASE_URL = "https://ets.mltcorporate.com"; // Replace with your actual API base URL
     private RecyclerView recyclerView;
     private SharedPreferencesManager sharedPreferencesManager;
     private CancelledRideAdapter cancelAdapter;
@@ -81,14 +82,21 @@ public class HistoryFragment extends Fragment {
             public void onCancelRide(UpcomingRide ride) {
                 // Handle cancel ride action here
                 Log.d("RideAction", "Ride canceled: " + ride.getBookingId());
+                Toast.makeText(requireContext(),"Ride canceled: " + ride.getBookingId(), Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onStartRide(UpcomingRide ride) {
                 if (navController != null) {
                     navController.navigate(R.id.nav_home);
+                    Toast.makeText(requireContext(),"Ride Started: " + ride.getBookingId(), Toast.LENGTH_SHORT).show();
                 } else {
                     Log.e("RideAction", "NavController is null on start ride");
                 }
+            }
+            @Override
+            public void onPickupRide(UpcomingRide ride) {
+                Log.d("RideAction", "Ride canceled: " + ride.getBookingId());
+                Toast.makeText(requireContext(),"Ride Pickup: " + ride.getBookingId(), Toast.LENGTH_SHORT).show();
             }
         }, navController);  // Pass FragmentManager here
 
@@ -122,7 +130,7 @@ public class HistoryFragment extends Fragment {
         fetchRides("completed");
     }
     private void fetchRides(String rideType) {
-        ApiService apiService = RetrofitClient.getInstance().create(ApiService.class);
+        ApiService apiService = RetrofitClient.getInstance(BASE_URL).create(ApiService.class);
         Call<ResponseBody> call = null;
         // Prepare the request body
         try {

@@ -203,7 +203,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             if (onlineOfflineSwitch.isChecked()) {
                 getCurrentLocation();
             }
-            getCurrentLocation();
         } else {
             requestLocationPermissions();
         }
@@ -268,7 +267,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                             // Update location in Firebase and send to backend
                             updateLocationInFirebase(currentLatitude, currentLongitude);
                         } else {
-                            Log.e("LocationCallback", "Fragment is not attached, location update ignored.");
+//                            Log.e("LocationCallback", "Fragment is not attached, location update ignored.");
                         }
                     }
                 }
@@ -408,6 +407,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         // Fetch the last known location
         fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
             if (location != null && googleMap != null) {
+                Log.d("CurrentLocation", "Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude());
                 // Check online/offline switch
                 if (!onlineOfflineSwitch.isChecked()) {
                     if (currentMarker != null) {

@@ -1,5 +1,7 @@
 package com.mlt.driver.network;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mlt.driver.models.PickupRequest;
 import com.mlt.driver.models.PickupResponse;
@@ -11,6 +13,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -39,9 +42,5 @@ public interface ApiService {
     Call<ResponseBody> getStartRide(@Body RequestBody requestBody);
 
     @POST("/api/to-pickup")
-    Call<PickupResponse> getPickupAddress(@Body PickupRequest request);
-
-    @POST("/api/to-pickup")
-    Call<PickupResponse> getPickupAddress(@Query("api_token") String apiToken, @Query("booking_id") int bookingId);
-
+    Call<PickupResponse> getPickupDetails(@Body PickupRequest request);
 }

@@ -50,12 +50,12 @@ public class SharedPreferencesManager {
         editor.apply();
     }
     public boolean isLoggedIn() {
-            if (sharedPreferences != null) {
-                return sharedPreferences.contains(KEY_USER_ID) && sharedPreferences.contains(KEY_API_TOKEN ) && sharedPreferences.contains(KEY_USER_NAME) && sharedPreferences.contains(KEY_EMAIL) &&
-                        sharedPreferences.contains(KEY_PHONE) && sharedPreferences.contains(KEY_ADDRESS);
-            }
-            return false;
+        if (sharedPreferences != null) {
+            return sharedPreferences.contains(KEY_USER_ID) && sharedPreferences.contains(KEY_API_TOKEN ) && sharedPreferences.contains(KEY_USER_NAME) && sharedPreferences.contains(KEY_EMAIL) &&
+                    sharedPreferences.contains(KEY_PHONE) && sharedPreferences.contains(KEY_ADDRESS);
         }
+        return false;
+    }
     // Save login data
     public void saveLoginData(int userId, String username, String apiToken, String email, String phone, String address, boolean isLoggedIn, int status) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -77,6 +77,22 @@ public class SharedPreferencesManager {
     public static String getUserId(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString("user_id", null);
+    }
+    public void saveString(String key, String value) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+    public String getString(String key, String defaultValue) {
+        return sharedPreferences.getString(key, defaultValue);
+    }
+    public void saveInt(String key, int value) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(key, value);
+        editor.apply();
+    }
+    public int getInt(String key) {
+        return sharedPreferences.getInt(key, -1);
     }
     // Clear login data
     public void clearLoginData() {

@@ -1,32 +1,45 @@
 package com.mlt.driver.models;
 
 public class PickupResponse {
-    private String status;
+    private int success;
+    private String message;
     private Data data;
 
-    public String getStatus() {
-        return status;
+    public int getSuccess() {
+        return success;
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     public Data getData() {
         return data;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setData(Data data) {
-        this.data = data;
-    }
-
     public static class Data {
-        private String pickupAddress;
+        private int booking_id;
+        private String pickup_address;
+        private String pickup_lat;
+        private String pickup_long;
+
+        public int getBookingId() {
+            return booking_id;
+        }
 
         public String getPickupAddress() {
-            return pickupAddress;
+            return pickup_address;
+        }
+
+        public String getPickupLat() {
+            return pickup_lat;
+        }
+
+        public String getPickupLong() {
+            return pickup_long;
         }
     }
 }
+
 
 
