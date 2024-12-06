@@ -46,7 +46,7 @@ import retrofit2.Response;
 public class HistoryFragment extends Fragment {
 
     private TextView tvTitle;
-    static final String BASE_URL = "https://ets.mltcorporate.com"; // Replace with your actual API base URL
+    static final String BASE_URL = "https://test.mltcorporate.com"; // Replace with your actual API base URL
     private RecyclerView recyclerView;
     private SharedPreferencesManager sharedPreferencesManager;
     private CancelledRideAdapter cancelAdapter;
@@ -78,21 +78,6 @@ public class HistoryFragment extends Fragment {
         completeAdapter = new CompletedRideAdapter(getContext(), rideListComp);
         cancelAdapter = new CancelledRideAdapter(getContext(),rideListCan);
         upcomingAdapter = new UpcomingRideAdapter(getContext(), rideListU, new UpcomingRideAdapter.RideActionListener() {
-            @Override
-            public void onCancelRide(UpcomingRide ride) {
-                // Handle cancel ride action here
-                Log.d("RideAction", "Ride canceled: " + ride.getBookingId());
-                Toast.makeText(requireContext(),"Ride canceled: " + ride.getBookingId(), Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onStartRide(UpcomingRide ride) {
-                if (navController != null) {
-                    navController.navigate(R.id.nav_home);
-                    Toast.makeText(requireContext(),"Ride Started: " + ride.getBookingId(), Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.e("RideAction", "NavController is null on start ride");
-                }
-            }
             @Override
             public void onPickupRide(UpcomingRide ride) {
                 Log.d("RideAction", "Ride canceled: " + ride.getBookingId());

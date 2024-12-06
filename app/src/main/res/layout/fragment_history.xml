@@ -43,8 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Upcoming Ride"
-            android:backgroundTint="@color/blue"
-            android:textColor="@color/white"
+            android:backgroundTint="@color/view_grey_bg"
+            android:textColor="@color/blue"
             android:paddingVertical="12dp"
             android:paddingHorizontal="8dp"
             android:layout_marginEnd="8dp" />
@@ -54,12 +54,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/green"
+            android:backgroundTint="@color/view_grey_bg"
             android:paddingHorizontal="8dp"
             android:paddingVertical="12dp"
             android:layout_marginEnd="8dp"
             android:text="Completed Ride"
-            android:textColor="@color/white" />
+            android:textColor="@color/green" />
 
         <Button
             android:id="@+id/btnCancelled"
@@ -67,8 +67,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Cancelled Ride"
-            android:backgroundTint="@color/red"
-            android:textColor="@color/white"
+            android:backgroundTint="@color/view_grey_bg"
+            android:textColor="@color/red"
             android:paddingVertical="12dp"
             android:paddingHorizontal="8dp"
             android:layout_marginEnd="8dp" />

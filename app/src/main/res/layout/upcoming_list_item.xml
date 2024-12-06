@@ -130,37 +130,14 @@
 
                 <com.mlt.driver.utills.MyButton
                     android:id="@+id/btnPickup"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="32dp"
-                    android:background="@color/bluenew"
+                    android:background="@drawable/round_corner_primary_color_shape"
                     android:padding="5dp"
                     android:layout_marginRight="10dp"
-                    android:text="Pick Up"
+                    android:text="Start Pick Up"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <com.mlt.driver.utills.MyButton
-                    android:id="@+id/btnCancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:background="@drawable/cancel_button_bg"
-                    android:padding="5dp"
-                    android:text="Cancel Ride"
-                    android:textAllCaps="false"
-                    android:textColor="@color/cancel_ride_color"
-                    android:textSize="14sp" />
-
-                <com.mlt.driver.utills.MyButton
-                    android:id="@+id/btnStart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/bg_rounded_button_green"
-                    android:padding="5dp"
-                    android:text="@string/start_ride"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
                     android:textSize="14sp" />
 
             </LinearLayout>

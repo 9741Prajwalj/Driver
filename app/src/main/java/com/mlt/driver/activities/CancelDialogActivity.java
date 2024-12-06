@@ -123,6 +123,5 @@ public class CancelDialogActivity extends AppCompatActivity {
                 .create()
                 .show();
     }
-
 }
 

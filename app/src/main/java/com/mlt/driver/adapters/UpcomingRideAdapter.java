@@ -25,7 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapter.ViewHolder> {
-    private static final String BASE_URL = "https://ets.mltcorporate.com";
+    private static final String BASE_URL = "https://test.mltcorporate.com";
     private final Context context;
     private final List<UpcomingRide> rideList;
     private final RideActionListener rideActionListener;
@@ -67,22 +67,6 @@ public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapte
         SharedPreferencesManager sharedPreferencesManager = SharedPreferencesManager.getInstance(context);
         String apiToken = sharedPreferencesManager.getString("api_token", "No Token Found");
         Log.d("UpcomingRideAdapter", "API Token Retrieved: " + apiToken);
-        holder.btnCancel.setOnClickListener(v -> {
-            if (rideActionListener != null) {
-                rideActionListener.onCancelRide(ride);
-            } else {
-                Log.e("UpcomingRideAdapter", "RideActionListener is null on cancel");
-            }
-        });
-        holder.btnStart.setOnClickListener(v -> {
-            if (navController != null) {
-                rideActionListener.onStartRide(ride);
-                Log.d("UpcomingRideAdapter", "Navigating to HomeFragment using NavController");
-                navController.navigate(R.id.nav_home); // Navigate to HomeFragment
-            } else {
-                Log.e("UpcomingRideAdapter", "NavController is null on start ride");
-            }
-        });
         holder.btnPickup.setOnClickListener(v -> {
             // Save data when button is clicked
             sharedPreferencesManager.saveString("booking_id", String.valueOf(ride.getBookingId()));
@@ -106,9 +90,9 @@ public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapte
                             PickupResponse.Data data = pickupResponse.getData();
                             Log.d("UpcomingRideAdapter", "BookingID: " + data.getBookingId());
                             Log.d("UpcomingRideAdapter", "Pickup Address: " + data.getPickupAddress());
-                            Log.d("UpcomingRideAdapter", "Latitude: " + data.getPickupLat());
-                            Log.d("UpcomingRideAdapter", "Longitude: " + data.getPickupLong());
-                            Log.d("UpcomingRideAdapter", "Navigating to HomeFragment using NavController");
+                            Log.d("UpcomingRideAdapter", "Latitude: " + data.getPickupLong());
+                            Log.d("UpcomingRideAdapter", "Longitude: " + data.getPickupLat());
+                            Log.d("UpcomingRideAdapter", "Navigating to PickupFragment using NavController");
 
                             // Save pickup latitude and longitude to SharedPreferences
                             sharedPreferencesManager.saveString("pickup_lat", data.getPickupLat());
@@ -136,15 +120,12 @@ public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapte
         return rideList != null ? rideList.size() : 0;
     }
     public interface RideActionListener {
-        void onCancelRide(UpcomingRide ride);
-        void onStartRide(UpcomingRide ride);
         void onPickupRide(UpcomingRide ride);
     }
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public View btnPickup;
+        MyButton btnPickup;
         CircleImageView driverImage;
         MyTextView tvBookingId, tvBookDate, tvSource, tvDestination, tvRideStatus, tvBookTime, tvJourneyTime;
-        MyButton btnCancel, btnStart;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             driverImage = itemView.findViewById(R.id.driver_image);
@@ -155,8 +136,6 @@ public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapte
             tvRideStatus = itemView.findViewById(R.id.ride_status);
             tvBookTime = itemView.findViewById(R.id.book_time);
             tvJourneyTime = itemView.findViewById(R.id.journey_time);
-            btnCancel = itemView.findViewById(R.id.btnCancel);
-            btnStart = itemView.findViewById(R.id.btnStart);
             btnPickup = itemView.findViewById(R.id.btnPickup);
         }
     }

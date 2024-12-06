@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         FirebaseApp.initializeApp(requireContext());
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://ets.mltcorporate.com")
+                .baseUrl("https://test.mltcorporate.com")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ApiService apiService = retrofit.create(ApiService.class);

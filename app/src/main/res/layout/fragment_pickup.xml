@@ -1,28 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
-
+    android:layout_height="match_parent">
+    <!-- Map Fragment taking full width and height -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/pickup_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <!-- Floating Button inside the map fragment -->
+    <ImageButton
+        android:id="@+id/btn_get_direction"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="600dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/round_corner_blue"
+        android:src="@drawable/baseline_directions_24"
+        android:contentDescription="Get Direction"
+        android:scaleType="center" />
+    <!-- Bottom Buttons -->
     <LinearLayout
-        android:id="@+id/pickroute"
+        android:id="@+id/bottom_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="5dp"
+        android:background="#FFFFFF">
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Start"
+            android:backgroundTint="@color/view_grey_bg"
+            android:textColor="@color/green"
+            android:padding="1dp" />
+        <Button
+            android:id="@+id/btn_noshow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="No Show"
+            android:backgroundTint="@color/view_grey_bg"
+            android:textColor="@color/red"
+            android:padding="1dp"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+    <!-- Pickup Fragment (overlaid, optional) -->
+    <FrameLayout
+        android:id="@+id/fragment_container3"
+        android:name="com.mlt.driver.fragments.PickupFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/pickup_map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <FrameLayout
-            android:id="@+id/fragment_container3"
-            android:name="com.mlt.driver.fragments.PickupFragment"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="0"
-            android:label="Pickup"
-            tools:layout="@layout/fragment_pickup" />
-    </LinearLayout>
+        tools:layout="@layout/fragment_pickup"
+        android:visibility="gone" />
 </RelativeLayout>
