@@ -1,5 +1,9 @@
 package com.mlt.driver.network;
 
+/**
+ * Created by Prajwal J.
+ */
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -77,4 +81,6 @@ public class RetrofitClient {
     public <T> T create(Class<T> serviceClass) {
         return retrofit.create(serviceClass);  // Create the service class
     }
+
+    //This is a RetrofitClient for the Response and Request.
 }

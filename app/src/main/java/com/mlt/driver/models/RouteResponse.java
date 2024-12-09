@@ -1,9 +1,11 @@
 package com.mlt.driver.models;
 
+/**
+ * Created by Prajwal J.
+ */
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
-
-
 import java.util.List;
 
 public class RouteResponse {

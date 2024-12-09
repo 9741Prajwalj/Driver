@@ -1,5 +1,9 @@
 package com.mlt.driver.models;
 
+/**
+ * Created by Prajwal J.
+ */
+
 public class Review {
     private String reviewText;
 

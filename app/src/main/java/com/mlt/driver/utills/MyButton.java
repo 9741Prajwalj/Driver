@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.widget.Button;
 
 /**
- * Created by amal on 18/12/16.
+ * Created by Prajwal J.
  */
 public class MyButton extends Button {
     public MyButton(Context context) {

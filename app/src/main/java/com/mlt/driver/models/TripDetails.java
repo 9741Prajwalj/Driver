@@ -1,5 +1,9 @@
 package com.mlt.driver.models;
 
+/**
+ * Created by Prajwal J.
+ */
+
 import com.google.gson.annotations.SerializedName;
 public class TripDetails {
 

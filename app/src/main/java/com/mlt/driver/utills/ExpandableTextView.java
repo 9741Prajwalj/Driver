@@ -7,13 +7,9 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.mlt.driver.R;
-
-
 /**
- * Created by Esack N on 7/15/2017.
+ * Created by Prajwal J.
  */
-
-
 public class ExpandableTextView extends androidx.appcompat.widget.AppCompatTextView {
     private static final int DEFAULT_TRIM_LENGTH = 25;
     private static final String ELLIPSIS = "...";

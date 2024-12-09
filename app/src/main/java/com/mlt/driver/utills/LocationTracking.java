@@ -1,7 +1,7 @@
 package com.mlt.driver.utills;
 
 /**
- * Created by Ramya on 4/26/2017.
+ * Created by Prajwal J.
  */
 
 import android.app.Service;
@@ -13,9 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
-
-//import com.google.android.gms.maps.model.LatLng;
-//import com.google.maps.android.SphericalUtil;
 
 public class LocationTracking extends Service {
     private static final String TAG = "Location_Tracking";

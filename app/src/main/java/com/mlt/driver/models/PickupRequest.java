@@ -1,5 +1,9 @@
 package com.mlt.driver.models;
 
+/**
+ * Created by Prajwal J.
+ */
+
 public class PickupRequest {
     private String api_token;
     private int booking_id;

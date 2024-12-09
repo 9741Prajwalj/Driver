@@ -1,5 +1,9 @@
 package com.mlt.driver.utills;
 
+/**
+ * Created by Prajwal J.
+ */
+
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -15,7 +19,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 public class Utilities {
 

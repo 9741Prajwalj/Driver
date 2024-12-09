@@ -1,11 +1,13 @@
 package com.mlt.driver.utills;
 
+/**
+ * Created by Prajwal J.
+ */
 
 import android.content.Context;
 import android.graphics.Typeface;
 
 import java.util.Hashtable;
-
 
 public class Typefaces {
 

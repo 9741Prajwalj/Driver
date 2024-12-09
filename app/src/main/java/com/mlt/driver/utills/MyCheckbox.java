@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.widget.CheckBox;
 
 /**
- * Created by amal on 18/12/16.
+ * Created by Prajwal J.
  */
 public class MyCheckbox extends CheckBox {
     public MyCheckbox(Context context) {
