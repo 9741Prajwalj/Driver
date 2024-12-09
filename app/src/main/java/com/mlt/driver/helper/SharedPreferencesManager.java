@@ -86,6 +86,42 @@ public class SharedPreferencesManager {
     public String getString(String key, String defaultValue) {
         return sharedPreferences.getString(key, defaultValue);
     }
+    // Add methods in SharedPreferencesManager
+    public void saveLatitude(double lat) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong("latitude", Double.doubleToRawLongBits(lat));
+        editor.apply();
+    }
+    public double getLatitude() {
+        return Double.longBitsToDouble(sharedPreferences.getLong("latitude", Double.doubleToRawLongBits(0.0)));
+    }
+    public void saveLongitude(double lng) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong("longitude", Double.doubleToRawLongBits(lng));
+        editor.apply();
+    }
+    public double getLongitude() {
+        return Double.longBitsToDouble(sharedPreferences.getLong("longitude", Double.doubleToRawLongBits(0.0)));
+    }
+    public void savePickupLat(double lat) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong("pickupLat", Double.doubleToRawLongBits(lat));
+        editor.apply();
+    }
+    public double getPickupLat() {
+        return Double.longBitsToDouble(sharedPreferences.getLong("pickupLat", Double.doubleToRawLongBits(0.0)));
+    }
+
+    public void savePickupLong(double lng) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong("pickupLong", Double.doubleToRawLongBits(lng));
+        editor.apply();
+    }
+
+    public double getPickupLong() {
+        return Double.longBitsToDouble(sharedPreferences.getLong("pickupLong", Double.doubleToRawLongBits(0.0)));
+    }
+
     public void saveInt(String key, int value) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(key, value);
@@ -126,7 +162,6 @@ public class SharedPreferencesManager {
         editor.apply();
         Log.d("SharedPreferencesManager", "Firebase device token saved: " + token);
     }
-
     // Retrieve Firebase device token
     public String getDeviceToken() {
         String token = sharedPreferences.getString(KEY_DEVICE_TOKEN, null);
@@ -196,11 +231,9 @@ public class SharedPreferencesManager {
         editor.putInt("driver_status", status); // 1 for online, 0 for offline
         editor.apply();
     }
-
     public boolean getDriverStatus() {
         return sharedPreferences.getInt("driver_status", 0) == 1; // Default to offline
     }
-
     // Clear all stored data
     public void clearAllData() {
         // Fetch the device token before clearing other data
@@ -214,7 +247,6 @@ public class SharedPreferencesManager {
         if (deviceToken != null) {
             saveDeviceToken(deviceToken);
         }
-
         Log.d(TAG, "All shared preferences cleared except device token");
     }
 }

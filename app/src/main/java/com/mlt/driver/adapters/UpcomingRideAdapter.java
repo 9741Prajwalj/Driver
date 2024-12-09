@@ -86,8 +86,13 @@ public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapte
                     if (response.isSuccessful() && response.body() != null) {
                         PickupResponse pickupResponse = response.body();
                         if (pickupResponse.getSuccess() == 1) {
-                            // Log or display the pickup details
+                            // Extract data from response
                             PickupResponse.Data data = pickupResponse.getData();
+                            String pickupLat = data.getPickupLat();
+                            String pickupLong = data.getPickupLong();
+                            String pickupAddress = data.getPickupAddress();
+                            // Log or display the pickup details
+
                             Log.d("UpcomingRideAdapter", "BookingID: " + data.getBookingId());
                             Log.d("UpcomingRideAdapter", "Pickup Address: " + data.getPickupAddress());
                             Log.d("UpcomingRideAdapter", "Latitude: " + data.getPickupLong());
@@ -97,6 +102,8 @@ public class UpcomingRideAdapter extends RecyclerView.Adapter<UpcomingRideAdapte
                             // Save pickup latitude and longitude to SharedPreferences
                             sharedPreferencesManager.saveString("pickup_lat", data.getPickupLat());
                             sharedPreferencesManager.saveString("pickup_long", data.getPickupLong());
+                            sharedPreferencesManager.saveString("pickup_address", pickupAddress);
+                            Log.d("UpcomingRideAdapter", "Pickup details saved in SharedPreferences");
                             // Navigate to PickupFragment using NavController
                             if (navController != null) {
                                 navController.navigate(R.id.btnPickup);

@@ -23,6 +23,16 @@ public class RetrofitClient {
         retrofit = buildRetrofit(BASE_URL);  // Use the buildRetrofit method to initialize with logging
     }
 
+    public static Retrofit getInstance() {
+        if (retrofit == null) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return retrofit;
+    }
+
     // Singleton pattern to get the instance of RetrofitClient
     public static synchronized RetrofitClient getInstance(String baseUrl) {
         if (instance == null) {
